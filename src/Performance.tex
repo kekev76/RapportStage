@@ -1,0 +1,44 @@
+\section{Démarrage automatique d'un environnement de travail}
+
+\subsection{Fonctionnalités attendues}
+
+Ce procédé doit permettre aux développeur de Dynamease de pouvoir mettre en place de façon facile et rapide un environnement de travail complet permettant l'accès aux différents services de Dynamease. 
+
+Il doit également être possible de pré-remplir les bases de données Dynamease, avec des données provenant de base de tests déjà utilisé ou bien d'une base de production.
+
+L'outil ainsi créé devra pouvoir être utilisé aussi bien sur des serveurs que sur les machines locales des développeurs. 
+
+\subsection{Étude du cahier des charges}
+
+Les environnements utilisés par Dynamease peuvent tourner grâce à des container Docker. Pour l'outil qui sera développer, l'utilisation de ces containers sera mise en avant. Il sera donc nécessaire de déterminer l'ordre d'exécution de ces containers, en déterminant les différentes dépendance de ces containers.\\
+
+Il faut également déterminer quels sont les meilleurs solutions pour la mise en place d'un système permettant l'intégration de données au démarrage de l'environnement Dynamease. L'environnement complet de Dynamease est constitué de plusieurs sous environnement, les différents environnement qui nécessitent d'un intégration de données sont :
+
+\begin{itemize}
+	\item La base de données MySQL;
+	\item La base de données Ldap;
+	\item La base de données liée à Aerogear;
+	\item Les fichiers de configuration du serveur Dynamease.
+\end{itemize}
+
+Il faudra donc déterminer, pour chacun de ces environnement, quels sont les techniques permettant une intégration de données.
+
+De plus il doit être possible de démarrer d'un environnement vide, il faudra donc gérer ce cas de figure, en initialisant les bases de données de manière à ce qu'elles soient utilisable dans l'environnement complet de Dynamease.
+
+\subsection{Réalisation de l'outil}
+
+\subsubsection{Détermination des dépendances}
+
+[Mettre Diagramme pyramide]
+
+Nous allons étudier les diagrammes ci-dessus, de manière descendante. Tout en haut nous avons l'environnement Nginx, celui-ci nécessite la mise en place des environnements Tomcat et Aerogear pour fonctionner. L'environnement Tomcat aura besoin des bases de données MySQL et Ldap. 
+
+Donc il nous faudra lancer l'environnement l'ordre suivant :
+
+\begin{enumerate}
+	\item La base de données MySQL;
+	\item La base de données Ldap;
+	\item Aerogear;
+	\item Tomcat;
+	\item Nginx.
+\end{enumerate}
