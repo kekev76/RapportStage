@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="vocabulaire.css" type="text/css"?> 
+<vocabulaires>
+  <!-- Vocabulaire Equipe Picdyn -->
+  <categorie>
+	<nom-categorie>Equipe Picdyn</nom-categorie>
+	
+    <vocabulaire>
+      <commande-latex>nomPIC</commande-latex>
+      <rendu-latex>Picdyn</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		<commande-latex>nbMembresPIC</commande-latex>
+		<rendu-latex>9</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>thomas</commande-latex>
+      <rendu-latex>Thomas VAILLANT</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>florian</commande-latex>
+      <rendu-latex>Florian GANEE</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>julienV</commande-latex>
+      <rendu-latex>Julien VANHEULE</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>julienB</commande-latex>
+      <rendu-latex>Julien BARON</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>jinxing</commande-latex>
+      <rendu-latex>Jinxing LIN</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>remi</commande-latex>
+      <rendu-latex>Rémi MUSSARD</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>kevin</commande-latex>
+      <rendu-latex>Kévin MOREAU</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>alexandre</commande-latex>
+      <rendu-latex>Alexandre GUIGNEBERT</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>theophile</commande-latex>
+      <rendu-latex>Théophile GAUDRY</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomChefPICSemUn</commande-latex>
+      <rendu-latex>\thomas{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomChefPICSemDeux</commande-latex>
+      <rendu-latex>\julienV{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomChefPICadjSemUn</commande-latex>
+      <rendu-latex>\julienV{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomRQSemUn</commande-latex>
+      <rendu-latex>\theophile{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomRQSemDeux</commande-latex>
+      <rendu-latex>\alexandre{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomRGCSemUn</commande-latex>
+      <rendu-latex>\nomRQSemDeux{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomRespoDevSemUn</commande-latex>
+      <rendu-latex>\kevin{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomTuteurQualite</commande-latex>
+      <rendu-latex>Benjamin COELHO DE MATOS</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomDirecteurQualite</commande-latex>
+      <rendu-latex>Pascal MESLIER</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomTuteurPedagogique</commande-latex>
+      <rendu-latex>Nicolas MALANDAIN</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>nomClient</commande-latex>
+      <rendu-latex>Yves NICOLAS</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>dyna</commande-latex>
+      <rendu-latex>Dynamease</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>lintranet</commande-latex>
+  		<rendu-latex>le PGPic</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>intranet</commande-latex>
+  		<rendu-latex>PGPic</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>adresseIntranet</commande-latex>
+  		<rendu-latex>http://asi-pic.insa-rouen.fr</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>scrum</commande-latex>
+  		<rendu-latex>SCRUM</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>agile</commande-latex>
+  		<rendu-latex>Agile</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>git</commande-latex>
+  		<rendu-latex>GIT</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>gmail</commande-latex>
+  		<rendu-latex>GMail</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>batSallePIC</commande-latex>
+  		<rendu-latex>Bougainville</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>sallePIC</commande-latex>
+  		<rendu-latex>BO.A.RC.01</rendu-latex>
+    </vocabulaire>
+  </categorie>	
+  
+  <!-- Vocabulaire Réunions -->
+  <categorie>
+	<nom-categorie>Réunions</nom-categorie>
+	
+	  <vocabulaire>
+  		<commande-latex>crc</commande-latex>
+  		<rendu-latex>Compte-Rendu de Réunion Client</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>crtp</commande-latex>
+  		<rendu-latex>Compte-Rendu de Réunion Tuteur Pédagogique</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>crtq</commande-latex>
+  		<rendu-latex>Compte-Rendu de Réunion Tuteur Qualité</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>cri</commande-latex>
+  		<rendu-latex>Compte-Rendu de Réunion Interne</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>crip</commande-latex>
+  		<rendu-latex>Compte-Rendu de Réunion Inter-PIC</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>cre</commande-latex>
+  		<rendu-latex>Compte-Rendu de Réunion Exceptionnelle</rendu-latex>
+    </vocabulaire>
+    
+    <vocabulaire>
+  		<commande-latex>present</commande-latex>
+  		<rendu-latex>Présent</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>excuse</commande-latex>
+  		<rendu-latex>Excusé</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>absent</commande-latex>
+  		<rendu-latex>Absent</rendu-latex>
+    </vocabulaire>
+  </categorie>
+  
+  <!-- Vocabulaire Signatures Picdyn -->
+  <categorie>
+	<nom-categorie>Signatures Picdyn</nom-categorie>
+	
+	  <vocabulaire>
+  		<commande-latex>visaSigne</commande-latex>
+  		<rendu-latex>Signé</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>visaMail</commande-latex>
+  		<rendu-latex>E-mail</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>visaIntranet</commande-latex>
+  		<rendu-latex>Intranet</rendu-latex>
+    </vocabulaire>
+  </categorie>
+  
+  <!-- Vocabulaire Qualité GP Picdyn -->
+  <categorie>
+	<nom-categorie>Qualité GP Picdyn</nom-categorie>
+	
+	  <vocabulaire>
+  		<commande-latex>carnetProd</commande-latex>
+  		<rendu-latex>Carnet de Produit</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>userstories</commande-latex>
+  		<rendu-latex>Scénarios Utilisateurs</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>userstory</commande-latex>
+  		<rendu-latex>Scénario Utilisateur</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>sprint</commande-latex>
+  		<rendu-latex>Sprint</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>cahierRecette</commande-latex>
+  		<rendu-latex>Cahier de Recette</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>cahiersRecettes</commande-latex>
+      <rendu-latex>Cahiers de Recettes</rendu-latex>
+    </vocabulaire>
+  </categorie>
+  
+  <!-- Vocabulaire technique -->
+  <categorie>
+	<nom-categorie>Technique</nom-categorie>
+	
+	<vocabulaire>
+		<commande-latex>umlCourt</commande-latex>
+		<rendu-latex>UML</rendu-latex>
+	</vocabulaire>
+	<vocabulaire>
+		<commande-latex>uml</commande-latex>
+		<rendu-latex>Unified Modeling Language</rendu-latex>
+	</vocabulaire>
+  </categorie>
+  
+  <!-- Vocabulaire Utilisateurs Picdyn -->
+  <categorie>
+		<nom-categorie>Utilisateurs Picdyn</nom-categorie>
+		
+	  <vocabulaire>
+  		<commande-latex>clientPart</commande-latex>
+  		<rendu-latex>Client Partenaire</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>clientIndiv</commande-latex>
+  		<rendu-latex>Client Individuel</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>clientsIndiv</commande-latex>
+      <rendu-latex>Clients Individuels</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>clientEntrep</commande-latex>
+  		<rendu-latex>Client \optimContact{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>clientDyna</commande-latex>
+  		<rendu-latex>Client \dyna{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>clientsDyna</commande-latex>
+  		<rendu-latex>Clients \dyna{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>adminOpen</commande-latex>
+  		<rendu-latex>Administrateur \open{} \dyna{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>comptable</commande-latex>
+  		<rendu-latex>Comptable</rendu-latex>
+    </vocabulaire>
+  </categorie>
+  
+  <!-- Vocabulaire Specs Picdyn Picdyn -->
+  <categorie>
+	<nom-categorie>Specs Picdyn</nom-categorie>
+	
+	  <vocabulaire>
+  		<commande-latex>open</commande-latex>
+  		<rendu-latex>OpenERP</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>servDyna</commande-latex>
+  		<rendu-latex>Serveur \dyna{}</rendu-latex>
+    </vocabulaire>
+    
+    <vocabulaire>
+  		<commande-latex>optimContact</commande-latex>
+  		<rendu-latex>Optim Contact</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>servOpen</commande-latex>
+      <rendu-latex>Serveur \open{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>miniCRM</commande-latex>
+      <rendu-latex>Mini-CRM</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>guideUtil</commande-latex>
+      <rendu-latex>Guide Utilisateur</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		<commande-latex>xmlrpc</commande-latex>
+		<rendu-latex>XML-RPC</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		<commande-latex>webservice</commande-latex>
+		<rendu-latex>Web Service</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		<commande-latex>webservices</commande-latex>
+		<rendu-latex>Web Services</rendu-latex>
+    </vocabulaire>
+  </categorie>
+    
+    
+  <!-- Vocabulaire Licences -->
+  <categorie>
+  <nom-categorie>Licences</nom-categorie>
+
+    <vocabulaire>
+		  <commande-latex>licClient</commande-latex>
+		  <rendu-latex>Licence Client</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		  <commande-latex>licsClient</commande-latex>
+		  <rendu-latex>Licences Client</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		  <commande-latex>licClientIndiv</commande-latex>
+		  <rendu-latex>Licence \clientIndiv{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		  <commande-latex>licClientEntrep</commande-latex>
+		  <rendu-latex>\licClient{} \optimContact{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+     <commande-latex>licsClientEntrep</commande-latex>
+      <rendu-latex>\licsClient{} \optimContact{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+	 	 <commande-latex>licClientPart</commande-latex>
+		  <rendu-latex>Licence \clientPart{}</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+		  <commande-latex>licsClientPart</commande-latex>
+		  <rendu-latex>Licences \clientPart{}</rendu-latex>
+    </vocabulaire>
+  </categorie>
+    
+  <!-- Vocabulaire moyen paiement -->
+  <categorie>
+  <nom-categorie>Moyen de paiement</nom-categorie>
+    <vocabulaire>
+  		<commande-latex>CB</commande-latex>
+  		<rendu-latex>Carte Bancaire</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+  		<commande-latex>prelevAuto</commande-latex>
+  		<rendu-latex>prélèvement automatique</rendu-latex>
+    </vocabulaire>
+    <vocabulaire>
+      <commande-latex>prelevsAuto</commande-latex>
+      <rendu-latex>prélèvements automatiques</rendu-latex>
+    </vocabulaire>
+  </categorie>
+    
+  
+    
+    
+  
+</vocabulaires>

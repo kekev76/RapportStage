@@ -1,0 +1,37 @@
+% Test
+
+\documentclass[asi]{picINSA}
+
+\usepackage{asi/vocabulaireASI}
+%\usepackage{vocabulaire/vocabulairePicdyn}
+
+\definecolor{gris}{gray}{0.75}% utilisé dans les annexes A B et C
+\definecolor{gris2}{gray}{0.85}% utilisé dans les annexes A B et C
+
+\titreAcronyme{\dseCourt{}}
+\titreGeneral{\dse{}}
+\titreDetaille{Lol}
+\auteurs{Moi}
+\destinataires{Lui}
+\resume{Le présent document contient le \dse{} }
+\motsCles{\dseCourt{}, \dse{}}
+\version{1.00}
+
+%\SetWatermarkText{Brouillon}
+
+\begin{document}
+ \couverture{}
+ \informationsGenerales{}
+ %\input{sources/page_service}
+ \tableofcontents
+ 
+\listoffigures
+\addcontentsline{toc}{chapter}{Table des figures}
+
+% \begin{appendix}
+% 	\chapter{nom Annexe}
+%  	\input{annexes/annexes.tex}
+% \end{appendix}
+
+ \pageQuatriemeCouverture{}	
+\end{document}

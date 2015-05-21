@@ -1,0 +1,15 @@
+# Fichiers temporaires
+*~
+*.tex.backup
+
+# Fichiers temporaires LaTeX
+*.aux
+*.cb
+*.cb2
+*.log
+*.toc
+*.out
+
+
+# Fichiers compilés
+*.pyc

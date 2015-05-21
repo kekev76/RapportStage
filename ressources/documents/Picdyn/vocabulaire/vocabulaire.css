@@ -1,0 +1,43 @@
+vocabulaires {
+	padding:20px;
+	font-size:14px;
+}
+
+categorie {
+	display:block;
+	margin-bottom:40px;
+}
+
+nom-categorie {
+	font-weight:bold;
+	font-size:24px;
+	display:block;
+	margin-bottom:15px;
+}
+
+vocabulaire {
+	display:table-row;
+	border-collapse:collapse;
+	
+}
+
+
+commande-latex {
+	font-weight:bold;
+}
+commande-latex:before {
+	content:'\\';
+}
+
+explication {
+	font-style:italic;
+	font-size:11px;
+}
+
+commande-latex, rendu-latex, explication {
+	display:table-cell;
+	padding:10px;
+	
+	border-collapse:collapse;
+	border: 1px solid black;
+}	

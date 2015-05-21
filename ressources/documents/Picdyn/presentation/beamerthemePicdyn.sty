@@ -1,0 +1,131 @@
+\usetheme{Rochester}
+
+\RequirePackage{pgf}
+% \RequirePackage{tikz}
+
+
+
+\pgfdeclareimage[width=1.0\paperwidth]{picdyn-header}{picdyn-header.jpg}
+
+\def\insertsectionnavigationhorizontal#1#2#3{%
+  \hbox to #1{{%
+     \def\slideentry##1##2##3##4##5##6{}%
+     #2\hskip.3cm%
+     \parbox{\dimparbox}{{%
+      \usebeamerfont{section in head/foot}\usebeamercolor[fg]{section in head/foot}%
+      \setbox\beamer@sectionbox=\hbox{}%
+      \ht\beamer@sectionbox=1.875ex%
+      \dp\beamer@sectionbox=0.75ex%
+      \hskip-1.875ex plus-1fill%
+      \fontsize{2pt}{1}\selectfont\dohead%
+      \box\beamer@sectionbox\hfil\hskip.3cm%
+      #3}}}}}
+
+\beamer@headheight=0.157\paperwidth
+
+\definecolor{picdynred}{HTML}{FF0000}
+\definecolor{picdyngray}{HTML}{EEEEEE}
+\definecolor{picdynblue}{HTML}{3482b4}
+\definecolor{picdynnavyblue}{HTML}{4A4869}
+\definecolor{picdynbrown}{HTML}{9D642B}
+\definecolor{picdyngreen}{HTML}{6DB265}
+
+\setbeamercolor*{Title bar}{fg=picdynnavyblue}
+\setbeamercolor*{Location bar}{fg=picdynnavyblue}
+\setbeamercolor*{frametitle}{parent=Title bar}
+\setbeamercolor*{block title}{bg=picdynnavyblue,fg=white}
+\setbeamercolor*{block body}{bg=white,fg=black}
+\setbeamercolor*{normal text}{bg=white,fg=black}
+\setbeamercolor*{section in head/foot}{bg=picdyngray, fg=black}
+
+\setbeamercolor*{block title alerted}{bg=picdynred,fg=white}
+\setbeamercolor*{block title example}{bg=picdyngreen,fg=white}
+
+\setbeamercolor{alerted text}{fg=picdynred}
+\setbeamercolor*{example text}{fg=picdyngreen}
+
+\usecolortheme[named=picdynnavyblue]{structure}
+
+\setbeamerfont{section in head/foot}{size=\tiny,series=\normalfont}
+\setbeamerfont{frametitle}{size=\Large}
+
+
+\setbeamertemplate{frametitle}
+{
+  \vskip-0.25\beamer@headheight
+  \vskip-\baselineskip
+  \vskip-0.39cm
+  \hskip0.7cm\usebeamerfont*{frametitle}\textbf{\insertframetitle}
+  \vskip-0.10em
+  \hskip0.7cm\usebeamerfont*{framesubtitle}\insertframesubtitle
+}
+
+\setbeamertemplate{headline}
+{
+  \pgfuseimage{picdyn-header}
+  \vskip -1.95cm
+  \linethickness{0.0pt}
+
+  \framelatex{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.3\beamer@headheight]{Title bar}
+    \usebeamerfont{section in head/foot}
+    
+    \insertsectionnavigationhorizontal{\paperwidth}{}{}
+  \end{beamercolorbox}}
+
+  \framelatex{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.7\beamer@headheight]{Title bar}
+  \end{beamercolorbox}}
+}
+
+\setbeamertemplate{footline}
+{
+  \begin{picture}(0,0)
+    \put(0,0){\includegraphics[height=10mm, width=\paperwidth]{Volutes3bis.pdf}}
+  \end{picture}
+  \begin{beamercolorbox}[leftskip=.3cm,wd=0.5\paperwidth,ht=0.3\beamer@headheight,sep=0.1cm]{Location bar}
+    \usebeamerfont{section in head/foot}
+    \insertshortauthor~|~\insertshorttitle
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[ht=0.3\beamer@headheight,sep=0.1cm]{Location bar}
+   \put(13,0){ \insertframenumber/\inserttotalframenumber}
+  \end{beamercolorbox}
+}
+
+
+
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{
+    \setlength{\topsep}{0pt}
+    \setlength{\leftmargin}{#1}
+    \setlength{\rightmargin}{#2}
+    \setlength{\listparindent}{\parindent}
+    \setlength{\itemindent}{\parindent}
+    \setlength{\parsep}{\parskip}
+  }
+  \item[]}{\end{list}}
+
+\setbeamertemplate{caption}{\insertcaption}
+
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}} 
+}
+
+% Ajout de block de taille ajustable
+% http://www.latex-community.org/forum/viewtopic.php?f=4&t=2251
+\newenvironment<>{varblock}[2][\textwidth]{%
+  \setlength{\textwidth}{#1}
+  \begin{actionenv}#3%
+    \def\insertblocktitle{#2}%
+    \par%
+    \usebeamertemplate{block begin}}
+  {\par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}}
+
+\setbeamercovered{invisible}
