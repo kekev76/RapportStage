@@ -31,7 +31,7 @@ De plus il doit être possible de démarrer d'un environnement vide, il faudra d
 
 [Mettre Diagramme pyramide]
 
-Nous allons étudier les diagrammes ci-dessus, de manière descendante. Tout en haut nous avons l'environnement Nginx, celui-ci nécessite la mise en place des environnements Tomcat et Aerogear pour fonctionner. L'environnement Tomcat aura besoin des bases de données MySQL et Ldap. 
+Nous allons étudier le diagramme ci-dessus, de manière descendante. Tout en haut nous avons l'environnement Nginx, celui-ci nécessite la mise en place des environnements Tomcat et Aerogear pour fonctionner. L'environnement Tomcat aura besoin des bases de données MySQL et Ldap. 
 
 Donc il nous faudra lancer l'environnement l'ordre suivant :
 
@@ -42,3 +42,14 @@ Donc il nous faudra lancer l'environnement l'ordre suivant :
 	\item Tomcat;
 	\item Nginx.
 \end{enumerate}
+
+\subsubsection{Récupération des données}
+
+On peut séparer les données à récupérer en deux catégories. Celles qui dépendent du système et celles qui n'en dépendent pas. Les données récupérer par le serveur Dynamease sont essentiellement des données de configuration. Cette configuration permet à Dynamease de connaître les adresse internet des différents services nécessaire à son fonctionnement. Ces adresses pouvant changer selon l'emplacement de démarrage de l'application Dynamease, les valeurs de ces configurations ne peuvent être prédites à l'avance. De plus le contenu des autres bases de données n'influe pas sur les valeurs de cette configuration, donc il s'agit bien là de données dépendant uniquement du système. 
+
+Donc pour ce type de données, une variable d'environnement devra être créée par l'utilisateur afin de lui permettre de signifier à l'outil, où se situe les fichiers de configuration de Dynamease.\\
+
+En ce qui concerne les autres données, celle-ci peuvent être stockées de la même manière. Seul leur intégration serra différente.
+
+Deux solution de stockage peuvent être étudié, on pourrait utiliser les volumes de chaque containers, en intégrant les données. Cette méthode risque d'être assez limité sachant que chaque utilisateur devra disposer des fichiers de données afin de les intégrer dans son environnement. La seconde solution serait d'utiliser une nouvelle image Docker qui aura pour rôle le stockage de tout les fichiers de données. Cette seconde solution permettrait de pouvoir utilisé n'importe quel base de donné sans récupérer les fichiers de données. Ces cette seconde solution que nous allons développer par la suite.
+
