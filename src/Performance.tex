@@ -1,3 +1,13 @@
+\section{Gestion des notification Téléphonique : Aerogear}
+\subsection{Fonctionnement des notifications Push}
+\subsection{Principe d'Aerogear}
+\subsection{Mise à jour d'Aerogear}
+\subsection{Mise à jour des notifications}
+
+\section{L'environnement Docker}
+\subsection{Fonctionnement de Docker}
+\subsection{Réalisation Docker pour le compte de Dynamease}
+
 \section{Démarrage automatique d'un environnement de travail}
 
 \subsection{Fonctionnalités attendues}
@@ -60,3 +70,41 @@ On a également vu qu'on pouvait exécuter des commandes lors de la création du
 Grâce à cette récupération nous pouvons maintenant faire un traitement pour chaque fichier selon le type de base de données où celui-ci doit être inclue.\\
 
 Il est aussi prévu de permettre aux utilisateurs de cet outil de lancer un environnement de travail, vide. C'est à dire seulement avec les bases de données initialisées, mais sans données.
+
+\section{Outils d'aide à la mesure des performances}
+
+\section{Amélioration des applications téléphoniques}
+
+Nous allons maintenant aborder les différentes améliorations que nous devions réaliser après la réalisation de plusieurs tests de performance.
+
+\subsection{Récupération des contacts Ios}
+
+En début de stage un problème nous a été reporté par un utilisateur de l'application Iphone. L'application ne démarrer pas sur son Iphone. En effet tout de suite après la connexion de l'utilisateur, l'application se fermer subitement. Nous avons donc tenter de reproduire ce dysfonctionnement sur nos téléphone de test. Pourtant il nous était impossible de déterminer d'où venait l'erreur.
+
+Nous avons donc demander le modèle d'Iphone et la version IOS de l'Iphone afin de pouvoir reproduire la procédure d'erreur dans les mêmes conditions. Mais encore une fois l'application semblait très bien fonctionner sur nos téléphone de test. Nous avons également demander à l'utilisateur de se connecter à l'aide d'un de nos téléphone de test, mais l'erreur ne s'est pas reproduite.
+
+Nous en avons donc conclu que l'erreur devait provenir d'une configuration spéciale de l'Iphone de l'utilisateur.
+
+Nous avons donc lister les différentes méthodes exécutée par l'application au démarrage, afin de déterminer celle qui aurait pu interagir directement avec une configuration spéciale de l'utilisateur.
+
+[Diagramme de Mise en service de l'application]
+
+Les différentes méthodes exécuter par l'application étaient, la récupération des informations de l'utilisateur auprès du serveur Dynamease, la récupération des contacts du portable et l'inscription sur le serveur Aerogear.
+
+Après une observation sur les logs des serveurs Dynamease et Aerogear, nous nous sommes aperçus que les données de l'utilisateur été bien envoyé mais que le serveur Aerogear ne recevait pas de requête d'inscription.
+
+L'erreur provenait donc de la récupération des contacts. De plus nous avons remarquer que l'utilisateur avait énormément de contact. Le problème pouvait donc provenir soit d'un contact particulier de l'utilisateur dont les informations étaient mal traitées, ou bien que le nombre important de contact faisait fermer subitement l'application.
+
+Pour éviter de demander la liste de contacts de l'utilisateur nous avons décider en premier lieu de se pencher sur la seconde solution en créant des centaines de contact que nous importerions par la suite dans le téléphone de test. L'application arriva parfaitement à traiter ces centaines de contact.
+
+Nous avons donc du demander la liste de contact de l'utilisateur dans le but de détecter quel était le contact qui produisait cette erreur, et quelle était la cause.
+
+Après l'importation de ces contacts, nous avons remarqué que l'erreur se produisait également  sur les téléphones de tests. Après une observation des logs généré par l'application il est apparu qu'il existait un contact dont le nom commencé par le caractère '@'.
+
+Les contacts dans l'application Iphone sont stocké dans un dictionnaire (ensemble clefs valeurs). Les clefs sont représenté par le noms de l'utilisateur et les valeurs sont les informations relative à l'utilisateur. La clef est donc de type chaîne de caractère. Or en Objective-C le caractère '@' est un caractère spécial. L'Iphone n'arrivant pas à interpréter ce caractère l'application ferma subitement.
+
+Afin de régler ce type de problème, un caractère spécial '\' est ajouté devant chaque caractère spécial pouvant être trouvé dans le nom ou les informations clients. Ce caractère à pour fonction, dans l'Objective-C de signifier à l'application de ne pas interpréter le caractère spécial qui le suit. 
+
+\subsection{Rétrocompatibilité Ios}
+\subsection{Recherche des contacts}
+\subsection{Récupération automatique des contacts}
