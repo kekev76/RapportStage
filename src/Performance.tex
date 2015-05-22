@@ -43,7 +43,7 @@ Donc il nous faudra lancer l'environnement l'ordre suivant :
 	\item Nginx.
 \end{enumerate}
 
-\subsubsection{Récupération des données}
+\subsubsection{Utilisation et Récupération des données}
 
 On peut séparer les données à récupérer en deux catégories. Celles qui dépendent du système et celles qui n'en dépendent pas. Les données récupérer par le serveur Dynamease sont essentiellement des données de configuration. Cette configuration permet à Dynamease de connaître les adresse internet des différents services nécessaire à son fonctionnement. Ces adresses pouvant changer selon l'emplacement de démarrage de l'application Dynamease, les valeurs de ces configurations ne peuvent être prédites à l'avance. De plus le contenu des autres bases de données n'influe pas sur les valeurs de cette configuration, donc il s'agit bien là de données dépendant uniquement du système. 
 
@@ -51,5 +51,12 @@ Donc pour ce type de données, une variable d'environnement devra être créée 
 
 En ce qui concerne les autres données, celle-ci peuvent être stockées de la même manière. Seul leur intégration serra différente.
 
-Deux solution de stockage peuvent être étudié, on pourrait utiliser les volumes de chaque containers, en intégrant les données. Cette méthode risque d'être assez limité sachant que chaque utilisateur devra disposer des fichiers de données afin de les intégrer dans son environnement. La seconde solution serait d'utiliser une nouvelle image Docker qui aura pour rôle le stockage de tout les fichiers de données. Cette seconde solution permettrait de pouvoir utilisé n'importe quel base de donné sans récupérer les fichiers de données. Ces cette seconde solution que nous allons développer par la suite.
+Deux solutions de stockage peuvent être étudiés, on pourrait utiliser les volumes de chaque containers, en intégrant les données. Cette méthode risque d'être assez limité sachant que chaque utilisateur devra disposer des fichiers de données afin de les intégrer dans son environnement. La seconde solution serait d'utiliser une nouvelle image Docker qui aura pour rôle le stockage de tout les fichiers de données. Cette solution permettrait de pouvoir utiliser n'importe quelle base de donné sans récupérer les fichiers de données. C'est cette seconde solution que nous allons développer par la suite.
 
+Cette solution prend en compte que le container de données contienne des volumes pour stocker les fichiers de données. Or, comme nous l'avons vu précédemment, les volumes créés des liens symboliques depuis les volumes du container vers les répertoires situés sur la machine faisant tourner le container. Donc le container serait opérationnel uniquement sur la machine l'ayant créé, si ce container se trouve sur un autre système, il se peut que les liens ne pointes sur aucuns fichiers ou sur de mauvais fichiers. 
+
+On a également vu qu'on pouvait exécuter des commandes lors de la création du container. L'idée est d'utiliser un script de démarrage du container, qui nous servira à déplacer et trier les fichiers de données vers de nouveaux répertoires.
+
+Grâce à cette récupération nous pouvons maintenant faire un traitement pour chaque fichier selon le type de base de données où celui-ci doit être inclue.\\
+
+Il est aussi prévu de permettre aux utilisateurs de cet outil de lancer un environnement de travail, vide. C'est à dire seulement avec les bases de données initialisées, mais sans données.
