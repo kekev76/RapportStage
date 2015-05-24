@@ -12,7 +12,7 @@
 
 \subsection{Fonctionnalités attendues}
 
-Ce procédé doit permettre aux développeur de Dynamease de pouvoir mettre en place de façon facile et rapide un environnement de travail complet permettant l'accès aux différents services de Dynamease. 
+Ce procédé doit permettre aux développeurs de Dynamease de pouvoir mettre en place de façon rapide et automatisé, un environnement de travail complet permettant l'accès aux différents services de Dynamease. 
 
 Il doit également être possible de pré-remplir les bases de données Dynamease, avec des données provenant de base de tests déjà utilisé ou bien d'une base de production.
 
@@ -61,6 +61,10 @@ Donc pour ce type de données, une variable d'environnement devra être créée 
 
 En ce qui concerne les autres données, celle-ci peuvent être stockées de la même manière. Seul leur intégration serra différente.
 
+Il nous reste donc trois base de données à remplir avec nos fichiers de données. Leur technique d'intégration étant différente nous allons les étudier pour chaque base de données. 
+
+[Explication schéma ?] 
+
 Deux solutions de stockage peuvent être étudiés, on pourrait utiliser les volumes de chaque containers, en intégrant les données. Cette méthode risque d'être assez limité sachant que chaque utilisateur devra disposer des fichiers de données afin de les intégrer dans son environnement. La seconde solution serait d'utiliser une nouvelle image Docker qui aura pour rôle le stockage de tout les fichiers de données. Cette solution permettrait de pouvoir utiliser n'importe quelle base de donné sans récupérer les fichiers de données. C'est cette seconde solution que nous allons développer par la suite.
 
 Cette solution prend en compte que le container de données contienne des volumes pour stocker les fichiers de données. Or, comme nous l'avons vu précédemment, les volumes créés des liens symboliques depuis les volumes du container vers les répertoires situés sur la machine faisant tourner le container. Donc le container serait opérationnel uniquement sur la machine l'ayant créé, si ce container se trouve sur un autre système, il se peut que les liens ne pointes sur aucuns fichiers ou sur de mauvais fichiers. 
@@ -69,7 +73,19 @@ On a également vu qu'on pouvait exécuter des commandes lors de la création du
 
 Grâce à cette récupération nous pouvons maintenant faire un traitement pour chaque fichier selon le type de base de données où celui-ci doit être inclue.\\
 
-Il est aussi prévu de permettre aux utilisateurs de cet outil de lancer un environnement de travail, vide. C'est à dire seulement avec les bases de données initialisées, mais sans données.
+Il est aussi prévu de permettre aux utilisateurs de cet outil de lancer un environnement de travail, vide. C'est à dire seulement avec les bases de données initialisées, mais sans données. Pour cela l'image du docker de stockage des données sera généré avec les fichiers d'initialisation de chacune des bases de données. Un script de démarrage aura pour rôle de déterminer si des fichiers d'intégration de données sont présente, si c'est le cas, ces fichiers seront déplacé vers le répertoire correspondant à la base de données, sinon se seront les fichiers d'initialisation qui y seront placés. 
+
+\subsubsection{Récupération de la version Dynamease}
+
+Le lancement de l'environnement de travail Dynamease, doit être précisé d'un numéro de version du serveur Dynamease. 
+
+Chaque version de Dynamease est présent sur le \textit{repository} Docker de Dynamease. Chaque nouvelle version déposé sur le serveur Git est récupérée par le serveur Jenkins. Celui-ci aura pour charge de vérifier le bon fonctionnement de la version déposée. Si celle-ci est correcte alors une nouvelle image Docker du serveur est créée avec le nom du commit comme numéro de version.
+
+La création d'une image docker Dynamease, nécessite d'abord la compilation de l'ensemble du code source de Dynamease, de la récupération des archives (war) du serveur et enfin de leur intégration vers la nouvelle image Docker.
+
+Le script de démarrage de l'environnement prendra en paramètre un numéro de version. Il vérifiera alors si l'image est présente en local, si ce n'est pas le cas l'image sera télécharger depuis le serveur Docker.
+
+Grâce à cette méthode, il est possible de démarrer rapidement n'importe quel version de Dynamease.
 
 \section{Outils d'aide à la mesure des performances}
 
@@ -103,8 +119,7 @@ Après l'importation de ces contacts, nous avons remarqué que l'erreur se produ
 
 Les contacts dans l'application Iphone sont stocké dans un dictionnaire (ensemble clefs valeurs). Les clefs sont représenté par le noms de l'utilisateur et les valeurs sont les informations relative à l'utilisateur. La clef est donc de type chaîne de caractère. Or en Objective-C le caractère '@' est un caractère spécial. L'Iphone n'arrivant pas à interpréter ce caractère l'application ferma subitement.
 
-Afin de régler ce type de problème, un caractère spécial '\' est ajouté devant chaque caractère spécial pouvant être trouvé dans le nom ou les informations clients. Ce caractère à pour fonction, dans l'Objective-C de signifier à l'application de ne pas interpréter le caractère spécial qui le suit. 
+Afin de régler ce type de problème, un caractère spécial '\textbackslash' est ajouté devant chaque caractère spécial pouvant être trouvé dans le nom ou les informations clients. Ce caractère à pour fonction, dans l'Objective-C de signifier à l'application de ne pas interpréter le caractère spécial qui le suit. 
 
 \subsection{Rétrocompatibilité Ios}
-\subsection{Recherche des contacts}
-\subsection{Récupération automatique des contacts}
+\subsection{Recherche et récupération automatique des contacts}
