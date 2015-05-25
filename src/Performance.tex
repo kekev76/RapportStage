@@ -1,4 +1,4 @@
-\section{Gestion des notification Téléphonique : Aerogear}
+\section{Gestion des Notifications Téléphoniques : Aerogear}
 \subsection{Fonctionnement des notifications Push}
 \subsection{Principe d'Aerogear}
 \subsection{Mise à jour d'Aerogear}
@@ -123,3 +123,36 @@ Afin de régler ce type de problème, un caractère spécial '\textbackslash' es
 
 \subsection{Rétrocompatibilité Ios}
 \subsection{Recherche et récupération automatique des contacts}
+
+L'application Téléphonique Android, permet aux utilisateurs d'avoir une liste de contact. Cette liste de contact est triée par défaut dans l'ordre alphabétique par rapport aux noms de famille des contacts. De plus une barre de recherche est disponible pour faire une recherche dans cette liste.
+
+La version précédent ma correction, n'effectuait la recherche uniquement sur le nom, de plus sur de longue liste de contact, la recherche pouvait prendre beaucoup de temps.
+
+La première étape pour effectuer une correction est d'observer la technique utilisait pour cette recherche, ainsi que les différents procédés utilisés par la liste de contact.
+
+
+\subsubsection{Technique utilisée par l'ancienne version}
+
+En premier j'ai étudié les différents moyens de stockage que proposait Android. Celle-ci propose trois moyens de stockage qui sont :
+
+\begin{enumerate}
+	\item Stockage par le biais de clef valeur;
+	\item Stockage dans un fichier texte;
+	\item Stockage à l'aide d'une base de données SQL Light.
+\end{enumerate}
+
+La première technique peut être utilisée pour de petites valeurs uniques, comme le nom de l'utilisateur, son numéro de téléphone, etc.
+
+Le fichier texte est surtout utilisé si on doit générer des fichiers de données, pouvant être récupéré par l'utilisateur.
+
+La base de données SQL est utilisé pour stocker des liste de données suivant le même schéma.
+
+C'est cette dernière option qui nous intéresse pour le stockage de la liste de contact. C'est effective cette technique de stockage qui est utilisée pour le stockage des contacts.
+
+Un contact normal est représenté par son nom, son prénom, son numéro de téléphone. Un contact Dynamease est représenté par son nom, son prénom et son Id Dynamease. C'est deux type de contact son stocké dans la même table de données, et son différencié par une variable booléenne qui est à vrai si le contact est un contact Dynamease et est à faux sinon.\\
+
+L'algorithme anciennement utilisé pour la recherche des contacts suivait le diagramme suivant :
+
+[Mettre diagramme]
+
+A chaque fois que l'utilisateur entre une lettre dans la barre de recherche, le processus suivant est lancé :
