@@ -121,19 +121,20 @@ Les contacts dans l'application Iphone sont stocké dans un dictionnaire (ensemb
 
 Afin de régler ce type de problème, un caractère spécial '\textbackslash' est ajouté devant chaque caractère spécial pouvant être trouvé dans le nom ou les informations clients. Ce caractère à pour fonction, dans l'Objective-C de signifier à l'application de ne pas interpréter le caractère spécial qui le suit. 
 
-\subsection{Rétrocompatibilité Ios}
 \subsection{Recherche et récupération automatique des contacts}
+
+
+\subsubsection{Recherche de contact}
 
 L'application Téléphonique Android, permet aux utilisateurs d'avoir une liste de contact. Cette liste de contact est triée par défaut dans l'ordre alphabétique par rapport aux noms de famille des contacts. De plus une barre de recherche est disponible pour faire une recherche dans cette liste.
 
 La version précédent ma correction, n'effectuait la recherche uniquement sur le nom, de plus sur de longue liste de contact, la recherche pouvait prendre beaucoup de temps.
 
-La première étape pour effectuer une correction est d'observer la technique utilisait pour cette recherche, ainsi que les différents procédés utilisés par la liste de contact.
+La première étape pour effectuer une correction est d'observer la technique utilisait pour cette recherche, ainsi que les différents procédés utilisés par la liste de contact.\\\\
 
 
-\subsubsection{Technique utilisée par l'ancienne version}
 
-En premier j'ai étudié les différents moyens de stockage que proposait Android. Celle-ci propose trois moyens de stockage qui sont :
+En premier lieu j'ai étudié les différents moyens de stockage que proposait Android. Celle-ci propose trois moyens de stockage qui sont :
 
 \begin{enumerate}
 	\item Stockage par le biais de clef valeur;
@@ -149,10 +150,26 @@ La base de données SQL est utilisé pour stocker des liste de données suivant 
 
 C'est cette dernière option qui nous intéresse pour le stockage de la liste de contact. C'est effective cette technique de stockage qui est utilisée pour le stockage des contacts.
 
-Un contact normal est représenté par son nom, son prénom, son numéro de téléphone. Un contact Dynamease est représenté par son nom, son prénom et son Id Dynamease. C'est deux type de contact son stocké dans la même table de données, et son différencié par une variable booléenne qui est à vrai si le contact est un contact Dynamease et est à faux sinon.\\
+Un contact normal est représenté par son nom, son prénom, son numéro de téléphone. Un contact Dynamease est représenté par son nom, son prénom et son Id Dynamease. C'est deux type de contact son stocké dans la même table de données, et son différencié par une variable booléenne qui est à vrai si le contact est un contact Dynamease et est à faux sinon.\\\\
 
 L'algorithme anciennement utilisé pour la recherche des contacts suivait le diagramme suivant :
 
 [Mettre diagramme]
 
-A chaque fois que l'utilisateur entre une lettre dans la barre de recherche, le processus suivant est lancé :
+A chaque fois que l'utilisateur entre une lettre dans la barre de recherche, le processus de la recherche est lancé. Pour chaque contact de la liste, on vérifie si l'ensemble des lettres, entrées dans la barre de recherche, est présent dans le nom du contact. Si on trouve une correspondance entre l'ensemble des lettres et le nom du contact on ajoute ce contact à la liste de retour. Et on effectue cette correspondance pour chaque contact.
+
+Ce processus est long en raison la recherche sur toute la liste de contact à chaque ajout de lettre dans la barre de recherche. L'autre problème flagrant est que la recherche n'est effectué que sur le nom.\\\\
+
+La première résolution de ce problème suit le processus suivant :
+
+[Mettre Diagramme]
+
+Avant toute recherche la liste de contact est contenu dans le résultat à retourner. Par défaut tout les contacts correspondent à une recherche vide. A chaque ajout de lettre, on recherche dans la liste dernièrement retournée les contacts ayant l'ensemble des lettres de recherche dans leur prénom ou dans leur nom. Si une correspondance est trouvé alors le contact est ajouté dans une liste temporaire. Une fois tous les contacts vérifiés, on remplace la liste de résultat par la liste temporaire, et on renvoie la liste de résultat. Et on continue sur le même principe à chaque ajout de lettre\\\\
+
+Le problème de cette solution c'est que l'ordre des mots de recherche est importante faire une recherche $"\textit{nom prénom}"$ ne sera pas interprété de la même façon que la recherche $"\textit{prénom nom}"$.
+
+[Mettre diagramme]
+
+On reprend le même principe que précédemment, mais cette fois-ci on fait un travail supplémentaire entre l'ajout d'une lettre et la recherche dans la liste de contact. On sépare les différents mots de la barre de recherche. Pour la estime qu'il y a un nouveau mot à chaque fois que la barre espace est pressée. Ensuite la recherche dans les contacts doit correspondre à chaque mot de la barre de recherche. Si un mot ne correspond pas, alors le contact ne sera pas ajouter à la liste de résultat. Tous les mots doivent correspondre, pour que le contact soit ajouter dan la liste de résultat.
+
+\subsubsection{Récupération des contact du téléphone}
