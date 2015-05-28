@@ -173,3 +173,23 @@ Le problème de cette solution c'est que l'ordre des mots de recherche est impor
 On reprend le même principe que précédemment, mais cette fois-ci on fait un travail supplémentaire entre l'ajout d'une lettre et la recherche dans la liste de contact. On sépare les différents mots de la barre de recherche. Pour la estime qu'il y a un nouveau mot à chaque fois que la barre espace est pressée. Ensuite la recherche dans les contacts doit correspondre à chaque mot de la barre de recherche. Si un mot ne correspond pas, alors le contact ne sera pas ajouter à la liste de résultat. Tous les mots doivent correspondre, pour que le contact soit ajouter dan la liste de résultat.
 
 \subsubsection{Récupération des contact du téléphone}
+
+\subsubsection{Récupération des images de profile}
+
+Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profiles Dynamease est envoyé. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profile est beaucoup trop rare pour qu'une requête soit envoyé aussi couramment.
+
+La requête de récupération des images s'effectue grâce à une requête Json. Le résultat de la requête se présente sous la forme d'une suite de caractère représentant l'image. Cette récupération est effectuée pour l'affichage des images dans la liste de contact. Il faut donc trouver une solution pour ne pas avoir à effectuer une requête pour l'affichage des images.
+
+Le plus simple est de stocker les images sur l'appareil de l'utilisateur. Nous avons exploré précédemment les différentes techniques de stockages qu'offrait Android. La meilleure solution est d'utiliser l'écriture de fichier. Ce type de stockage, effectue, par défaut, la sauvegarde dans un dossier spécifique à l'application.On récupérera donc la suite de caractère pour la stocker dans un fichier. 
+
+La récupération des images doit au moins être effectué une fois. Pour cela on suivra l'algorithme suivant :
+
+[mettre Diagramme]
+
+Lors de l'affichage de la liste de contact, à chaque contact Dynamease on fait la vérification suivante. On vérifie si l'image de profile est présente dans le répertoire de l'application Dynamease. Si l'image n'est pas présente, on envoie une requête vers le serveur Dynamease, afin de la récupérer. Une fois cette image récupérée, on stocke la suite de caractère récupérée dans un fichier. Le fichier de sorti aura sera nommé comme l'Id Dynamease du contact.
+
+Ainsi l'affichage des images se fera par le biais de la récupération des fichiers images présent sur l'appareil téléphonique.
+
+\subsubsection{Amélioration possible}
+
+La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profile. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profiles soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour. 

@@ -20,10 +20,27 @@ L'offre Avantage s'adresse à des clients particulier, désirant avoir une gesti
 
 \subsubsection{Privilège}
 
-L'offre Privilège permet aux utilisateur d'obtenir un numéro Dynamease. Ce numéro permet à l'utilisateur d'être joint sur n'importe lequel de ses appareils téléphoniques. Les appels dirigés vers le numéro Dynamease sont géré par le serveur Dynamease, celui-ci identifiera l'appel, défini sont importance et enfin le redirige vers l'appareil défini par l'utilisateur.
+L'offre Privilège permet aux utilisateurs d'obtenir un numéro Dynamease. Ce numéro permet à l'utilisateur d'être joint sur n'importe lequel de ses appareils téléphoniques. Les appels entrant vers le numéro Dynamease sont géré par le serveur Dynamease, celui-ci identifiera l'appel, défini sont importance et enfin le redirige vers l'appareil défini par l'utilisateur.
 
 \subsubsection{Intégrale}
 
 L'offre Intégrale est destiné pour les entreprises. Cette offre permet l'ajout d'employé qui détiendront un compte Avantage. Il est également possible d'ajouter des connecteurs. Les connecteurs permettent une meilleur identification d'appel ainsi qu'une meilleur redirection. Les connecteurs sont des données rentré par les entreprises qui donne des indications sur leurs clients ainsi que sur les employés responsable de ces clients.
 
 \subsection{Présentation de l'environnement Dynamease}
+
+Nous allons maintenant présenté l'environnement Dynamease. Dynamease suit le système MVC (Modèle View Controler). On peut représenter l'environnement principal de Dynamease avec le diagramme suivant.
+
+[Mettre diagramme]
+
+Présentons ce diagramme du haut vers le bas. Nous avons en haut les application utilisant les service Dynamease. Ces applications sont la partie web, accessible pour l'utilisateur depuis un navigateur et les applications téléphoniques constituées par les applications Android et Ios.
+
+Pour utiliser les services Dynamease sont accessible via les interfaces de requêtes représenté par JsonRq et Appless. JsonRq réuni toutes les requêtes de type json RPC et Appless réuni toutes les requêtes REST. Dynamease dispose de ces deux interfaces car une migration est entrain d'être effectuée, toutes les requêtes deviendront des requêtes de type Json RPC.
+
+En ce qui concerne la partie Controler, Dynamease dispose de trois partie. La première partie représenté par le Matcher, représente la recherche du contact lors d'un appel. La partie classif réunie toutes les classes aidant à la classification de l'appelant. Et enfin la partie infoBuilder, construit les informations relatives à l'appelant afin de les fournir à la personne recevant l'appel.
+
+La partie Modèle de Dynamease est représentée par les parties Core et Kernel. Core représente les classes métier utilisé uniquement par le serveur Dynamease. Quant à la partie Kernel elle réunie toutes les classes pouvant être utilisées par chacune des applications de Dynamease.
+
+Le stockage est géré par deux bases de données Mysql et Ldap. La base de données Ldap est utilisé pour stocker les informations sur les contacts des utilisateurs. La base MySQL stocke toutes les autres informations utiles.
+
+La raison de la présence de deux base de données et du au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.
+
