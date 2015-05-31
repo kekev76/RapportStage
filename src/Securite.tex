@@ -20,6 +20,17 @@ Dans cette partie j'expliquerais, pour toutes les failles de sécurité que j'ai
 
 \subsection{Cookies non sécurisés}
 
+Lors de l'utilisation de l'outil de mise en place d'un environnement Dynamease, je me suis aperçu qu'en changeant les données de la base de donnée une connexion utilisateur était établie, alors que l'utilisateur connecté n'existait pas sur la base de donnée précédente.
+
+La question qui se posait alors, était qu'est ce qui déterminait qu'un utilisateur est connecté. Le serveur Dynamease détermine la connexion grâce aux cookies.
+
+Après une observation des cookies, il est apparu que les informations contenues dans les cookies était écris en claires. L'information qui nous intéresse est l'Id Dynamease. L'identifiant Dynamease étant unique c'est grâce à celui-ci que l'utilisateur peut être identifié.
+
+Cette information étant en claire il suffit donc de la modifier avec un autre identifiant afin d'usurper le compte d'un autre utilisateur.
+\\\\
+
+Afin de régler cette faille il suffit d'encoder les informations contenues dans les cookies. De plus d'autres informations devraient être contenue dans les cookies afin d'être certain que l'Id utilisé représente bien l'utilisateur actuel. 
+
 \subsection{Sauvegarde des données}
 
 \section{Mise en place d'un certificat Https}
