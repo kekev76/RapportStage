@@ -43,7 +43,7 @@ En ce qui concerne le numéro à appelé, il faudra créée une requête qui ser
 
 Cette requête devra effectuée elle aussi un appel de requête vers le serveur téléphonique. ainsi le numéro à appeler resterais en mémoire, jusqu'à changement, sur le serveur téléphonique. Cela permettrait à l'utilisateur, de pouvoir rappeler son contact sans pour autant passer par l'application Dynamease.
 
-\subsubsection{Les applications Téléphoniques}
+\subsubsection{Les applications téléphoniques}
 
 Les applications téléphoniques doivent envoyer une requête vers le serveur Dynamease dès que l'utilisateur sélectionne l'appel d'un contact. L'application doit également fournir le numéro à appeler.
 
@@ -51,6 +51,79 @@ Il faut savoir que les contacts sont ranger en deux catégories, les contacts Dy
 
 \section{Le Click2Call}
 
+Le Click2Call sera une option, limitée dans le temps, proposée pour tout les clients Dynamease. Cette option permettra aux clients de disposer de carte de visite virtuelle publique, qu'ils pourront déposer sur des sites internets. Cette carte de visite permettra aux clients d'être contacter grâce à elle en un seul clique.
+
+En plus de cela, l'appel se fera sans échange de numéro de téléphone. C'est à dire que l'appelant ne verra pas le numéro du client et inversement.
+
+\subsubsection{Étude du cahier des charges}
+
+Pour réaliser cette fonctionnalité nous avons besoin de mettre en relation deux personnes sans échange de numéro. Il sera utilisé le serveur téléphonique afin de créé un lien entre les deux communicant. Je ne serais pas en charge de cette partie mais nous aborderons le fonctionnement global de cette partie.
+
+Nous allons avoir besoin du serveur Dynamease qui sera en charge d'orchestrer les échanges d'informations avec le serveur téléphonique et les applications téléphoniques.
+
+Les applications téléphoniques devront également être changer dans le but de pouvoir recevoir les informations des appels.
+
+\subsubsection{Fonctionnement du serveur téléphonique}
+
+Le serveur téléphonique gérera, la liaison entre les deux interlocuteurs grâce à des $"\textit{conférence}"$. Ces conférences ne seront accessible que par l'appelant et l'appeler, une requête est donc crée pour informer le serveur des numéros qui peuvent accéder à la conférence.
+
+Pour qu'une conférence soit créée, il faut que le serveur dispose d'un numéro de téléphone. C'est ce numéro que les deux interlocuteur verront afficher sur leurs appareils téléphoniques. Ainsi aucun des deux interlocuteurs n'aura le numéro de téléphone de l'autre interlocuteur.
+
+\subsubsection{Le serveur Dynamease}
+
+Le serveur Dynamease aura pour rôle la gestion du fonctionnement du Click2Call. Nous avons vu précédemment qu'il faut un numéro de téléphone pour créer une conférence. Le nombre de numéros de téléphone n'étant pas une ressource infiniment grand, il faut donc gérer une liste de numéro de téléphone dédié à la conférence. De plus il faut gérer le cycle de vie de ces numéros de téléphone.
+
+Les numéros passe par plusieurs étapes qui sont leur création, à ce moment le numéro de téléphone est ajouté à la liste des numéros de conférence. Juste après sa création, le numéro de conférence passe en attente, c'est à dire que ce numéro est à disposition pour être utilisé par le serveur téléphonique. Lors de l'utilisation de ce numéro de conférence, son statut passe en mode attribué, dans ce cas là il ne peut plus être attribué, jusqu'à ce que ce numéro de conférence soit raccroché. Une fois raccroché, le numéro repasse en attente. Ainsi on peut réutilisé plusieurs le même numéro est ainsi réduire le nombre de numéro à stocker.
+
+De plus avant l'attribution du numéro de conférence on vérifie que le client Dynamease appelé n'est pas déjà en conférence. Ainsi on peut avoir une meilleure gestion des numéros de téléphone de conférence, et diminuer la quantité de stockage.
+
+La liste de numéro de conférence, peut être accédée à tout moment, il faut donc gérer les problèmes de concurrence sur cette liste. On utilise donc des méthodes synchronisées fournies par Java. Ces méthodes permettent de gérer l'accès à une liste par plusieurs Threads. Cette méthode gère une file de Thread, la liste n'est accessible que par un seul Thread à la fois, ainsi on évite les problème de concurrence.\\
+
+L'accès à la conférence peut se faire de deux manière, soit par un appel vers le numéro de la conférence, soit un appel est émis de la conférence vers un utilisateur. La personne utilisant le Click2Call sera forcément amené vers la conférence, par un appel vers celle-ci. En ce qui concerne l'utilisateur Dynamease, il faut décider de la manière dont il sera amené vers la conférence. 
+
+En passant l'appel depuis la conférence, l'application Dynamease n'aura qu'à afficher les informations clients. En utilisant la seconde solution, l'application Dynamease devra effectuer un appel vers la conférence, mais le coût d'appel pour Dynamease sera diminué. Pour des raisons économique, c'est ce second choix qui sera utilisé. De plus avec cette seconde solution, le prix de cette option pourra passé en coût sur des appels surtaxés.\\
+
+La procédure utilisé par cette fonction est la suivante :
+
+[mettre diagramme]
+
+Une personne appuie sur le bouton Click2Call. Ce bouton envoie une requête au serveur Dynamease contenant le numéro de téléphone à appeler ainsi que le contexte dans lequel s'effectue l'appel (type de site, objet vendu ...). A la réception de la requête, le serveur Dynamease vérifie qu'il existe des numéros de conférence disponible et que l'utilisateur à joindre est disponible. Si la vérification s'est effectuée sans problème, le numéro de conférence est envoyé au serveur téléphonique, avec les informations sur les numéros de téléphone pouvant y accéder. Ensuite une notification de type Click2Call est envoyé à l'utilisateur Dynamease avec le numéro de la conférence. Et enfin en réponse à cette requête le numéro de la conférence est envoyé à la personne ayant démarrer la fonction Click2Call.
+
+La conférence démarre dès que les deux protagonistes rentrent dans la conférence. Elle se termine quand un des deux protagoniste coupe la communication. A la fin de cette conférence une requête est envoyé au serveur Dynamease pour l'informer que le numéro de téléphone peut être réattribué.\\
+
+En plus de ces requêtes, d'autres requêtes, spécifique à Dynamease, ont été créées dans l'objectif de gérer les différents numéros de conférence. Ajouter des numéros de conférence, et lister les informations pouvant être récupéré  sur les numéros de conférence.
+
+\subsubsection{Les application téléphonique} 
+
+Les application téléphonique doivent donc pouvoir à l'arriver d'une notification Click2Call générer un appel vers le numéro de conférence.
+
+Dans cette notification il doit être présent les informations sur l'appelant. Pour cela on utilise le même principe déjà existant sur les notifications d'appel.
+
+Or l'utilisateur reçois cette notification et doit décider rapidement s'il veut répondre à l'appel. Pour cela il faut simuler un appel. Pour l'application Android, lors de la réception de la notification, l'application fait retentir la sonnerie par défaut de l'utilisateur, afin que l'utilisateur ai la sensation d'un appel. La fenêtre suivante est affiché sur le portable.
+
+[mettre Image]
+
+En appuyant sur le bouton répondre, la fenêtre se ferme, et un appel est émis vers le numéro de conférence. Ainsi l'expérience utilisateur n'est pas altéré, car la sensation d'appel reste la même.\\
+
+En ce qui concerne l'application Iphone, il est plus compliqué d'avoir la même expérience utilisateur que pour la partie Android. La notification Click2Call s'affiche comme une notification normale à l'exception prêt qu'il est possible d'ajouter des boutons d'action.
+Le comportement reste le même que pour la partie Android.
+
+\subsubsection{Amélioration}
+
+Pour le moment il ne s'agit que d'un prototype. Pour pouvoir le mettre en œuvre il faudrait améliorer le stockage des numéros de conférence. Actuellement ils sont stockés dans la mémoire de l'application.
+
+Il faudrait également ajouter des fonctionnalités sur l'action du bouton Click2Call. Comme par exemple, s'il est cliqué sur un site internet depuis un ordinateur, permettre à l'utilisateur de rentrer son numéro de téléphone et que ce soit le numéro de conférence qui appel vers son numéro de téléphone.
+
 \section{L'appel depuis l'historique d'appel}
 
-\section{Transfert d'appel}
+Il n'était pas possible de passer des appels depuis le journal d'appel de l'application téléphonique. Il faut donc que cette fonctionnalité soit mise en place.
+
+\subsubsection{Étude du cahier des charges}
+
+Après une étude de la base de données, il est apparu qu'il n'y avait aucun moyen de déterminer comment rappeler le contact. Il faudra donc remanier la base de données. 
+
+Les réponses des requêtes pour la récupération du journal d'appel seront également modifiées. Il faudra donc traiter ces réponses afin de les stocker sur les appareils téléphoniques. 
+
+\subsubsection{Mise en place de la solution}
+
+La base de données n'est pas suffisamment renseignée pour permettre le rappel depuis le journal d'appel. Une modification est donc nécessaire. Il faut cependant veiller à pouvoir assurer une rétrocompatibilité  
