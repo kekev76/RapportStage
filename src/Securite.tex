@@ -34,3 +34,37 @@ Afin de régler cette faille il suffit d'encoder les informations contenues dans
 \subsection{Sauvegarde des données}
 
 \section{Mise en place d'un certificat Https}
+
+Les communication vers le site web de Dynamease s'effectuait par le biais du protocole http. Ce protocole n'est pas sécurisé, pour protéger les données des clients Dynamease. Il a été décidé de mettre en place le protocole https, qui chiffre les communications avec les clients.
+
+Le protocole https, fonctionne sur le principe clef publique clef privée. Une clef publique est envoyé à chacun des clients pour chiffrer les données que celui-ci envoi. Ces données ne peuvent être alors décrypté uniquement par la clef privée qui reste sur le serveur.
+
+Cette mise en place sera réalisé par un jeune décrocheur que je devrais superviser. J'aurais pour charge de lui indiquer ce qu'il devra faire, et le mettre sur la voie pour qu'il devienne autonome dans son travail.
+
+\subsubsection{Étude du cahier des charges}
+
+Ce protocole doit être mis en place sur les serveur existants. La communication entre les utilisateurs et le serveur Tomcat est orchestré par Nginx.
+
+Nginx est un reverse proxy. Celui-ci permet de redirigé les requêtes des utilisateurs vers les plateformes appropriées. Il est également possible grâce à Nginx de redirigé toutes les requêtes d'un serveur vers un autre serveur, ce qui est extrêmement utile pour des migrations.
+
+Il faudra donc que ce soit Nginx qui gère la gestions des différentes clefs du protocole https. La configuration de Nginx sera donc essentielle dans la suite de cette mise en place.\\
+
+Les clefs doivent également être certifiées. Les noms de domaines nous sont fournie par le bureau d'enregistrement de nom de domaines Gandi. Cette société fournie également des certificats de sécurité. Il faudra donc également faire la procédure d'obtention d'un de ces certificats.
+
+\subsubsection{Mise en place de la formation}
+
+Pour réaliser cette mise en place j'ai décidé de faire passer ce jeune décrocheur par trois étapes :
+
+\begin{enumerate}
+	\item Mise en place d'une configuration standard Nginx;
+	\item Mise en place d'une clef non certifiée;
+	\item Mise en place d'une clef certifiée Gandi.
+\end{enumerate}
+
+Pour la première étape, je lui fournirais toutes les documentations officielles nécessaires à la réalisation de cette première étape. Et au fur et à mesure de la formation je diminuerais le nombre de documentations fournies pour l'obliger à aller rechercher l'information utile.
+
+Les test qui seront effectués par le décrocheur se dérouleront sur un serveur à part afin de pouvoir assurer un fonctionnement normal du reste des infrastructures en cas d'erreur.\\\\
+
+Nous aborder en détail la mise en place du certificat. Pour ce faire nous avions plusieurs choix au niveau du type des certificats. Nous pouvions soit choisir un certificat pour un seul nom de domaine, qui incluait le sous-domaine $"www"$. Ou alors choisir, le certificat wildcard, qui permet de certifier un domaine et tout les sous-domaine. C'est ce type de produit que nous avons choisi dans le but de pouvoir l'intégrer dans tout nos serveurs, ainsi que ceux de tests, ce qui rendrait les tests de pré-production plus réaliste.
+
+Pour demander un certificat il faut d'abord créer une clef. Cette clef une fois créée avec les informations nécessaire sera ensuite passé à Gandi qui nous fournira le certificat associé à cette clef. Une fois ce certificat créé il nous suffit de configurer Nginx afin qu'il utilise ce certificat.
