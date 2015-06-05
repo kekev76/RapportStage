@@ -1,0 +1,23 @@
+@startuml
+
+
+top to bottom direction
+:Basic: <|- :Avantage:
+Avantage <|- Privilège
+Privilège <|- Intégrale
+
+left to right direction
+Basic --> (Utiliser l'application téléphonique)
+Basic --> (Gérer sa disponibilité manuellement)
+Basic --> (Gérer des contacts Dynamease)
+Basic --> (Envoie de carte de visite)
+
+Avantage --> (Gérer sa disponibilité grâce à des calendriers)
+
+Privilège --> (Disposer d'un numéro Dynamease)
+Privilège --> (Gérer des redirections des appels entrants)
+
+Intégrale --> (Ajouter d'employés)
+Intégrale --> (Gestion de Connecteurs)
+
+@end

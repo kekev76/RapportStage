@@ -32,7 +32,10 @@ Avant de décrire le fonctionnement du serveur Aerogear il nous faut définir le
 
 \subsubsection{Fonctionnement}
 
-[Mettre image Aerogear]
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{img/aerogear_unified_push_server.png}
+	\caption{\label{aerogear} Fonctionnement d'Aerogear}
+\end{figure}
 
 Le fonctionnement du serveur Aerogear suit le schéma précédent.
 
@@ -41,6 +44,7 @@ Le fonctionnement du serveur Aerogear suit le schéma précédent.
  \item L'application téléphonique demande un enregistrement en envoyant toutes les informations nécessaire à Aerogear. Ces informations sont stockées.
  \item Une requête est envoyé à  Aerogear dans le but d'envoyer une notification vers l'installation correspondant a un alias. Aerogear récupére toutes les informations nécessaire. La requête Push est ensuite traduite vers la plateforme correspondant au système d'exploitation correspondant à l'alias. La requête est ensuite envoyée vers la plateforme appropriée.
  \item C'est maintenant la plateforme qui se charge de l'envoie de la notification vers l'installation correspondant à l'alias.
+ \item L'installation reçois la notification, et c'est à l'application téléphonique de gérer le traitement de cette notification.
 \end{enumerate}
 
 Les requêtes Aerogear permettent également l'envoie de notification vers toutes les installations, ainsi que l'envoie vers toutes les installation d'un variant spécifique.
@@ -182,11 +186,11 @@ Pour éviter de demander la liste de contacts de l'utilisateur nous avons décid
 
 Nous avons donc du demander la liste de contact de l'utilisateur dans le but de détecter quel était le contact qui produisait cette erreur, et quelle était la cause.
 
-Après l'importation de ces contacts, nous avons remarqué que l'erreur se produisait également  sur les téléphones de tests. Après une observation des logs généré par l'application il est apparu qu'il existait un contact dont le nom commencé par le caractère '@'.
+Après l'importation de ces contacts, nous avons remarqué que l'erreur se produisait également  sur les téléphones de tests. Après une observation des logs généré par l'application il est apparu qu'il existait un contact dont le nom commencé par le caractère $'@'$.
 
-Les contacts dans l'application Iphone sont stocké dans un dictionnaire (ensemble clefs valeurs). Les clefs sont représenté par le noms de l'utilisateur et les valeurs sont les informations relative à l'utilisateur. La clef est donc de type chaîne de caractère. Or en Objective-C le caractère '@' est un caractère spécial. L'Iphone n'arrivant pas à interpréter ce caractère l'application ferma subitement.
+Les contacts dans l'application Iphone sont stocké dans un dictionnaire (ensemble clefs valeurs). Les clefs sont représenté par le noms de l'utilisateur et les valeurs sont les informations relative à l'utilisateur. La clef est donc de type chaîne de caractère. Or en Objective-C le caractère $'@'$ est un caractère spécial. L'Iphone n'arrivant pas à interpréter ce caractère l'application ferma subitement.
 
-Afin de régler ce type de problème, un caractère spécial '\textbackslash' est ajouté devant chaque caractère spécial pouvant être trouvé dans le nom ou les informations clients. Ce caractère à pour fonction, dans l'Objective-C de signifier à l'application de ne pas interpréter le caractère spécial qui le suit. 
+Afin de régler ce type de problème, un caractère spécial $'\textbackslash'$ est ajouté devant chaque caractère spécial pouvant être trouvé dans le nom ou les informations clients. Ce caractère à pour fonction, dans l'Objective-C de signifier à l'application de ne pas interpréter le caractère spécial qui le suit. 
 
 \subsection{Recherche et récupération automatique des contacts}
 

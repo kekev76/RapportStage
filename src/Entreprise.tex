@@ -1,34 +1,51 @@
 \section{Présentation de Dynamease}
 
-\subsection{Présentation du service Dynamease}
+\subsection{L'équipe}
+
+\section{Présentation du service Dynamease}
+
+\subsection{Les objectifs}
 
 \subsection{Les différentes offres}
 
-Dynamease propose à ses clients plusieurs offres. Chaque offre contient des fonctionnalité particulière. Ces offres suivent une hiérarchie, chaque offre contient les fonctionnalités des offres précédentes. La hiérarchie des offres Dynamease est la suivante :
+Dynamease propose à ses clients plusieurs offres. Chaque offre contient des fonctionnalités particulières. Chaque offre contient les fonctionnalités des offres qui la précédent dans la hiérarchie. La hiérarchie des offres Dynamease est la suivante :
 
-[Diagramme hiérarchie]
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{img/useCase.png}
+	\caption{\label{useCase} Diagramme de cas d'utilisation Dynamease}
+\end{figure}
 
 Nous allons maintenant décrire les différentes offres.
 
 \subsubsection{Basic}
 
-L'offre Basic est une offre gratuite, elle permet à l'utilisateur d'accéder au fonction basique de l'application téléphonique et de l'application web, envoie de carte de visite Dynamease, liste de contact et pouvoir gérer manuellement sa disponibilité.
+L'offre Basic est une offre gratuite, elle permet à l'utilisateur d'accéder aux fonctions basiques de l'application téléphonique et de l'application web:
+
+\begin{itemize}
+	\item Envoie de carte de visite Dynamease;
+	\item Gestion de la liste de contact;
+	\item Gestion manuelle de la disponibilité.
+\end{itemize}
 
 \subsubsection{Avantage}
 
-L'offre Avantage s'adresse à des clients particulier, désirant avoir une gestion de sa disponibilité gérer par rapport à des calendrier (Calendrier Dynamease ou Google).
+L'offre Avantage s'adresse aux particuliers, désirant avoir une gestion de sa disponibilité gérer par rapport à des calendrier (Calendrier Dynamease ou \textit{Google Calendar}).
 
 \subsubsection{Privilège}
 
-L'offre Privilège permet aux utilisateurs d'obtenir un numéro Dynamease. Ce numéro permet à l'utilisateur d'être joint sur n'importe lequel de ses appareils téléphoniques. Les appels entrant vers le numéro Dynamease sont géré par le serveur Dynamease, celui-ci identifiera l'appel, défini sont importance et enfin le redirige vers l'appareil défini par l'utilisateur.
+L'offre Privilège permet aux utilisateurs d'obtenir un numéro Dynamease. Ce numéro permet à l'utilisateur d'être joint sur un de ses appareils téléphoniques selon les choix de l'utilisateur. Les appels entrant en direction du numéro Dynamease sont gérés par le serveur Dynamease. Celui-ci identifiera l'appel, définira sont importance et enfin le redirigera vers l'appareil défini par l'utilisateur.
 
 \subsubsection{Intégrale}
 
-L'offre Intégrale est destiné pour les entreprises. Cette offre permet l'ajout d'employé qui détiendront un compte Avantage. Il est également possible d'ajouter des connecteurs. Les connecteurs permettent une meilleur identification d'appel ainsi qu'une meilleur redirection. Les connecteurs sont des données rentré par les entreprises qui donne des indications sur leurs clients ainsi que sur les employés responsable de ces clients.
+L'offre Intégrale est destinée pour les entreprises. Cette offre permet l'ajout d'employé qui auront les mêmes fonctionnalité qu'un compte Avantage.
 
-\subsection{Présentation de l'environnement Dynamease}
+Il est également possible d'ajouter des connecteurs. Les connecteurs permettent une meilleure identification d'appel ainsi qu'une meilleure redirection. Les connecteurs sont des données fournies par les entreprises qui permettent d'identifier leurs clients ainsi que l'employé responsable du client identifié. Les connecteurs sont donc utilisés pour fournir des informations sur l'appelant et également sur la redirection de l'appel.
 
-Nous allons maintenant présenté l'environnement Dynamease. Dynamease suit le système MVC (Modèle View Controler). On peut représenter l'environnement principal de Dynamease avec le diagramme suivant.
+\section{Présentation de l'environnement Dynamease}
+
+\subsection{Environnement du service Dynamease}
+
+Nous allons maintenant présenter l'environnement Dynamease. Dynamease suit le système MVC (Modèle View Controler). On peut représenter l'environnement principal de Dynamease avec le diagramme suivant.
 
 [Mettre diagramme]
 
@@ -44,3 +61,4 @@ Le stockage est géré par deux bases de données Mysql et Ldap. La base de donn
 
 La raison de la présence de deux base de données et du au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.
 
+\subsection{Présentation de la méthode de travail utilisée par Dynamease}

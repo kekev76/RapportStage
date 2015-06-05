@@ -10,7 +10,7 @@
 
 \titreAcronyme{Rapport de Stage}
 \titreGeneral{Dynamease}
-\titreDetaille{Moreau Kévin  Janvier - Juillet 2015}
+\titreDetaille{Stage Ingénieur : Moreau Kévin}
 \auteurs{Moreau Kévin}
 \destinataires{Lui}
 \resume{Le présent document résume le stage effectué au sein de l'entreprise Dynamease par Moreau Kévin}
@@ -22,31 +22,34 @@
 \begin{document}
  \couverture{}
  \informationsGenerales{}
- %\input{sources/page_service}
- \tableofcontents
- 
-\listoffigures
-\addcontentsline{toc}{chapter}{Table des figures}
 
-\chapter{Présentation de l'entreprise}
+
+ \input{src/Introduction.tex}
+ \tableofcontents
+
+ \listoffigures
+ \addcontentsline{toc}{chapter}{Table des figures}
+
+ \chapter{Présentation de l'entreprise}
 	\input{src/Entreprise.tex}
 
-\chapter{Présentation de mon stage}
+ \chapter{Présentation de mon stage}
 	\input{src/Stage.tex}
+ 
+ \chapter{Apprentissage des technologies utilisées dans la réalisation des applications téléphonique}
+ 	\input{src/Apprentissage.tex}
 
-\chapter{Performance}
+ \chapter{Performance}
 	\input{src/Performance.tex}
 
-\chapter{Les Nouvelles Fonctionnalités}
+ \chapter{Les Nouvelles Fonctionnalités}
 	\input{src/Fonctionnalite.tex}
 
-\chapter{La sécurité}
+ \chapter{La sécurité}
 	\input{src/Securite.tex}
 
-% \begin{appendix}
-% 	\chapter{nom Annexe}
-%  	\input{annexes/annexes.tex}
-% \end{appendix}
+ \chapter{Conclusion}
+	\input{src/Conclusion.tex}
 
  \pageQuatriemeCouverture{}	
 \end{document}
