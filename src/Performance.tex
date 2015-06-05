@@ -1,8 +1,71 @@
 \section{Gestion des Notifications Téléphoniques : Aerogear}
+
+Les notifications sont très importante pour l'application téléphonique Dynamease. En effet ce sont grâce à celles-ci que les informations sur l'appelant sont récupéré par l'appareil. 
+
 \subsection{Fonctionnement des notifications Push}
+
+Une notification est un message envoyé à un smartphone. Ce message à la possibilité de réveiller le smartphone et d'afficher une information. L'envoie d'une notification passe par une plateforme. Pour envoyer une notification à un appareil Android il faut passer par Google Cloud Messaging (GCM). Pour les appareils IOS il faut passer par Apple Push Notification Service (APNS).
+
+Pour cet ensemble de plateforme le fonctionnement est quasiment identique. L'appareil doit s'inscrire à la plateforme correspondante.
+Durant cette inscription l'appareil obtient un identifiant unique. Les messages qui lui sont envoyés sont de la forme d'un objet Json (bien que pour Android il soit également possible de passer par un objet de type texte). Les notifications sont utilisés pour envoyer une information à afficher à l'utilisateur (encore une fois pour Android il est également possible d'envoyé une notification pour demander à l'application de se synchroniser sans pour autant afficher de message).
+
 \subsection{Principe d'Aerogear}
+
+Aerogear est une application serveur qui permet l'envoie de notification Push vers différents systèmes d'exploitation téléphonique. En ce qui nous concerne il s'agit d'un envoi vers les systèmes Android et IOS.
+
+L'utilisation de l'API de ce serveur, permet d'envoyer des requêtes vers le serveur Aerogear. Celui-ci aura pour charge de transformer cette requête en une requête adapté pour le système d'exploitation vers lequel la requête doit être envoyée.
+
+Ce procédé permet de délégué l'envoie des notifications Push. Une requête unique permet l'envoie de notification plutôt que d'avoir à effectuer une requête pour chacun des systèmes d'exploitation. De plus le serveur se charge également du stockage des informations des différents systèmes d'exploitation de chaque client.
+
+Les requêtes Aerogear permettent également l'envoie de notification vers toutes les installations, ainsi que l'envoie vers toutes les installation d'un variant spécifique.
+
+\subsubsection{Définitions} 
+
+Avant de décrire le fonctionnement du serveur Aerogear il nous faut définir les différents terme suivant :
+
+\begin{description}
+ \item[Application Push :] Représente une application téléphonique ayant recours à des notifications Push.
+ \item[Variant :] Représente une plateforme téléphonique comme IOS ou Android. Une application Push peut avoir plusieurs variants. Plusieurs variants peuvent représenter une seule plateforme. Le variant permet de stocker toutes les propriétés nécessaire à l'envoie de notification Push, comme le $"\textit{Google API key}"$ pour Android.
+ \item[Installation :] Correspond à une application téléphonique s'étant inscrite sur un variant. Chaque variant peut avoir plusieurs installation. Une installation contient toutes les informations nécessaire à l'envoie de notifications, comme l'id du téléphone.
+ \item[Alias :] Correspond à l'identifiant d'une installation.
+\end{description}
+
+\subsubsection{Fonctionnement}
+
+[Mettre image Aerogear]
+
+Le fonctionnement du serveur Aerogear suit le schéma précédent.
+
+\begin{enumerate}
+ \item L'administrateur doit commencer par créé une application Push, qui doit contenir au moins un Variant;
+ \item L'application téléphonique demande un enregistrement en envoyant toutes les informations nécessaire à Aerogear. Ces informations sont stockées.
+ \item Une requête est envoyé à  Aerogear dans le but d'envoyer une notification vers l'installation correspondant a un alias. Aerogear récupére toutes les informations nécessaire. La requête Push est ensuite traduite vers la plateforme correspondant au système d'exploitation correspondant à l'alias. La requête est ensuite envoyée vers la plateforme appropriée.
+ \item C'est maintenant la plateforme qui se charge de l'envoie de la notification vers l'installation correspondant à l'alias.
+\end{enumerate}
+
+Les requêtes Aerogear permettent également l'envoie de notification vers toutes les installations, ainsi que l'envoie vers toutes les installation d'un variant spécifique.
+
 \subsection{Mise à jour d'Aerogear}
+
+Mon premier objectif au niveau d'Aerogear était de mettre à jour cette plateforme. Pour ce faire je me suis rendu sur le site officiel afin de connaître les différentes procédure de son installation.
+
+Le serveur Aerogear se présente sous la forme d'un fichier war. Il faut savoir que pour fonctionne, Aerogear à besoin d'un serveur Jboss et d'un base de données. Aerogear peut fonctionner avec différentes base de données SQL (H2, Mysql et postgreSQL). La base utilisée par Dynamease étant une base de données MySQL j'ai donc choisi d'installer la version correspondante.
+
+Plusieurs problème se sont accumulé durant cette installation, en effet des erreurs se produisaient durant le lancement du serveur. Après plusieurs recherche il s'est avéré que le lien donné durant le processus d'installation pointé vers les sources d'une version non stable du projet. Après avoir récupéré un projet stable, j'ai du faire face à une autre difficulté. Le serveur n'arrivait pas à utiliser la base de données MySQL. Après avoir effectué d'autre recherche il a semblait que la version utilisée éprouvé quelques difficultés avec les bases de données MySQL et PostgreSQL, et que seul les base de données de type H2 pouvait être gérées.
+
+Les base de données H2 fonctionnent sous un environnement Java. Afin de pouvoir y accéder de façon graphique le logiciel officiel de cette base de données sera installer également sur le serveur pour pouvoir accédé plus facilement aux données s'y trouvant. Ainsi l'administrateur système pourra aisément réaliser ses requêtes de la même manière qu'il les aurait effectué sur une base de données MySQL.
+
+Après son installation j'ai eu pour objectif de réalisé une Image Docker d'Aerogear. L'explication de cette réalisation sera faîte lors de la partie sur Docker.
+
 \subsection{Mise à jour des notifications}
+
+Après la mise à jour du serveur Aerogear j'ai également dû réaliser des mises à jour du côté des applications téléphonique.
+
+Pour les applications IOS, une mise à jour était nécessaire du fait que certaines méthodes utiles pour l'enregistrement vers le serveur des notifications n'étaient pas rétrocompatible entre la version 7 et la version 8. Comme nous devions garder une version de l'application pour les personnes ayant encore une version IOS7 une vérification de la version de l'appareil est effectué avant tout enregistrement au serveur. Mais il est très probable que l'application Dynamease devienne, dans le futur, inaccessible pour les personnes possédant une version 7 d'IOS. En effet la version 8 permet beaucoup plus de liberté au niveau des notification notamment la possibilité d'ajouter des bouton d'action aux notifications.\\
+
+L'autre mise à jour effectuée est la forme d'envoie des notifications. L'ancienne version envoyé les informations sous la forme de chaîne de caractère. Ces chaînes de caractère était difficile à traité du fait que les informations pouvait être dispersées. La solution la plus évident à mettre en place était de faire passer des objets Json au travers les notifications. En effet, les objets Json sont très facile à créé, à déchiffrer et de plus peuvent être écris sous la forme d'une chaîne de caractère spéciale.
+
+Grâce à cette méthode il est plus facile d'effectuer un traitement sur les informations reçus et de dédier à l'application téléphonique le tri des informations et l'affichage de celle-ci.
 
 \section{L'environnement Docker}
 \subsection{Fonctionnement de Docker}
