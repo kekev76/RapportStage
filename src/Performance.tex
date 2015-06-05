@@ -41,7 +41,7 @@ De plus il doit être possible de démarrer d'un environnement vide, il faudra d
 
 [Mettre Diagramme pyramide]
 
-Nous allons étudier le diagramme ci-dessus, de manière descendante. Tout en haut nous avons l'environnement Nginx, celui-ci nécessite la mise en place des environnements Tomcat et Aerogear pour fonctionner. L'environnement Tomcat aura besoin des bases de données MySQL et Ldap. 
+Nous allons étudier le diagramme ci-dessus, de manière descendante. Tout en haut nous avons l'environnement Nginx, celui-ci nécessite la mise en place des environnements Tomcat et Aerogear pour fonctionner. L'environnement Tomcat nécessite l'existence des bases de données MySQL et Ldap. 
 
 Donc il nous faudra lancer l'environnement l'ordre suivant :
 
@@ -53,13 +53,17 @@ Donc il nous faudra lancer l'environnement l'ordre suivant :
 	\item Nginx.
 \end{enumerate}
 
-\subsubsection{Utilisation et Récupération des données}
+\subsubsection{Récupération et utilisation des données}
 
-On peut séparer les données à récupérer en deux catégories. Celles qui dépendent du système et celles qui n'en dépendent pas. Les données récupérer par le serveur Dynamease sont essentiellement des données de configuration. Cette configuration permet à Dynamease de connaître les adresse internet des différents services nécessaire à son fonctionnement. Ces adresses pouvant changer selon l'emplacement de démarrage de l'application Dynamease, les valeurs de ces configurations ne peuvent être prédites à l'avance. De plus le contenu des autres bases de données n'influe pas sur les valeurs de cette configuration, donc il s'agit bien là de données dépendant uniquement du système. 
+Le fonctionnement de l'environnement Dynamease dépend de plusieurs données, on doit donc récupérer ces données. On peut séparer les données à récupérer en deux catégories, les données de configuration et les données de stockage d'informations.
 
-Donc pour ce type de données, une variable d'environnement devra être créée par l'utilisateur afin de lui permettre de signifier à l'outil, où se situe les fichiers de configuration de Dynamease.\\
+Les données récupérées, par le serveur Tomcat de Dynamease, sont essentiellement des données de configuration. Cette configuration permet à Dynamease de connaître les adresses internet des différents services nécessaire à son fonctionnement. Ces adresses peuvent être différentes d'un environnement à un autre selon l'emplacement de démarrage de l'application Dynamease. Le mieux est donc d'avoir ces fichiers stockés sur l'emplacement de démarrage.
 
-En ce qui concerne les autres données, celle-ci peuvent être stockées de la même manière. Seul leur intégration serra différente.
+Pour ce type de données, il sera demandé la création d'une variable d'environnement par l'utilisateur afin de lui permettre de préciser à l'outil, l'emplacement des différents fichiers de configuration de Dynamease. 
+
+Des fichiers de configurations par défaut seront présent dans l'outil. Si l'utilisateur ne désigne pas de répertoire contenant ces fichiers de configurations, un message sera affiché pour le prévenir que les fichiers de configuration par défaut seront utilisés, mais que cela peut entraîner quelques dysfonctionnement.\\
+
+En ce qui concerne les données des différentes bases de données, celles-ci peuvent être stockées indépendamment de leur bases de données d'origine. Seul leur intégration sera différente.
 
 Il nous reste donc trois base de données à remplir avec nos fichiers de données. Leur technique d'intégration étant différente nous allons les étudier pour chaque base de données. 
 
