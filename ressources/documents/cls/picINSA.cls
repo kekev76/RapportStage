@@ -951,10 +951,6 @@
         \textit{\bfseries{Thème et mots clés}} & \motsClesPrive \\
         &\\
         \cline{1-1}
-        \textit{\bfseries{Nature de la dernière modification}} & \natureDerniereModificationPrive \\
-        &\\
-        \cline{1-1}
-        \textit{\bfseries{Référence}} & \referenceVersionPrive , version \versionPrive\\
       \end{tabular}
     \end{minipage}
   \end{center}
