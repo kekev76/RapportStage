@@ -955,12 +955,6 @@
     \end{minipage}
   \end{center}
   \vspace{3cm}
-  \begin{tabular}[h]{p{0.1\linewidth}>{\centering}p{0.6\linewidth}p{0.3\linewidth}}
-    & \hfill Exemplaire en diffusion contrôlée
-    &\ifthenelse{\equal{\modeDiffusionControlePrive}{VRAI}}{$\boxtimes$}{$\square$}\\
-    & \hfill Exemplaire en diffusion non contrôlée
-    &\ifthenelse{\equal{\modeDiffusionControlePrive}{VRAI}}{$\square$}{$\boxtimes$}\\
-  \end{tabular}
   \newpage
   \ifthenelse{\boolean{modeCompacte}}{}{\cleardoublepage}
 }
