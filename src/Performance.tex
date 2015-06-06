@@ -243,7 +243,17 @@ Le problème de cette solution c'est que l'ordre des mots de recherche est impor
 
 On reprend le même principe que précédemment, mais cette fois-ci on fait un travail supplémentaire entre l'ajout d'une lettre et la recherche dans la liste de contact. On sépare les différents mots de la barre de recherche. Pour la estime qu'il y a un nouveau mot à chaque fois que la barre espace est pressée. Ensuite la recherche dans les contacts doit correspondre à chaque mot de la barre de recherche. Si un mot ne correspond pas, alors le contact ne sera pas ajouter à la liste de résultat. Tous les mots doivent correspondre, pour que le contact soit ajouter dan la liste de résultat.
 
-\subsubsection{Récupération des contact du téléphone}
+\subsubsection{Récupération des contacts du téléphone}
+
+La récupération des contacts ne semblait s'effectuer qu'une seule fois, lors du premier lancement de l'application. De plus il existait quelques problème au niveau du temps de récupération des contacts. Plus la liste de contact était grande et plus le temps de récupération était longue (par exemple pour une liste de contact de 10000 contacts le chargement pouvait être de quelques jours).\\
+
+Après une inspection du code, l'activité de la liste de contact se chargé de la récupération des contacts à chaque lancement de cette activité. Or cette récupération avait une mauvaise condition pour la récupération des contacts.
+
+La liste de contact est stockée par ordre alphabétique dans la base de données de Dynamease, c'est également le cas pour la liste de contact du téléphone. L'activité vérifie que le nombre de contacts dans la liste de contact du téléphone est égale au nombre de contact de la liste de contact de l'application Dynamease. Si ce n'est pas le cas une vérification est effectuée. Le problème se situe sur la suite du procédé. Le cursor permettant la récupération est programmer pour récupérer les contacts en partant de l'index correspondant au nombre de contact dans la liste de contact Dynamease moins un. Or les contacts stockés dans la base de données du téléphone ne sont pas trié par ordre chronologique mais par ordre alphabétique. Donc si un contact, ajouté à la suite du premier démarrage, est ajouté au début de la liste de contact, alors il ne sera jamais récupéré, et le programme fera une récupération de contact à chaque démarrage de l'activité.
+
+La recherche est maintenant effectuée sur l'ensemble de la liste de contact du téléphone est une vérification sur l'existence des contacts est également effectuée, afin de ne pas avoir de doublon.\\ 
+
+La récupération des contacts s'effectue par des \textit{Task}. Comme un \textit{Thread}, plusieurs \textit{Task} peuvent être en fonction "simultanément". Donc à chaque fois que l'activité de la liste de contact est lancée, la \textit{Task} de récupération des contacts est lancé. Donc le temps processeur est divisé entre ces deux \textit{Task}. Pour améliorer cette récupération une condition est rajouter pour déterminer si une récupération est déjà en cour afin de ne pas re-diviser le temps processeur. De plus un bouton d'actualisation de la liste de contact a été ajouter. Dorénavant, la récupération des contacts s'effectue seulement si la liste de contact de l'application Dynamease est vide ou si l'utilisateur appuie sur le bouton d'actualisation.
 
 \subsubsection{Récupération des images de profile}
 

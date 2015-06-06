@@ -18,6 +18,16 @@ Dans cette partie j'expliquerais, pour toutes les failles de sécurité que j'ai
 
 \subsection{Requêtes non sécurisées}
 
+En utilisant l'outil SoapUI, j'ai pu remarquer que les arguments des requêtes n'étaient pas tous cryptés. De plus ceux qui étaient cryptés, ressemblaient aux clefs d'activation fournies par Dynamease.
+
+En effet les clefs d'activation étaient cryptés avec le même procédé de cryptage utilisant la même clef de cryptage. Ceci peut poser quelques problèmes. En effet il suffit donc d'observer les paquets par lesquels transitent les requêtes envoyées par l'application téléphonique afin d'obtenir les méthodes et les arguments utilisés par chacune.
+
+Les arguments qui nécessitaient une chaîne cryptée, n'avaient qu'à être remplacé par une clef d'activation quelconque. Certaines requêtes renvoyée alors un résultat correcte.\\
+
+Pour régler ces problèmes il faudrait commencer par mettre en place un protocole https. Pour que les requêtes envoyées ne puissent plus être lu par une personne observant les paquets transitant au travers du réseau. De plus le cryptage des données devraient être différente que celui utilisé par l'encodage des clefs d'activation.
+
+Une vérification pourrait également être mise en place pour vérifier que la requête est réellement envoyé par un utilisateur Dynamease. Cette vérification pourrait être mise en place à l'aide d'un identifiant encoder unique pour chaque utilisateur. Une vérification devra être mise en place en début de chaque requête pour une meilleure sécurité des requêtes.
+
 \subsection{Cookies non sécurisés}
 
 Lors de l'utilisation de l'outil de mise en place d'un environnement Dynamease, je me suis aperçu qu'en changeant les données de la base de donnée une connexion utilisateur était établie, alors que l'utilisateur connecté n'existait pas sur la base de donnée précédente.
@@ -32,6 +42,14 @@ Cette information étant en claire il suffit donc de la modifier avec un autre i
 Afin de régler cette faille il suffit d'encoder les informations contenues dans les cookies. De plus d'autres informations devraient être contenue dans les cookies afin d'être certain que l'Id utilisé représente bien l'utilisateur actuel. 
 
 \subsection{Sauvegarde des données}
+
+Les données sont actuellement stockées sur une seule base de données. En cas de panne du serveur accueillant la base de donnée, les services Dynamease seraient hors fonction. De plus il n'est pas a exclure que les données stockées sur le serveur pourrait être définitivement perdu. 
+
+Pour une plus grande sécurité sur la sauvegarde des données, il faudrait mettre en place une procédure pour que les données soient stockées sur deux bases de données ce trouvant sur deux serveurs différents. Le plus judicieux serait d'avoir deux bases de données en \textit{master} afin que la copie se fasse en simultané sur les deux bases de données, et d'avoir une base de données \textit{slave} qui copierait les données des bases de données master à intervalle de temps régulier, afin d'y effectuer des tests, récupération manuelle de données etc.
+
+\subsection{Conclusion}
+
+Pour l'instant mon travail s'est concentré sur le fait de lister les différentes failles de sécurité et de proposer quelques solutions. La mise en place de ces solutions ne sera effectué que durant la seconde partie de mon stage.
 
 \section{Mise en place d'un certificat Https}
 
