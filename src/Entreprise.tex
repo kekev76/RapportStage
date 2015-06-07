@@ -1,17 +1,29 @@
 \section{Présentation de Dynamease}
 
-\subsection{L'équipe}
+Dynamease est une start up créée par Yves Nicolas en Janvier 2014. Le modèle d'affaire de DYNAMEASE est celui d’un éditeur en mode \textit{Software As A Service} facturant à ses utilisateurs un abonnement mensuel.
+
+\subsection{L'équipe} 
 
 \subsubsection{Yves Nicolas}
+
 Initiateur du projet Dynamease, son expérience multiple et sa polyvalence sur les sujets techniques, marketing et commerciaux lui ont permis de créer l’entreprise Dynamease, en ayant la vision stratégique, marketing et la mise en œuvre technologique de l’entreprise. Il était mon maître de stage et mon chef de projet.
 
 \subsubsection{Etienne Laplane}
-Employé de Dynamease étant en charge de l’architecture du service et du serveur pour les communications téléphoniques : Asterisk.
+
+Employé de Dynamease en charge de l’architecture du service Dynamease et du serveur pour les communications téléphoniques : Asterisk.
 
 
 \section{Présentation du service Dynamease}
 
 \subsection{Les objectifs}
+
+Dynamease se base sur le fait que le portable devient l'appareil de communication majoritaire par rapport aux téléphones fixes. Le portable devient, grâce à Dynamease, un standard automatisé. Tous les appels entrant sont filtrer en amont afin de déterminer leur importance et leur provenance. Il est possible pour un client Dynamease de configurer les services Dynamease afin de déterminer les horaires d'appel pour différent type de contact (Professionnel, Familial, amis).
+
+Une fois les messages filtrer ils sont alors redirigés vers l'appareil téléphonique configuré par l'utilisateur.
+
+Un fois l'appel redirigé des informations récupérées sur les bases de données privées du clients ainsi que sur des bases de données publique (Annuaire inverse, réseaux sociaux ...) sont affichées sur l'appareil téléphonique du client.\\
+
+Ce service permet au client de déléguer la partie standardisation de son entreprise et de ne plus rater des appels important tout en ignorant les appels nuisibles. De plus Dynamease propose aux entreprises de diminuer leurs coûts de téléphonie en remplaçant les appareils fixes de l'entreprise par les téléphones portable des employés. Les employés pourront ainsi avoir un seul appareil téléphonique pour leur appel, et configurer leurs horaires d'appel en fonction de leurs horaires de travail pour en pas être dérangé.
 
 \subsection{Les différentes offres}
 
@@ -67,5 +79,3 @@ La partie Modèle de Dynamease est représentée par les parties Core et Kernel.
 Le stockage est géré par deux bases de données Mysql et Ldap. La base de données Ldap est utilisé pour stocker les informations sur les contacts des utilisateurs. La base MySQL stocke toutes les autres informations utiles.
 
 La raison de la présence de deux base de données et du au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.
-
-\subsection{Présentation de la méthode de travail utilisée par Dynamease}
