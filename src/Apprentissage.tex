@@ -2,12 +2,34 @@
 
 \subsection{Les outils utilisés}
 
+Pour réaliser des applications Android nous devons utiliser différents outils, que ce soit pour le développement ou pour la mise en production.
+
+\subsubsection{Eclipse}
+
+Eclipse est un IDE (Integrated Development Environment) permettant principalement le développement Java. Android étant réalisé en Java il est possible d'intégrer des plugin permettant le développement d'application Android avec cet IDE.
+
+\subsubsection{Le playstore}
 %eclipse
 %android sdk
 %playstore
 
 \subsection{Le langage de programmation}
 
+\subsubsection{Activity}
+
+Une activité, au sens Android, est une classe permettant l’interaction avec l'utilisateur. Cette classe à la gestion de la création d'une vue ainsi que la gestion des actions que l'utilisateur établira sur cette vue. L'activité passe par plusieurs processus qui sont représentés sur le schéma suivant.
+
+[mettre schéma Android activity]
+
+On peut résumer tout ces processus en quatre états :
+\begin{itemize}
+	\item L'activité est au premier plan et peut être contrôlée par l'utilisateur (onResume -> onPause);
+	\item L'activité est visible mais les controles de l'utilisateur ne sont plus pris en charge (onPause). Dans cet état toutes les données de l'activité sont conservées, mais en cas de manque de mémoire de la part de l'appareil téléphonique, l'activité est détruite;
+	\item L'activité n'est plus visible elle est stoppée. Elle réagis de la même manière que dans un état de pause en ce qui concerne la mémoire des informations;
+	\item L'activité est tuée, toutes ses informations sont effacées de la mémoire.
+\end{itemize}
+
+\subsubsection{AsynchTask}
 %Activity
 %%http://developer.android.com/reference/android/app/Activity.html#ActivityLifecycle
 %intent
@@ -20,6 +42,7 @@
 %%http://developer.android.com/guide/topics/resources/available-resources.html
 %Manifest
 %%http://developer.android.com/guide/topics/manifest/manifest-intro.html
+%Adaptater
 
 \section{Technologie utilisée pour IOS}
 
