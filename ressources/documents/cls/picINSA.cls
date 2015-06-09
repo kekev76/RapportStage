@@ -131,7 +131,7 @@
 \ifthenelse{\boolean{modePage}}{
      \newcommand{\texteBasGauche}{\begin{minipage}{5cm}\raggedleft \footnotesize Page \thepage \end{minipage}}
      \ifthenelse{\boolean{modeVersion}}{
-        \newcommand{\texteBasDroite}{\begin{minipage}{5cm}\raggedleft \footnotesize Version \versionPrive \end{minipage}}
+        \newcommand{\texteBasDroite}{\begin{minipage}{6cm}\raggedleft \footnotesize Moreau Kévin \end{minipage}}
      } 
      {
         \ifthenelse{\boolean{modeNumero}}{

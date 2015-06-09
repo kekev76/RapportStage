@@ -72,8 +72,50 @@ L'autre mise à jour effectuée est la forme d'envoie des notifications. L'ancie
 Grâce à cette méthode il est plus facile d'effectuer un traitement sur les informations reçus et de dédier à l'application téléphonique le tri des informations et l'affichage de celle-ci.
 
 \section{L'environnement Docker}
+
 \subsection{Fonctionnement de Docker}
+
+Docker est un logiciel open source qui permet l'automatisation du déploiement d'application sur n'importe quel serveur Linux. Docker réuni une application et ses dépendance dans une container virtuel qui permet la portabilité de cette application facilement. En effet, la configuration nécessaire au fonctionnement d'un application sera déjà présente dans ce container. Ce container pourra être utilisé aussi bien sur une machine locale que sur un serveur, sans nécessité de configurer la machine qui fera tourner l'application. 
+
+Docker propose également un serveur Hub dans le but de partager les différentes application Docker réalisé par les utilisateurs Docker.
+
+Docker contrairement aux machines virtuelles n'a pas besoin de démarrer un système d'exploitation. Docker utilise directement le système d'exploitation de la machine sous-jacente. Docker exécute également ses processus de façon isolée.
+
+Avant de continuer la présentation de docker, une définition de quelques termes doit être effectuée. 
+
+
+
+\subsubsection{Container}
+
+Le container est l’exécution d'une application se trouvant sur docker. Chaque container, détiens une adresse IP privée.
+
+
+\subsubsection{Images}
+
+Une image Docker est la configuration d'une application au sein de Docker. Cette image peut être stocké sur le Hub de Docker afin que celle-ci soit partagée avec d'autre utilisateur. Pour réaliser une image Docker, il faut rédiger un Dockerfile. Le Dockerfile représente le plan de fabrication de l'image docker. Ce fichier doit contenir toute les dépendances nécessaire au fonctionnement de l'application. Ce fichier peut être représenté comme un script qui sera exécuter dans la création de l'image. Il faut réaliser ce script en prenant bien en compte qu'il s'agit de la configuration de l'environnement et non pas du lancement de l'application. Il est tout de fois possible de définir un script qui sera réalisé lors de l'exécution du container.
+
+Le Dockerfile doit aussi configurer les ports qui doivent être ouvert sur le container. Par exemple pour un serveur Tomcat accessible depuis le port 8080, il faudra indiquer au Docker que la port 8080 du container doit être accessible. A l'exécution du container, il est possible d'indiquer le port de la machine local qui sera redirigé vers un des ports du container. 
+
+Cette image Docker nécessite d'abord de partir d'une image Docker de base. Par exemple pour réaliser l'image d'un serveur Jboss, nous avons besoin de Java, nous partirons donc d'une image Docker Java.
+
+
+\subsubsection{Volume}
+
+Un volume est un lien entre un répertoire se trouvant dans le container et un répertoire se trouvant sur la machine faisant tourner le container. Ainsi on peut utiliser des fichiers se trouvant dans un dossier en local, dans le container. Le volume peut également être utilisé pour récupérer des fichiers se trouvant dans le container. Il est également possible de lier les volumes d'un container dans un autre container.
+
+Les volumes sont à définir dans le Dockerfile en indiquant le répertorie du container qui contient les volumes.
+
+\subsubsection{link}
+
+Le \textit{link} est un lien entre deux container. Comme nous l'avons vu précédemment, il est possible d'accéder à un port du container depuis un port de la machine locale. Il est également possible d'indiquer un lien entre deux docker pour que ceux-ci communique comme s'ils étaient sur deux serveurs différents. Le \textit{link} va donc ré-écrire dans le fichier host du container qui définiera le nom du container à lier avec son adresse IP.
+
 \subsection{Réalisation Docker pour le compte de Dynamease}
+
+\subsubsection{Aerogear}
+
+\subsubsection{OpenERP}
+
+\subsubsection{Nginx}
 
 \section{Démarrage automatique d'un environnement de travail}
 
@@ -157,8 +199,6 @@ La création d'une image docker Dynamease, nécessite d'abord la compilation de 
 Le script de démarrage de l'environnement prendra en paramètre un numéro de version. Il vérifiera alors si l'image est présente en local, si ce n'est pas le cas l'image sera télécharger depuis le serveur Docker.
 
 Grâce à cette méthode, il est possible de démarrer rapidement n'importe quel version de Dynamease.
-
-\section{Outils d'aide à la mesure des performances}
 
 \section{Amélioration des applications téléphoniques}
 
@@ -274,3 +314,12 @@ Ainsi l'affichage des images se fera par le biais de la récupération des fichi
 \subsubsection{Amélioration possible}
 
 La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profile. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profiles soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour. 
+
+
+% \section{Amélioration continue du services par la mise en place d'outils}
+
+% Durant mon stage j'ai également faire une proposition pour mettre en place différents outils permettant un maintient des performances des différents services Dynamease. Pour faire cette proposition j'ai d'abord lister les différents besoin :
+
+% \begin{itemize}
+% 	\item
+% \end{itemize}
