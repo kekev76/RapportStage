@@ -64,7 +64,7 @@ Il est également possible d'ajouter des connecteurs. Les connecteurs permettent
 
 \subsection{Environnement du service Dynamease}
 
-Nous allons maintenant présenter l'environnement Dynamease. Dynamease suit le système MVC (Modèle View Controler). On peut représenter l'environnement principal de Dynamease avec le diagramme suivant.
+Nous allons maintenant présenter l'environnement Dynamease. Dynamease suit le pattern MVC (Modèle View Controler). On peut représenter l'environnement principal de Dynamease avec le diagramme suivant.
 
 [Mettre diagramme]
 
@@ -78,4 +78,8 @@ La partie Modèle de Dynamease est représentée par les parties Core et Kernel.
 
 Le stockage est géré par deux bases de données Mysql et Ldap. La base de données Ldap est utilisé pour stocker les informations sur les contacts des utilisateurs. La base MySQL stocke toutes les autres informations utiles.
 
-La raison de la présence de deux base de données et du au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.
+La raison de la présence de deux base de données et du au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.\\\\
+
+en plus du serveur Dynamease, l'entreprise dispose aussi d'un serveur Asterisk. C'est un serveur gérant les communications téléphoniques. Ce serveur communique avec le serveur Dynamease afin de gérer les redirections et avoir les numéros entrant.\\
+
+Un serveur Aerogear est également mis en place pour la gestion des notifications Push. Une présentation détaillée de ce serveur sera effectuée dans la suite de ce rapport.

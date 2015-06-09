@@ -113,9 +113,19 @@ Le \textit{link} est un lien entre deux container. Comme nous l'avons vu précé
 
 \subsubsection{Aerogear}
 
-\subsubsection{OpenERP}
+Comme nous l'avons vu précédemment, Aerogear nécessite d'un serveur JBOSS pour son fonctionnement. Nous allons donc partir d'une image JBOSS pour la réalisation de l'image Aerogear. L'accès à se serveur se fera obligatoirement par le port 8080, car une vérification au niveau de KeyCloak est réaliser entre le port par lequel le port entre et le port par lequel l'application écoute.
+
+Un volume sur les fichiers de base de données H2 sera également mis en place afin de pouvoir accéder à cette base de données, pour toute importations, exportation ou modification de données. 
 
 \subsubsection{Nginx}
+
+Nginx est un reverse proxy, qui permet de rediriger les requêtes entrante sur un serveur vers un autre serveur distant, où vers un autre port du même serveur.
+
+Pour fonctionner Nginx ne nécessite que d'une distribution Linux. Debian est donc préféré aux autres distribution car c'est celle-ci qui est préféré pour tout serveur.
+
+Le port d'accès par défaut à Nginx est 80. Ce port sera donc ouvert par le container, mais il est libre à l'utilisateur de ce container de redéfinir, lors du lancement du container, le port par lequel on accédera à ce container.
+
+Un volume sera également créé vers le répertoire où sont stockés les fichiers de configuration Nginx, afin que la configuration Nginx, ne dépende pas d'une image mais d'un container.
 
 \section{Démarrage automatique d'un environnement de travail}
 
@@ -316,10 +326,46 @@ Ainsi l'affichage des images se fera par le biais de la récupération des fichi
 La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profile. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profiles soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour. 
 
 
-% \section{Amélioration continue du services par la mise en place d'outils}
+\section{Amélioration continue du services par la mise en place d'outils}
 
-% Durant mon stage j'ai également faire une proposition pour mettre en place différents outils permettant un maintient des performances des différents services Dynamease. Pour faire cette proposition j'ai d'abord lister les différents besoin :
+La mise en place d'outils d'aide à la mesure des performances est importante pour les entreprises afin de leur permettre d'affirmer le bon fonctionnement de leurs produits. Dynamease ne disposait d'aucun outils pour la réalisation de tests de performance. Chacun d'entre eux étaient fait manuellement.
 
-% \begin{itemize}
-% 	\item
-% \end{itemize}
+Afin de mettre en place ces outils il m'a fallut d'abord faire la liste des différents outils dont j'aurais besoin. Une fois cette liste récupérée je devrais alors déterminer les fonctionnalités de chacun des outils qui seront indispensable pour Dynamease. A la suite de quoi je devrais rechercher les outils proposant les fonctionnalités recherchées.
+
+La mise en place de ces outils nécessitera un travail en amont dans le but de déterminer les métriques à utilisées et également déterminer quels sont les limites acceptables pour Dynamease.\\
+
+La listes des différents tests de performance est la suivante :
+
+\begin{itemize}
+	\item Tests d'intégration web;
+	\item Tests d'intégration des application téléphoniques;
+	\item Tests de performance des serveurs;
+	\item Tests d'interface web;
+	\item Supervision applicative des éléments.
+\end{itemize}
+
+\subsection{Test d'intégration web}
+
+Le but de cette partie est de vérifier le bon fonctionnement du serveur Dynamease lors de l'appel des différentes requêtes. Aussi bien celles appelées par l'application web que celles appelées par les applications téléphoniques.
+
+Il est nécessaire que l'outil utilisé puisse générer un fichier unique de tests. De plus il doit être possible de lancer ces tests automatiquement. L'outil doit être capable aussi bien d'envoyer des requêtes REST que des requêtes JsonRPC.
+
+Après plusieurs recherche, l'outil SOAPUI fût choisi. Malgré son nom, cet outil permet d'envoyer des requêtes REST et RPC. De plus la configuration des test d'intégration est stocké dans un fichier xml, et donne la possibilité de lancer tout les tests via Maven. Ce qui est très utile sachant que le serveur Dynamease est construit grâce à Maven
+
+\subsection{Tests d'intégration des application téléphoniques}
+
+%appuim vs monkeytalk
+
+\subsection{Tests de performance des serveurs}
+
+\subsection{Tests d'interface web}
+
+\subsection{Supervision applicative des éléments}
+
+%utilité + imposer le choix de nagios
+
+\subsection{Ce qu'il reste à faire}
+
+Je dois encore faire un travail de recherche pour les tests de performance des serveurs et de l'interface web. Bien que quelques outils soient quand même listés, il faut encore tester chacun de ces outils afin de déterminer lequel de ces outils et le plus à même de répondre à nos attentes.
+
+Je dois également mettre en place l'outil MonkeyTalk pour le test d'intégration des tests d'intégrations des applications téléphoniques.
