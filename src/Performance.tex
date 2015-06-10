@@ -354,18 +354,19 @@ Après plusieurs recherche, l'outil SOAPUI fût choisi. Malgré son nom, cet out
 
 \subsection{Tests d'intégration des application téléphoniques}
 
-%appuim vs monkeytalk
+Ces tests permettent d'effectuer des parcours d'utilisateurs sur les applications téléphoniques. Ces tests permettent de savoir si les applications sont fonctionnelles. Ils peuvent également être utilisés pour tester l'interface des applications. Le service Dynamease étant présent sur Iphone et Android, il serait intéressant d'avoir un outil nous permettant d'avoir la possibilité d'effectuer ces tests sur ces deux plate-forme. 
 
-\subsection{Tests de performance des serveurs}
+Nos applications soit développées de façon parallèle et non pas par l'intermédiaire d'un framework. Un framework permet de réaliser une application sur les deux systèmes d'exploitation, Android et Iphone. L'application Dynamease utilise des méthodes bas niveau de ces deux systèmes. De plus certaines méthodes sont présentes sur un des systèmes mais pas sur l'autre. Il est donc difficile de générer deux applications à partir d'un même code source.
 
-\subsection{Tests d'interface web}
+Bien que les applications aient quelques différences et ne puisse pas être testées par une seule configuration de tests, il tout de même intéressant d'utiliser un seul outils pour ces tests. Un seul outil permettrait de faire qu'une seule formation sur un seul outil. Certaines parties de ces deux applications sont identiques il est donc envisageable d'utiliser quelques parties d'une configuration d'une application pour l'autre application.
 
-\subsection{Supervision applicative des éléments}
+Après quelques recherches j'ai pu trouver les outils tels que Appium et MonkeyTalk. Après une étude des documentations de chacun de ces outils, il est apparu que MonkeyTalk proposait plus de fonctionnalité et une meilleure documentation. Ce qui faciliterai son apprentissage et donc sa mise en place.
 
-%utilité + imposer le choix de nagios
 
 \subsection{Ce qu'il reste à faire}
 
 Je dois encore faire un travail de recherche pour les tests de performance des serveurs et de l'interface web. Bien que quelques outils soient quand même listés, il faut encore tester chacun de ces outils afin de déterminer lequel de ces outils et le plus à même de répondre à nos attentes.
 
 Je dois également mettre en place l'outil MonkeyTalk pour le test d'intégration des tests d'intégrations des applications téléphoniques.
+
+Une recherche sur les différentes fonctionnalité que proposeraient les outils de supervision est également à prévoir. 
