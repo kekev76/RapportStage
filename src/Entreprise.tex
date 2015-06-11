@@ -1,6 +1,6 @@
 \section{Présentation de Dynamease}
 
-Dynamease est une start up créée par Yves Nicolas en Janvier 2014. Le modèle d'affaire de DYNAMEASE est celui d’un éditeur en mode \textit{Software As A Service} facturant à ses utilisateurs un abonnement mensuel.
+Dynamease est une start up créée par Yves \bsc{Nicolas} en Janvier 2014. Le modèle d'affaire de DYNAMEASE est celui d’un éditeur de type \textit{Software As A Service} facturant à ses utilisateurs un abonnement mensuel.
 
 \subsection{L'équipe} 
 
@@ -17,17 +17,17 @@ Employé de Dynamease en charge de l’architecture du service Dynamease et du s
 
 \subsection{Les objectifs}
 
-Dynamease se base sur le fait que le portable devient l'appareil de communication majoritaire par rapport aux téléphones fixes. Le portable devient, grâce à Dynamease, un standard automatisé. Tous les appels entrant sont filtrer en amont afin de déterminer leur importance et leur provenance. Il est possible pour un client Dynamease de configurer les services Dynamease afin de déterminer les horaires d'appel pour différent type de contact (Professionnel, Familial, amis).
+Dynamease se base sur le fait que le portable est un appareil téléphonique qui devient plus utilisé que les téléphones fixes. Le portable devient, grâce à Dynamease, un standard automatisé. Tous les appels entrant sont filtré en amont afin de déterminer leur importance et leur provenance. Il est possible pour un utilisateur Dynamease de configurer les services Dynamease afin de déterminer des horaires d'appel pour différent type de contact (Professionnel, Familial, amis).
 
-Une fois les appels filtrés, ils sont redirigés vers l'appareil téléphonique indiqué par l'utilisateur.
+Une fois les appels filtrés et qu'ils peuvent être accepté par l'utilisateur, ils sont redirigés vers l'appareil téléphonique de l'utilisateur.
 
-Les appels sont ensuite redirigés des informations récupérées sur les bases de données privées du clients ainsi que sur des bases de données publique (Annuaire inverse, réseaux sociaux ...) sont affichées sur l'appareil téléphonique du client.\\
+Lors de se filtrage des informations sont récupérées sur les appels. Ces informations sont récupérées sur les bases de données privées du clients ainsi que sur des bases de données publique (Annuaire inverse, réseaux sociaux ...). Les appels redirigés sont alors accompagnés par les informations, les plus pertinente sur l'appel, et seront affichées sur l'appareil téléphonique de l'utilisateur.\\
 
-Ce service permet au client de déléguer la partie standardisation de son entreprise et de ne plus rater des appels important tout en ignorant les appels nuisibles. De plus Dynamease propose aux entreprises de diminuer leurs coûts de téléphonie en remplaçant les appareils fixes de l'entreprise par les téléphones portable des employés. Les employés pourront ainsi avoir un seul appareil téléphonique pour leur appel, et configurer leurs horaires d'appel en fonction de leurs horaires de travail pour en pas être dérangé.
+Ce service permet aux utilisateurs de déléguer la partie standardisation de son entreprise et d'éviter de rater des appels important tout en ignorant les appels considérés comme nuisibles. De plus Dynamease propose aux entreprises de diminuer leurs coûts de téléphonie en remplaçant les appareils fixes de l'entreprise par les téléphones portables de leurs employés. Les employés pourront ainsi avoir un seul appareil téléphonique pour leur appel, et configurer leurs horaires d'appel en fonction de leurs horaires de travail.
 
 \subsection{Les différentes offres}
 
-Dynamease propose à ses clients plusieurs offres. Chaque offre contient des fonctionnalités particulières. Chaque offre contient les fonctionnalités des offres qui la précédent dans la hiérarchie. La hiérarchie des offres Dynamease est la suivante :
+Dynamease propose à ses clients plusieurs offres. Chaque offre contient des fonctionnalités particulières ainsi que les fonctionnalités des offres précédentes dans la hiérarchie.  La hiérarchie des offres ainsi que les fonctionnalités attribuées à chacune de ces offres est indiquée dans le diagramme suivant:
 
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{img/useCase.png}
@@ -38,7 +38,7 @@ Nous allons maintenant décrire les différentes offres.
 
 \subsubsection{Basic}
 
-L'offre Basic est une offre gratuite, elle permet à l'utilisateur d'accéder aux fonctions basiques de l'application téléphonique et de l'application web:
+L'offre \textit{Basic} est une offre gratuite, permettant à l'utilisateur d'accéder aux fonctions basiques de l'application téléphonique et de l'application web:
 
 \begin{itemize}
 	\item Envoie de carte de visite Dynamease;
@@ -48,17 +48,17 @@ L'offre Basic est une offre gratuite, elle permet à l'utilisateur d'accéder au
 
 \subsubsection{Avantage}
 
-L'offre Avantage s'adresse aux particuliers, désirant avoir une gestion de sa disponibilité gérer par rapport à des calendrier (Calendrier Dynamease ou \textit{Google Calendar}).
+L'offre Avantage s'adresse aux clients particuliers, désirant avoir une gestion de leur disponibilité gérer par rapport à des calendriers (Calendrier Dynamease ou \textit{Google Calendar}).
 
 \subsubsection{Privilège}
 
-L'offre Privilège permet aux utilisateurs d'obtenir un numéro Dynamease. Ce numéro permet à l'utilisateur d'être joint sur un de ses appareils téléphoniques selon les choix de l'utilisateur. Les appels entrant en direction du numéro Dynamease sont gérés par le serveur Dynamease. Celui-ci identifiera l'appel, définira sont importance et enfin le redirigera vers l'appareil défini par l'utilisateur.
+L'offre Privilège permet aux utilisateurs d'acquérir un numéro Dynamease. Ce numéro permet à l'utilisateur d'être joint sur n'importe lequel de ses appareils téléphoniques. Les appels entrant en direction de ce numéro sont gérés par le serveur Dynamease. Celui-ci identifiera l'appel, définira sont importance et enfin le redirigera vers l'appareil téléphonique de l'utilisateur.
 
 \subsubsection{Intégrale}
 
-L'offre Intégrale est destinée pour les entreprises. Cette offre permet l'ajout d'employé qui auront les mêmes fonctionnalité qu'un compte Avantage.
+L'offre Intégrale est destinée aux entreprises. Cette offre permet l'ajout d'employés qui auront les mêmes fonctionnalités qu'un client  Avantage.
 
-Il est également possible d'ajouter des connecteurs. Les connecteurs permettent une meilleure identification d'appel ainsi qu'une meilleure redirection. Les connecteurs sont des données fournies par les entreprises qui permettent d'identifier leurs clients ainsi que l'employé responsable du client identifié. Les connecteurs sont donc utilisés pour fournir des informations sur l'appelant et également sur la redirection de l'appel.
+Il est également possible d'ajouter des connecteurs. Les connecteurs permettent une meilleure identification d'appel ainsi qu'une meilleure redirection. Les connecteurs sont des bases de données fournies par les entreprises qui permettent des appelant ainsi que la redirection vers l'employé responsable de l'appelant. En final, les connecteurs sont utilisés pour fournir des informations sur l'appelant et également pour leur redirection.
 
 \section{Présentation de l'environnement Dynamease}
 
@@ -68,18 +68,22 @@ Nous allons maintenant présenter l'environnement Dynamease. Dynamease suit le p
 
 [Mettre diagramme]
 
-Présentons ce diagramme du haut vers le bas. Nous avons en haut les application utilisant les service Dynamease. Ces applications sont la partie web, accessible pour l'utilisateur depuis un navigateur et les applications téléphoniques constituées par les applications Android et Ios.
+Présentons ce diagramme du haut vers le bas. Nous avons en haut les applications clientes utilisant les services Dynamease. Ces applications sont la partie web, accessible pour l'utilisateur depuis un navigateur et les applications téléphoniques constituées par les applications Android et Ios.\\
 
-Pour utiliser les services Dynamease sont accessible via les interfaces de requêtes représenté par JsonRq et Appless. JsonRq réuni toutes les requêtes de type json RPC et Appless réuni toutes les requêtes REST. Dynamease dispose de ces deux interfaces car une migration est entrain d'être effectuée, toutes les requêtes deviendront des requêtes de type Json RPC.
+Les services Dynamease sont accessible via les interfaces de requêtes représentées par JsonRq et Appless par le protocole HTTP. JsonRq réuni toutes les requêtes de type Json RPC et Appless réuni toutes les requêtes REST. Dynamease dispose de ces deux interfaces car une migration est en cour, toutes les requêtes REST seront transformées en des requêtes Json RPC.\\
 
-En ce qui concerne la partie Controler, Dynamease dispose de trois partie. La première partie représenté par le Matcher, représente la recherche du contact lors d'un appel. La partie classif réunie toutes les classes aidant à la classification de l'appelant. Et enfin la partie infoBuilder, construit les informations relatives à l'appelant afin de les fournir à la personne recevant l'appel.
+Passons maintenant à la partie Contrôleur. Cette partie peut être divisée en deux composant.
 
-La partie Modèle de Dynamease est représentée par les parties Core et Kernel. Core représente les classes métier utilisé uniquement par le serveur Dynamease. Quant à la partie Kernel elle réunie toutes les classes pouvant être utilisées par chacune des applications de Dynamease.
+Le premier de ces composants est le RequestHandler, qui s'occupe du traitement des appels. RequestHandler dispose de trois parties. La première partie est le \textit{Retriever}, qui représente la recherche du contact lors d'un appel. Le \textit{Cathegorizer} réunie toutes les classes aidant à la classification de l'appelant. Et enfin le \textit{matcher}, construit les informations relatives à l'appelant afin de les fournir à la personne recevant l'appel.
 
-Le stockage est géré par deux bases de données Mysql et Ldap. La base de données Ldap est utilisé pour stocker les informations sur les contacts des utilisateurs. La base MySQL stocke toutes les autres informations utiles.
+La seconde partie Contrôleur, réunis toutes les méthodes relative aux clients, création, suppression, modification et lecture des informations. Les deux classes utilisées dans cette partie sont le CorpSubOp pour les clients entreprise, donc de type Intégrale. Les autres clients sont gérés par la classe DynSubOp.\\
 
-La raison de la présence de deux base de données et du au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.\\\\
+La partie Modèle de Dynamease est représentée par les parties Core et Kernel. Core représente les classes métier utilisées uniquement par le serveur Dynamease. Quant à la partie Kernel elle réunie toutes les classes pouvant être utilisées par chacune des applications de Dynamease.\\
 
-en plus du serveur Dynamease, l'entreprise dispose aussi d'un serveur Asterisk. C'est un serveur gérant les communications téléphoniques. Ce serveur communique avec le serveur Dynamease afin de gérer les redirections et avoir les numéros entrant.\\
+Le stockage est géré par deux bases de données Mysql et Ldap. La base de données Ldap est utilisée pour stocker les informations sur les contacts des utilisateurs. La base MySQL stocke toutes les autres informations utiles.
 
-Un serveur Aerogear est également mis en place pour la gestion des notifications Push. Une présentation détaillée de ce serveur sera effectuée dans la suite de ce rapport.
+La raison de la présence de deux bases de données est dû au fait de répondre à un besoin des futurs clients ayant déjà un annuaire Ldap, afin de faciliter l'importation de ces contacts.\\
+
+En plus du serveur Dynamease, l'entreprise dispose aussi d'un serveur Asterisk. C'est un serveur gérant les communications téléphoniques. Ce serveur communique avec le serveur Dynamease afin de gérer les redirections et avoir les numéros entrant.\\
+
+Un serveur Aerogear est également présent pour la gestion des notifications Push. Une présentation détaillée de ce serveur sera effectuée dans la suite de ce rapport.

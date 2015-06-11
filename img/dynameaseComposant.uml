@@ -1,0 +1,50 @@
+@startuml
+
+node "Application Iphone/Android"{
+	[Kernel]	
+}
+
+node "Application web"{
+	
+}
+
+node "Serveur Dynamease"{
+	() HTTP - [Appless]
+	() HTTP - [JsonRq]
+	
+
+	package "RequestHanlder"{
+		[Retriever] - [Categorizer]
+		[Categorizer] - [Matcher]		
+	}
+
+	[Matcher] -> [Response] 
+	[Request] -> [Retriever]
+
+	[DynSubOp] -> [Kernel]
+	[CorpSubOp] -> [Kernel]
+
+	[DynSubOp] -> [Core]
+	[CorpSubOp] -> [Core] 
+
+	[Kernel]
+	[Core]
+}
+
+node "Aerogear"{
+	() HTTP
+}
+
+node "Asterisk"{
+	
+}
+
+database "MySQL"{
+	
+}
+
+database "LDAP" {
+	
+}
+
+@enduml
