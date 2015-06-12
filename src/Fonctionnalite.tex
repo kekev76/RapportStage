@@ -119,3 +119,40 @@ Il est également possible de récupérer certaines informations de l'utilisateu
 En appuyant sur le bouton répondre, la fenêtre se ferme, et un appel est émis vers le numéro de conférence. Ainsi l'expérience utilisateur n'est pas altéré, car la sensation d'appel reste la même.\\
 
 En ce qui concerne l'application Iphone, il est impossible d'avoir la même expérience utilisateur que pour la partie Android. Il n'est pas possible d'afficher des notifications spéciales si l'application n'est pas au premier plan. La notification Click2Call  doit donc être affichée comme une notification Iphone normale. Comme pour l'application Android, il faut laisser le choix à l'utilisateur de répondre où non à l'appel. Pour cela une fonctionnalité récente de IOS, disponible depuis la version 8, permet d'ajouter des boutons d'actions aux notifications. En ce qui concerne la notification sonore, il est possible d'avoir le même principe que les applications Android.
+
+
+\section{L'appel depuis l'historique}
+
+Les applications téléphoniques disposent d'un historique d'appel. Celui-ci nous indique la date et l'heure d'un appel, ainsi que d'éventuels informations sur l'appelant. Par contre il n'est pas possible de rappeler les contacts depuis cet historiques. Il est donc question de pouvoir effectuer ce rappel.
+
+\subsubsection{Étude du cahier des charges}
+
+Pour réaliser cette fonctionnalité nous avons besoin de faire une modification sur la base de données MySQL. En effet, la table représentant les appels ne stocke pas les informations nécessaire au rappel du contact, comme le numéro de téléphone ou l'identifiant Dynamease. Il faut donc rajouter ces informations dans la base de données. Cette modification sera effectuée par une autre personne. Quant à moi je serais en charge des modifications à effectuer sur les applications téléphoniques.
+
+Je dois faire les modifications nécessaire pour que les applications téléphoniques gèrent cette nouvelle fonctionnalité.
+
+\subsubsection{Les modifications}
+
+La récupération des informations nécessaires se font via un objet Json. Le traitement de cet objet est différents selon le système d'exploitation téléphonique.
+
+Pour les applications Android, le traitement se fait via un Mapper. Le Mappe est chargé de traduire une chaîne de caractère formé comme un objet Json en un autre objet passé en paramètre. L'objet Json, pour rappel se présente comme un dictionnaire (clefs, valeurs). Les clef représente les noms de variable et les valeurs, les valeurs prisent par les variables.
+
+En ce qui concerne les applications Iphone, le procédé est manuel. L'objet voulue doit être récréé, contrairement à Android, où l'objet utilisé est le même que celui utilisé sur le serveur Dynamease. 
+
+Maintenant que ces informations sont récupérées, il suffit simplement d'effectuer les mêmes tâches que pour un appel depuis la liste de contact.
+
+\subsubsection{Amélioration de la base de données}
+
+Après cette mise en place j'ai observé les modifications de la base de données. J'ai remarqué quelques erreurs effectuée sur celle-ci.
+
+[mettre diagramme classe]
+
+On vois que cette base de données ne respecte pas le terme de clef unique en effet. Il est possible que la valeur de date soit identique pour deux entrées.
+
+La cardinalité entre ces deux tables, signifie que les informations présentent sur $"call_request"$ pourraient être présente sur la table $"call_log"$
+
+Je pense donc que la partie de la base de données représentant l'historique d'appel pourrai être remplacé par la table suivante :
+
+[mettre diagramme]
+
+La première solution fût prise pour éviter les modifications sur une table déjà existante et risquer de perdre des données clients. 

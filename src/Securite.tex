@@ -1,40 +1,44 @@
-Pour cette partie de travail, je n'avais pas de cahier des charges à proprement parler. J'étais beaucoup plus libre dans mes choix. Il fallait que je m'organise dans le but de faire une gestion pour la sécurité de Dynamease. 
+Pour cette partie, je n'avais pas de cahier des charges à proprement parler. J'étais beaucoup plus libre dans mes choix. Il fallait que je m'organise dans le but de faire des tests sur la sécurité des communications de Dynamease. 
 
-Le résultat à obtenir était de lister les éventuels failles de sécurité et de proposer des moyens pour les résoudre. Dans le but de déceler ces éventuels failles j'ai suivi les étapes suivantes :
+Le résultat à obtenir était la liste les éventuels failles de sécurité et de proposer des moyens pour les résoudre. Dans le but de déceler ces éventuels failles j'ai suivi les étapes suivantes :
 
 \begin{enumerate}
-	\item Observation du code de sources de l'application;
-	\item Lister les éventuels failles critiques qui pouvaient être présentes;
-	\item Effectuer les manipulations a fin de trouver la faille;
-	\item Détecter la source de cette faille;
-	\item Déterminer les solutions à ce problème.
+	\item Lecture du code source de l'application;
+	\item Lister les éventuels failles critiques qui pourraient être présentes;
+	\item Effectuer les manipulations afin de tester les failles;
+	\item Détecter les sources de ces failles;
+	\item Déterminer les solutions à ces problèmes.
 \end{enumerate} 
 
-En plus de trouver et résoudre ces différentes failles, je me devais également de penser à mettre en place le protocole Https pour le site web de Dynamease. Cette mise en place devra être effectué par une jeune décrocheur, je serais par contre en charge de jouer le rôle de chef de projet, en lui indiquant ce qu'il doit faire, et également jouer le rôle de formateur, en lui apprenant les différentes méthodes pour arriver à l'objectif. 
+En plus de trouver et résoudre ces différentes failles, je me dois également de mettre en place le protocole Https pour les sites internet de Dynamease. Cette mise en place devra être effectuée par une jeune décrocheur, je serais en charge de jouer le rôle de tuteur, en lui indiquant ce qu'il doit faire, tout en lui apprenant les différentes méthodes pour atteindre au mieux l'objectif. 
 
 \section{Vérification de sécurité des services Dynamease}
 
-Dans cette partie j'expliquerais, pour toutes les failles de sécurité que j'ai pu trouver, les méthodes utilisées pour trouver celles-ci.
+Dans cette partie j'expliquerais, pour toutes les failles de sécurité que j'ai pu trouver, les détails de celles-ci ainsi que les méthodes utilisées pour les trouver.
 
 \subsection{Requêtes non sécurisées}
 
-En utilisant l'outil SoapUI, j'ai pu remarquer que les arguments des requêtes n'étaient pas tous cryptés. De plus ceux qui étaient cryptés, ressemblaient aux clefs d'activation fournies par Dynamease.
+En utilisant l'outil SoapUI, j'ai pu remarquer que les arguments des requêtes n'étaient pas tous cryptés. De plus ceux qui étaient cryptés, ressemblaient étrangement aux clefs d'activation fournies par Dynamease.
 
-En effet les clefs d'activation étaient cryptés avec le même procédé de cryptage utilisant la même clef de cryptage. Ceci peut poser quelques problèmes. En effet il suffit donc d'observer les paquets par lesquels transitent les requêtes envoyées par l'application téléphonique afin d'obtenir les méthodes et les arguments utilisés par chacune.
+En effet les clefs d'activation étaient cryptés avec le même procédé de cryptage que celui utilisé des arguments des requêtes. De plus la même clef de cryptage est utilisée pour les deux cryptages. Ceci peut poser quelques problèmes.
 
-Les arguments qui nécessitaient une chaîne cryptée, n'avaient qu'à être remplacé par une clef d'activation quelconque. Certaines requêtes renvoyée alors un résultat correcte.\\
+En effet, des outils tel que Wireshark permette de récupérer les paquets, par lesquels transitent les requêtes, envoyées par l'application téléphonique afin d'obtenir les méthodes et les arguments utilisés par chacune.
 
-Pour régler ces problèmes il faudrait commencer par mettre en place un protocole https. Pour que les requêtes envoyées ne puissent plus être lu par une personne observant les paquets transitant au travers du réseau. De plus le cryptage des données devraient être différente que celui utilisé par l'encodage des clefs d'activation.
+En remplaçant les arguments nécessitant une chaîne cryptée par une clef d'activation quelconque, on se rend compte que pour certaines requêtes les résultats renvoyées sont correctes. Aucune vérification n'est donc effectuée sur les arguments reçus.\\
 
-Une vérification pourrait également être mise en place pour vérifier que la requête est réellement envoyé par un utilisateur Dynamease. Cette vérification pourrait être mise en place à l'aide d'un identifiant encoder unique pour chaque utilisateur. Une vérification devra être mise en place en début de chaque requête pour une meilleure sécurité des requêtes.
+Pour régler ces problèmes il faut commencer par mettre en place un protocole https. Pour que les requêtes envoyées ne puissent plus être lu par une personne observant les paquets transitant au travers du réseau. De plus le cryptage des données devraient être différent que celui utilisé par l'encodage des clefs d'activation, ou du moins la phrase permettant ce cryptage.
+
+Une vérification devra également être mise en place sur les arguments envoyés.
+
+De plus une nouvelle vérification devrait être mise en place afin de pouvoir vérifier l'identité de l'utilisateur Dynamease envoyant cette requête. Cette vérification pourrait être mise en place à l'aide d'un identifiant encodé unique pour chaque utilisateur. Une vérification devra être mise en place en début de chaque requête pour une meilleure sécurité des requêtes.
 
 \subsection{Cookies non sécurisés}
 
-Lors de l'utilisation de l'outil de mise en place d'un environnement Dynamease, je me suis aperçu qu'en changeant les données de la base de donnée une connexion utilisateur était établie, alors que l'utilisateur connecté n'existait pas sur la base de donnée précédente.
+Lors de l'utilisation de l'outil de mise en place d'un environnement Dynamease, je me suis aperçu qu'en changeant les données de la base de données une connexion utilisateur était établie, alors que l'utilisateur connecté n'existait pas sur la base de données précédente.
 
 La question qui se posait alors, était qu'est ce qui déterminait qu'un utilisateur est connecté. Le serveur Dynamease détermine la connexion grâce aux cookies.
 
-Après une observation des cookies, il est apparu que les informations contenues dans les cookies était écris en claires. L'information qui nous intéresse est l'Id Dynamease. L'identifiant Dynamease étant unique c'est grâce à celui-ci que l'utilisateur peut être identifié.
+Après une observation des cookies, il est apparu que les informations contenues dans les cookies étaient écrites en claires. L'information qui nous intéresse est l'Identifiant Dynamease. Cet identifiant étant unique c'est grâce à celui-ci que l'utilisateur peut être identifié.
 
 Cette information étant en claire il suffit donc de la modifier avec un autre identifiant afin d'usurper le compte d'un autre utilisateur.
 \\\\
@@ -43,31 +47,31 @@ Afin de régler cette faille il suffit d'encoder les informations contenues dans
 
 \subsection{Sauvegarde des données}
 
-Les données sont actuellement stockées sur une seule base de données. En cas de panne du serveur accueillant la base de donnée, les services Dynamease seraient hors fonction. De plus il n'est pas a exclure que les données stockées sur le serveur pourrait être définitivement perdu. 
+Les données sont actuellement stockées sur une seule base de données. En cas de panne du serveur accueillant la base de donnée, les services Dynamease seraient hors fonction. De plus il n'est pas a exclure que les données stockées sur le serveur peuvent être définitivement perdu. 
 
-Pour une plus grande sécurité sur la sauvegarde des données, il faudrait mettre en place une procédure pour que les données soient stockées sur deux bases de données ce trouvant sur deux serveurs différents. Le plus judicieux serait d'avoir deux bases de données en \textit{master} afin que la copie se fasse en simultané sur les deux bases de données, et d'avoir une base de données \textit{slave} qui copierait les données des bases de données master à intervalle de temps régulier, afin d'y effectuer des tests, récupération manuelle de données etc.
+Pour une plus grande sécurité sur la sauvegarde des données, il faudrait mettre en place une procédure pour que les données soient stockées sur deux bases de données ce trouvant sur deux serveurs différents. Le plus judicieux serait d'avoir deux bases de données en \textit{master} afin que la copie se fasse en simultanée sur les deux bases de données, et d'avoir une base de données \textit{slave} qui copierait les données des bases de données master à intervalle de temps régulier, afin d'y effectuer des tests, récupération manuelle de données etc.
 
 \subsection{Conclusion}
 
-Pour l'instant mon travail s'est concentré sur le fait de lister les différentes failles de sécurité et de proposer quelques solutions. La mise en place de ces solutions ne sera effectué que durant la seconde partie de mon stage.
+Pour l'instant mon travail s'est concentré sur le fait de lister les différentes failles de sécurité et de proposer quelques solutions. La mise en place de ces solutions ne sera effectuée que durant la seconde partie de mon stage.
 
 \section{Mise en place d'un certificat Https}
 
-Les communication vers le site web de Dynamease s'effectuait par le biais du protocole http. Ce protocole n'est pas sécurisé, pour protéger les données des clients Dynamease. Il a été décidé de mettre en place le protocole https, qui chiffre les communications avec les clients.
+Les communication vers le site web de Dynamease s'effectuait par le biais du protocole HTTP. Ce protocole n'est pas sécurisé et ne  protège pas les données des clients Dynamease. Il a été décidé de mettre en place le protocole HTTPS, qui chiffre les communications avec les clients.
 
-Le protocole https, fonctionne sur le principe clef publique clef privée. Une clef publique est envoyé à chacun des clients pour chiffrer les données que celui-ci envoi. Ces données ne peuvent être alors décrypté uniquement par la clef privée qui reste sur le serveur.
+Le protocole HTTPS, fonctionne sur le principe de clef publique clef privée. Une clef publique est envoyée à chacun des clients pour chiffrer les données que celui-ci envoi. Ces données ne peuvent être alors décryptées uniquement par la clef privée qui reste sur le serveur.
 
-Cette mise en place sera réalisé par un jeune décrocheur que je devrais superviser. J'aurais pour charge de lui indiquer ce qu'il devra faire, et le mettre sur la voie pour qu'il devienne autonome dans son travail.
+Cette mise en place sera réalisée par un jeune décrocheur que je devrais superviser. J'aurais pour charge de lui indiquer ce qu'il doit faire, et le mettre sur la voie pour qu'il devienne autonome dans son travail.
 
 \subsubsection{Étude du cahier des charges}
 
-Ce protocole doit être mis en place sur les serveur existants. La communication entre les utilisateurs et le serveur Tomcat est orchestré par Nginx.
+Ce protocole doit être mis en place sur les serveur existants. La communication entre les utilisateurs et le serveur Tomcat est orchestrée par Nginx.
 
-Nginx est un reverse proxy. Celui-ci permet de redirigé les requêtes des utilisateurs vers les plateformes appropriées. Il est également possible grâce à Nginx de redirigé toutes les requêtes d'un serveur vers un autre serveur, ce qui est extrêmement utile pour des migrations.
+Nginx est un reverse proxy. Celui-ci permet de rediriger les requêtes des utilisateurs vers les plateformes appropriées. Il est également possible grâce à Nginx de rediriger toutes les requêtes d'un serveur vers un autre serveur.
 
-Il faudra donc que ce soit Nginx qui gère la gestions des différentes clefs du protocole https. La configuration de Nginx sera donc essentielle dans la suite de cette mise en place.\\
+Il faudra donc configurer Nginx afin qu'il gère la gestions des différentes clefs du protocole HTTPS. La configuration de Nginx sera donc une connaissance essentielle dans la suite de cette mise en place.\\
 
-Les clefs doivent également être certifiées. Les noms de domaines nous sont fournie par le bureau d'enregistrement de nom de domaines Gandi. Cette société fournie également des certificats de sécurité. Il faudra donc également faire la procédure d'obtention d'un de ces certificats.
+Les clefs doivent également être certifiées. Les noms de domaines nous sont fournie par le bureau d'enregistrement de nom de domaines Gandi. Cette société fournie également des certificats de sécurité. Il faudra donc également effectuer une procédure d'obtention de ces certificats.
 
 \subsubsection{Mise en place de la formation}
 
@@ -83,7 +87,7 @@ Pour la première étape, je lui fournirais toutes les documentations officielle
 
 Les test qui seront effectués par le décrocheur se dérouleront sur un serveur à part afin de pouvoir assurer un fonctionnement normal du reste des infrastructures en cas d'erreur.\\\\
 
-Nous aborder en détail la mise en place du certificat. Pour ce faire nous avions plusieurs choix au niveau du type des certificats. Nous pouvions soit choisir un certificat pour un seul nom de domaine, qui incluait le sous-domaine $"www"$. Ou alors choisir, le certificat wildcard, qui permet de certifier un domaine et tout les sous-domaine. C'est ce type de produit que nous avons choisi dans le but de pouvoir l'intégrer dans tout nos serveurs, ainsi que ceux de tests, ce qui rendrait les tests de pré-production plus réaliste.
+Plusieurs type de certificat nous sont proposés par Gandi. Nous pouvions soit choisir un certificat pour un seul nom de domaine, qui incluait le sous-domaine $"www"$. Ou alors choisir, le certificat wildcard, qui permet de certifier un domaine et tout ses sous-domaines. C'est ce type de produit que nous avons choisi dans le but de pouvoir l'intégrer dans tout nos serveurs, ainsi que ceux de tests, ce qui rendrait les tests de pré-production plus réaliste.
 
 Pour demander un certificat il faut d'abord créer une clef. Cette clef une fois créée avec les informations nécessaire sera ensuite passé à Gandi qui nous fournira le certificat associé à cette clef. Une fois ce certificat créé il nous suffit de configurer Nginx afin qu'il utilise ce certificat.
 
