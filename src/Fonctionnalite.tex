@@ -110,16 +110,12 @@ La gestion des notifications étant différentes selon le système d'exploitatio
 
 Les notifications d'appel, sont affichées par le biais du système Toast. Un toast est une fenêtre s'affichant obligatoirement au premier plan. La fenêtre Toast est donc affichée au premier plan même lors d'un appel, ce qui permet aux utilisateurs de lire les informations même si la fenêtre d'appel est affichée. Cette fenêtre est affichée pendant une courte durée, mais il est possible de laisser cette fenêtre affichée plus longtemps en utilisant le principe de \textit{timer} pour demander l'affichage du Toast à intervalle de temps réguliers. Les informations sont donc affichées pendant un laps de temps suffisamment long pour que l'utilisateur puisse lire toutes les informations récupérées sur l'appelant.
 
-Lors de la réception de cette notification, l'utilisateur doit décider s'il veut répondre à l'appel. Ce qui signifie que la notification doit permettre la gestion d'actions de la part de l'utilisateur. Android ne permet la gestion des actions avec les Toasts. Cette notification doit simuler un appel, or un appel sur Android est représenté par une vue pleine écran. On peut reprendre ce principe en créant une activité. Cette activité affichera les informations de l'appelant, ainsi que deux boutons pour laisser le choix à l'utilisateur s'il veut accepter ou refuser l'appel. Il est également possible de récupérer certaines informations de l'utilisateur comme la sonnerie utilisée par défaut des appel. On peut donc faire retentir cette sonnerie afin que l'utilisateur ai la sensation d'un appel. La fenêtre suivante est affiché sur le portable
+Lors de la réception de cette notification, l'utilisateur doit décider s'il veut répondre à l'appel. Ce qui signifie que la notification doit permettre la gestion d'actions de la part de l'utilisateur. Android ne permet la gestion des actions avec les Toasts. Cette notification doit simuler un appel. Un appel sur Android est représenté par une vue en plein écran. On peut reprendre ce principe en créant une activité. Cette activité affichera les informations de l'appelant, ainsi que deux boutons pour laisser le choix à l'utilisateur d'accepter ou de refuser l'appel.
+
+Il est également possible de récupérer certaines informations de l'utilisateur comme la sonnerie utilisée par défaut des appel. On peut donc faire retentir cette sonnerie afin que l'utilisateur ai la sensation d'un appel. La fenêtre suivante est affiché sur le portable
 
 [mettre Image]
 
 En appuyant sur le bouton répondre, la fenêtre se ferme, et un appel est émis vers le numéro de conférence. Ainsi l'expérience utilisateur n'est pas altéré, car la sensation d'appel reste la même.\\
 
 En ce qui concerne l'application Iphone, il est impossible d'avoir la même expérience utilisateur que pour la partie Android. Il n'est pas possible d'afficher des notifications spéciales si l'application n'est pas au premier plan. La notification Click2Call  doit donc être affichée comme une notification Iphone normale. Comme pour l'application Android, il faut laisser le choix à l'utilisateur de répondre où non à l'appel. Pour cela une fonctionnalité récente de IOS, disponible depuis la version 8, permet d'ajouter des boutons d'actions aux notifications. En ce qui concerne la notification sonore, il est possible d'avoir le même principe que les applications Android.
-
-\subsubsection{Améliorations possibles}
-
-Pour le moment il ne s'agit que d'un prototype. 
-
-Il faudrait également ajouter des fonctionnalités sur l'action du bouton Click2Call. Comme par exemple, s'il est cliqué sur un site internet depuis un ordinateur, permettre à l'utilisateur de rentrer son numéro de téléphone et que ce soit le numéro de conférence qui appel vers son numéro de téléphone.
