@@ -299,52 +299,57 @@ On reprend le même principe que précédemment, mais cette fois-ci on fait un t
 
 \subsubsection{Récupération des contacts du téléphone}
 
-La récupération des contacts ne semblait s'effectuer qu'une seule fois, lors du premier lancement de l'application. De plus il existait quelques problème au niveau du temps de récupération des contacts. Plus la liste de contact était grande et plus le temps de récupération était longue (par exemple pour une liste de contact de 10000 contacts le chargement pouvait être de quelques jours).\\
+La récupération des contacts ne semblait s'effectuer qu'une seule fois, lors du premier lancement de l'application. De plus il existait quelques problèmes au niveau du temps de récupération des contacts. Plus la liste de contact était grande et plus le temps de récupération était longue (par exemple pour une liste de contact de 10000 contacts le chargement pouvait être de quelques jours).\\
 
-Après une inspection du code, l'activité de la liste de contact se chargé de la récupération des contacts à chaque lancement de cette activité. Or cette récupération avait une mauvaise condition pour la récupération des contacts.
+Après une inspection du code, j'ai pu remarquer que, l'activité de la liste de contact se chargeait de la récupération des contacts à chacun de ses lancements. Or cette récupération avait une mauvaise condition pour la récupération des contacts.
 
-La liste de contact est stockée par ordre alphabétique dans la base de données de Dynamease, c'est également le cas pour la liste de contact du téléphone. L'activité vérifie que le nombre de contacts dans la liste de contact du téléphone est égale au nombre de contact de la liste de contact de l'application Dynamease. Si ce n'est pas le cas une vérification est effectuée. Le problème se situe sur la suite du procédé. Le cursor permettant la récupération est programmer pour récupérer les contacts en partant de l'index correspondant au nombre de contact dans la liste de contact Dynamease moins un. Or les contacts stockés dans la base de données du téléphone ne sont pas trié par ordre chronologique mais par ordre alphabétique. Donc si un contact, ajouté à la suite du premier démarrage, est ajouté au début de la liste de contact, alors il ne sera jamais récupéré, et le programme fera une récupération de contact à chaque démarrage de l'activité.
+La liste de contact est triée par ordre alphabétique dans la base de données de Dynamease, c'est également le cas pour la liste de contact du téléphone. L'activité vérifie que le nombre de contacts dans la liste de contact du téléphone est égale au nombre de contact de la liste de contact de l'application Dynamease. Si ce n'est pas le cas une vérification est effectuée. Le problème se situe sur la suite du procédé. Le \textit{cursor} permettant la récupération est programmée pour récupérer les contacts en partant de l'index correspondant au nombre de contact dans la liste de contact Dynamease moins un. Or les contacts stockés dans la base de données du téléphone ne sont pas triés par ordre chronologique mais par ordre alphabétique. Donc si un contact, après le premier démarrage, est ajouté au début de la liste de contact du téléphone, alors il ne sera jamais récupéré par l'application, et le programme fera une récupération de contact à chaque démarrage de l'activité.
 
 La recherche est maintenant effectuée sur l'ensemble de la liste de contact du téléphone est une vérification sur l'existence des contacts est également effectuée, afin de ne pas avoir de doublon.\\ 
 
-La récupération des contacts s'effectue par des \textit{Task}. Comme un \textit{Thread}, plusieurs \textit{Task} peuvent être en fonction "simultanément". Donc à chaque fois que l'activité de la liste de contact est lancée, la \textit{Task} de récupération des contacts est lancé. Donc le temps processeur est divisé entre ces deux \textit{Task}. Pour améliorer cette récupération une condition est rajouter pour déterminer si une récupération est déjà en cour afin de ne pas re-diviser le temps processeur. De plus un bouton d'actualisation de la liste de contact a été ajouter. Dorénavant, la récupération des contacts s'effectue seulement si la liste de contact de l'application Dynamease est vide ou si l'utilisateur appuie sur le bouton d'actualisation.
+La récupération des contacts s'effectue par des \textit{Task}. Comme un \textit{Thread}, plusieurs \textit{Task} peuvent être en fonction "simultanément". Donc à chaque fois que l'activité de la liste de contact est lancée, la \textit{Task} de récupération des contacts est lancée. Donc le temps processeur est divisé entre ces deux \textit{Task}.
+
+Pour améliorer cette récupération une condition est rajoutée pour déterminer si une récupération est déjà en cour afin de ne pas re-diviser le temps processeur. De plus un bouton d'actualisation de la liste de contact a été ajouté. Dorénavant, la récupération des contacts s'effectue seulement si la liste de contact de l'application Dynamease est vide ou si l'utilisateur appuie sur le bouton d'actualisation.
 
 \subsubsection{Récupération des images de profile}
 
-Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profiles Dynamease est envoyé. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profile est beaucoup trop rare pour qu'une requête soit envoyé aussi couramment.
+Chaque utilisateur Dynamease peut avoir une image de profil. Cette image de profil est affichée sur la liste de contact, de tous les utilisateurs Dynamease ayant reçue une carte de visite de l'utilisateur propriétaire de l'image.
+
+Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profil Dynamease est envoyée. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profile est beaucoup trop rare pour qu'une requête soit envoyée aussi couramment.
 
 La requête de récupération des images s'effectue grâce à une requête Json. Le résultat de la requête se présente sous la forme d'une suite de caractère représentant l'image. Cette récupération est effectuée pour l'affichage des images dans la liste de contact. Il faut donc trouver une solution pour ne pas avoir à effectuer une requête pour l'affichage des images.
 
-Le plus simple est de stocker les images sur l'appareil de l'utilisateur. Nous avons exploré précédemment les différentes techniques de stockages qu'offrait Android. La meilleure solution est d'utiliser l'écriture de fichier. Ce type de stockage, effectue, par défaut, la sauvegarde dans un dossier spécifique à l'application.On récupérera donc la suite de caractère pour la stocker dans un fichier. 
+Le plus simple est de stocker les images sur l'appareil de l'utilisateur. Nous avons exploré précédemment les différentes techniques de stockages qu'offrait Android. La meilleure solution est d'utiliser l'écriture de fichier. Ce type de stockage, effectue, par défaut, la sauvegarde dans un dossier spécifique à l'application et qui ne peut être accédé que par celle-ci. On récupérera donc la suite de caractère pour la stocker dans un fichier. 
 
 La récupération des images doit au moins être effectué une fois. Pour cela on suivra l'algorithme suivant :
 
 [mettre Diagramme]
 
-Lors de l'affichage de la liste de contact, à chaque contact Dynamease on fait la vérification suivante. On vérifie si l'image de profile est présente dans le répertoire de l'application Dynamease. Si l'image n'est pas présente, on envoie une requête vers le serveur Dynamease, afin de la récupérer. Une fois cette image récupérée, on stocke la suite de caractère récupérée dans un fichier. Le fichier de sorti aura sera nommé comme l'Id Dynamease du contact.
+Lors de l'affichage de la liste de contact, à chaque contact Dynamease on fait la vérification suivante. On vérifie si l'image de profile est présente dans le répertoire de l'application Dynamease. Si l'image n'est pas présente, on envoie une requête vers le serveur Dynamease, afin de la récupérer. Une fois cette image récupérée, on stocke la suite de caractère récupérée dans un fichier. Le fichier de sorti sera nommé comme l'identifiant Dynamease du contact.
 
 Ainsi l'affichage des images se fera par le biais de la récupération des fichiers images présent sur l'appareil téléphonique.
 
 \subsubsection{Amélioration possible}
 
-La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profile. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profiles soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour. 
+La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profile. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profiles soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour.
+
+Il est aussi possible de créer une nouvelle requête permettant de vérifier si une image de profile à récemment était mise à jour. L'application téléphonique enverrais la date à laquelle l'image de profile fût créée. Si la date reçue est antérieur à la date de mise à jour de l'image de profile, celle-ci serait renvoyée. 
 
 
 \section{Amélioration continue du services par la mise en place d'outils}
 
 La mise en place d'outils d'aide à la mesure des performances est importante pour les entreprises afin de leur permettre d'affirmer le bon fonctionnement de leurs produits. Dynamease ne disposait d'aucun outils pour la réalisation de tests de performance. Chacun d'entre eux étaient fait manuellement.
 
-Afin de mettre en place ces outils il m'a fallut d'abord faire la liste des différents outils dont j'aurais besoin. Une fois cette liste récupérée je devrais alors déterminer les fonctionnalités de chacun des outils qui seront indispensable pour Dynamease. A la suite de quoi je devrais rechercher les outils proposant les fonctionnalités recherchées.
+Afin de mettre en place ces outils il m'a fallut d'abord faire la liste des différents outils dont j'aurais besoin. Une fois cette liste récupérée je devrais alors déterminer les fonctionnalités de chacun des outils qui seront indispensables pour Dynamease. A la suite de quoi je devrais rechercher les outils proposant les fonctionnalités recherchées.
 
-La mise en place de ces outils nécessitera un travail en amont dans le but de déterminer les métriques à utilisées et également déterminer quels sont les limites acceptables pour Dynamease.\\
+La mise en place de ces outils nécessitera un travail en amont dans le but de déterminer les métriques à utiliser et également déterminer quels sont les limites acceptables pour Dynamease.\\
 
-La listes des différents tests de performance est la suivante :
+La listes des différents tests de performance, qui devraient être effectué à Dynamease, est la suivante :
 
 \begin{itemize}
 	\item Tests d'intégration web;
-	\item Tests d'intégration des application téléphoniques;
+	\item Tests d'intégration des applications téléphoniques;
 	\item Tests de performance des serveurs;
-	\item Tests d'interface web;
 	\item Supervision applicative des éléments.
 \end{itemize}
 
@@ -354,15 +359,17 @@ Le but de cette partie est de vérifier le bon fonctionnement du serveur Dynamea
 
 Il est nécessaire que l'outil utilisé puisse générer un fichier unique de tests. De plus il doit être possible de lancer ces tests automatiquement. L'outil doit être capable aussi bien d'envoyer des requêtes REST que des requêtes JsonRPC.
 
-Après plusieurs recherche, l'outil SOAPUI fût choisi. Malgré son nom, cet outil permet d'envoyer des requêtes REST et RPC. De plus la configuration des test d'intégration est stocké dans un fichier xml, et donne la possibilité de lancer tout les tests via Maven. Ce qui est très utile sachant que le serveur Dynamease est construit grâce à Maven
+Après plusieurs recherches, l'outil SOAPUI fût choisi. Malgré son nom, cet outil permet d'envoyer des requêtes REST et RPC. De plus la configuration des test d'intégration est stockée dans un fichier xml, et donne la possibilité de lancer tout les tests via Maven. Ce qui est très utile sachant que l'archive du serveur Dynamease est construite grâce à Maven
 
 \subsection{Tests d'intégration des application téléphoniques}
 
 Ces tests permettent d'effectuer des parcours d'utilisateurs sur les applications téléphoniques. Ces tests permettent de savoir si les applications sont fonctionnelles. Ils peuvent également être utilisés pour tester l'interface des applications. Le service Dynamease étant présent sur Iphone et Android, il serait intéressant d'avoir un outil nous permettant d'avoir la possibilité d'effectuer ces tests sur ces deux plate-forme. 
 
-Nos applications soit développées de façon parallèle et non pas par l'intermédiaire d'un framework. Un framework permet de réaliser une application sur les deux systèmes d'exploitation, Android et Iphone. L'application Dynamease utilise des méthodes bas niveau de ces deux systèmes. De plus certaines méthodes sont présentes sur un des systèmes mais pas sur l'autre. Il est donc difficile de générer deux applications à partir d'un même code source.
+Nos applications sont développées de façon parallèle et non pas par l'intermédiaire d'un \textit{framework} permettant de réaliser une application sur les deux systèmes d'exploitation, Android et Iphone. 
 
-Bien que les applications aient quelques différences et ne puisse pas être testées par une seule configuration de tests, il tout de même intéressant d'utiliser un seul outils pour ces tests. Un seul outil permettrait de faire qu'une seule formation sur un seul outil. Certaines parties de ces deux applications sont identiques il est donc envisageable d'utiliser quelques parties d'une configuration d'une application pour l'autre application.
+L'application Dynamease utilise des méthodes de bas niveau sur les deux systèmes. De plus certaines méthodes sont présentes sur un des systèmes mais pas sur l'autre. Il est donc difficile de générer deux applications à partir d'un même code source. L'utilisation d'un tel \textit{framework} est donc impossible pour une telle application.
+
+Bien que les applications aient quelques différences et ne puissent pas être testées par une seule configuration de tests, il est tout de même intéressant d'utiliser un seul outil pour ces tests. Un seul outil permettrait de faire qu'une seule formation. Certaines parties de ces deux applications sont identiques il est donc envisageable d'utiliser quelques parties d'une configuration d'une application pour l'autre configuration.
 
 Après quelques recherches j'ai pu trouver les outils tels que Appium et MonkeyTalk. Après une étude des documentations de chacun de ces outils, il est apparu que MonkeyTalk proposait plus de fonctionnalité et une meilleure documentation. Ce qui faciliterai son apprentissage et donc sa mise en place.
 
@@ -371,6 +378,6 @@ Après quelques recherches j'ai pu trouver les outils tels que Appium et MonkeyT
 
 Je dois encore faire un travail de recherche pour les tests de performance des serveurs et de l'interface web. Bien que quelques outils soient quand même listés, il faut encore tester chacun de ces outils afin de déterminer lequel de ces outils et le plus à même de répondre à nos attentes.
 
-Je dois également mettre en place l'outil MonkeyTalk pour le test d'intégration des tests d'intégrations des applications téléphoniques.
+Je dois également mettre en place l'outil MonkeyTalk pour les tests d'intégrations des applications téléphoniques.
 
 Une recherche sur les différentes fonctionnalité que proposeraient les outils de supervision est également à prévoir. 
