@@ -1,0 +1,16 @@
+@startuml
+
+(*) -right-> "Vérification de
+	l'adresse e-mail"
+-right-> "Vérification du mot de passe"
+-right-> "Récupération des informations
+	de l'utilisateur"
+-right-> "Récupération des contacts
+	Dynamease"
+--> "Récupération des contacts
+	de l'appareil téléphonique"
+-left-> "Enregistrement sur la
+	plateforme Aerogear"
+-left-> (*)
+
+@enduml

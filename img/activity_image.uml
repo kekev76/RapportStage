@@ -1,0 +1,16 @@
+@startuml
+
+start
+
+while (Il reste des contacts dans la liste) is (oui)
+	if (Le contact est un contact Dynamease) then (oui)
+		:Récupérer l'identifiant Dynamease du contact;
+		if (L'image existe déjà) then (non)
+			:Récupérer l'image depuis le serveur;
+			:Sauvegarder l'image sur l'appareil portable;
+		endif
+	endif
+endwhile
+
+stop
+@enduml 

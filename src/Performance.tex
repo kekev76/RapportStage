@@ -162,7 +162,11 @@ De plus il doit être possible de démarrer un environnement vide. il faudra don
 
 \subsubsection{Détermination des dépendances}
 
-[Mettre Diagramme pyramide]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.4]{img/pyramide.pdf}
+	\caption{\label{pyramide} Pyramide des dépendances de l'environnement Dynamease}
+\end{figure}
 
 Nous allons étudier le diagramme ci-dessus, de manière descendante. Tout en haut nous avons l'environnement Nginx, celui-ci nécessite la mise en place des environnements Tomcat et Aerogear pour fonctionner correctement. L'environnement Tomcat nécessite l'existence des bases de données MySQL et Ldap. 
 
@@ -190,8 +194,6 @@ En ce qui concerne les données des différentes bases de données, celles-ci pe
 
 Il nous reste donc trois bases de données à remplir avec nos fichiers de données. Leurs techniques d'intégration étant différentes nous allons les étudier pour chaque base de données. 
 
-[Explication schéma ?] 
-
 Deux solutions de stockage peuvent être étudiées, on pourrait utiliser les volumes de chaque containers, en intégrant les données. Cette méthode risque d'être assez limitée sachant que chaque utilisateur devra disposer des fichiers de données afin de les intégrer dans son environnement. La seconde solution serait d'utiliser une nouvelle image Docker qui aura pour rôle le stockage de tout les fichiers de données. Cette solution permettrait de pouvoir utiliser n'importe quelle base de données sans récupérer les fichiers de données. C'est cette seconde solution que nous allons développer par la suite.
 
 Cette solution prend en compte que le container de données contiennent des volumes pour stocker les fichiers de données. Or, comme nous l'avons vu précédemment, les volumes créés des liens symboliques depuis les volumes du container vers les répertoires situés sur la machine faisant tourner le container. Donc le container serait opérationnel uniquement sur la machine l'ayant créé, si ce container se trouve sur un autre système, il se peut que les liens ne pointes sur aucuns fichiers ou sur de mauvais fichiers. 
@@ -202,8 +204,11 @@ Grâce à cette récupération nous pouvons maintenant faire un traitement pour 
 
 Il est aussi prévu de permettre aux utilisateurs de cet outil de lancer un environnement de travail, vide. C'est à dire seulement avec les bases de données initialisées, mais sans données. Pour cela l'image du docker de stockage des données sera généré avec les fichiers d'initialisation de chacune des bases de données. Un script de démarrage aura pour rôle de déterminer si des fichiers d'intégration de données sont présente, si c'est le cas, ces fichiers seront déplacé vers le répertoire correspondant à la base de données, sinon se seront les fichiers d'initialisation qui y seront placés. 
 
-[diagramme activité]
-
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.5]{img/activity_outil.png}
+	\caption{\label{activity_outil} {Résumé du fonctionnement de l'outil}}
+\end{figure}
 \subsubsection{Récupération de la version Dynamease}
 
 Le lancement de l'environnement de travail Dynamease, doit inclure un numéro de version du serveur Dynamease. 
@@ -230,7 +235,11 @@ Nous en avons donc conclu que l'erreur devait provenir d'une configuration spéc
 
 Nous avons listé les différentes méthodes exécutées par l'application au démarrage, afin de déterminer celles qui auraient pu interagir directement avec une configuration spéciale de l'utilisateur.
 
-[Diagramme de Mise en service de l'application]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.5]{img/activity_ios.png}
+	\caption{\label{activity_ios} {Parcours de la connexion utilisateur}}
+\end{figure}
 
 Les différentes méthodes exécutées par l'application étaient, la récupération des informations de l'utilisateur auprès du serveur Dynamease, la récupération des contacts du portable et l'inscription sur le serveur Aerogear.
 
@@ -253,6 +262,12 @@ Afin de régler ce type de problème, un caractère spécial $'\textbackslash'$ 
 
 \subsubsection{Recherche de contact}
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.1]{img/recherche.png}
+	\caption{\label{recherche} {Vue de la recherche dans la liste de contacts sur l'application Android}}
+\end{figure}
+
 L'application Téléphonique Android, permet aux utilisateurs d'avoir une liste de contact. Cette liste de contact est triée par défaut dans l'ordre alphabétique par rapport aux noms de famille des contacts. De plus une barre de recherche est disponible pour faire une recherche dans cette liste.
 
 La version précédant ma correction, n'effectuait la recherche uniquement sur le nom, de plus sur de longue liste de contact, la recherche pouvait prendre beaucoup de temps.
@@ -264,7 +279,7 @@ En premier lieu, j'ai étudié les différents moyens de stockage que proposait 
 \begin{enumerate}
 	\item Stockage par le biais de clef valeur;
 	\item Stockage dans un fichier texte;
-	\item Stockage à l'aide d'une base de données SQL Light.
+	\item Stockage à l'aide d'une base de données SQL Lite.
 \end{enumerate}
 
 La première technique peut être utilisée pour de petites valeurs à usage récurrent, comme le nom de l'utilisateur, son numéro de téléphone, etc.
@@ -279,25 +294,49 @@ Un contact normal est représenté par son nom, son prénom, son numéro de tél
 
 L'algorithme anciennement utilisé pour la recherche des contacts suivait le diagramme suivant :
 
-[Mettre diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.8]{img/activity_retrieve_old.png}
+	\caption{\label{activity_retrieve_old} {Diagramme d'activité de l'algorithme anciennement utilisé pour la recherche des contacts}}
+\end{figure}
 
 A chaque fois que l'utilisateur entre une lettre dans la barre de recherche, le processus de la recherche est lancé. Pour chaque contact de la liste, on vérifie si l'ensemble des lettres entrées dans la barre de recherche, est présent dans le nom du contact. Si on trouve une correspondance entre l'ensemble des lettres et le nom du contact on ajoute ce contact à la liste de retour. Et on effectue cette correspondance pour chaque contact.
 
-Ce processus est long en raison la recherche sur toute la liste de contact à chaque ajout de lettre dans la barre de recherche. L'autre problème flagrant est que la recherche n'est effectuée que sur le nom.\\\\
+Ce processus est long en raison la recherche sur toute la liste de contact à chaque ajout de lettre dans la barre de recherche. L'autre problème flagrant est que la recherche n'est effectuée que sur le nom.
+
+\newpage
 
 La première résolution de ce problème suit le processus suivant :
 
-[Mettre Diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{img/activity_retrieve_new.png}
+	\caption{\label{activity_retrieve_new} {Diagramme d'activité de l'algorithme utilisé pour la recherche des contacts}}
+\end{figure}
 
-Avant toute recherche la liste de contact est contenue dans le résultat à retourner. Par défaut tout les contacts correspondent à une recherche vide. A chaque ajout de lettre, on recherche dans la liste dernièrement retournée les contacts ayant l'ensemble des lettres de recherche dans leur prénom ou dans leur nom. Si une correspondance est trouvée alors le contact est ajouté dans une liste temporaire. Une fois tous les contacts vérifiés, on remplace la liste de résultat par la liste temporaire, et on renvoie la liste de résultat. Et on continue sur le même principe à chaque ajout de lettre\\\\
+Avant toute recherche la liste de contact est contenue dans le résultat à retourner. Par défaut tout les contacts correspondent à une recherche vide. A chaque ajout de lettre, on recherche dans la liste dernièrement retournée les contacts ayant l'ensemble des lettres de recherche dans leur prénom ou dans leur nom. Si une correspondance est trouvée alors le contact est ajouté dans une liste temporaire. Une fois tous les contacts vérifiés, on remplace la liste de résultat par la liste temporaire, et on renvoie la liste de résultat. Et on continue sur le même principe à chaque ajout de lettre
+
+\newpage
 
 Le problème de cette solution c'est que l'ordre des mots de recherche est importante faire une recherche $"\textit{nom prénom}"$ ne sera pas interprété de la même façon que la recherche $"\textit{prénom nom}"$.
 
-[Mettre diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{img/activity_retrieve_better.png}
+	\caption{\label{activity_retrieve_better} {Amélioration du diagramme d'activité de l'algorithme anciennement utilisé pour la recherche des contacts}}
+\end{figure}
 
 On reprend le même principe que précédemment, mais cette fois-ci on fait un travail supplémentaire entre l'ajout d'une lettre et la recherche dans la liste de contact. On sépare les différents mots de la barre de recherche. On estime qu'il y a un nouveau mot à chaque fois que la barre espace est pressée. On sépare donc les différents mots, et on les stockent dans un tableau. Ensuite la recherche dans les contacts doit correspondre à chaque mot se trouvant dans le tableau. Si un mot ne trouve aucune correspondance, ni dans le nom, ni dans le prénom, alors le contact ne sera pas ajouter à la liste de résultat. Tous les mots doivent correspondre au nom ou au prénom, pour que le contact soit ajouté dan la liste de résultat.
 
+\newpage
+
 \subsubsection{Récupération des contacts du téléphone}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.1]{img/contact.png}
+	\caption{\label{contact} {Vue de la liste de contacts sur l'application Android}}
+\end{figure}
 
 La récupération des contacts ne semblait s'effectuer qu'une seule fois, lors du premier lancement de l'application. De plus il existait quelques problèmes au niveau du temps de récupération des contacts. Plus la liste de contact était grande et plus le temps de récupération était longue (par exemple pour une liste de contact de 10000 contacts le chargement pouvait être de quelques jours).\\
 
@@ -311,11 +350,11 @@ La récupération des contacts s'effectue par des \textit{Task}. Comme un \texti
 
 Pour améliorer cette récupération une condition est rajoutée pour déterminer si une récupération est déjà en cour afin de ne pas re-diviser le temps processeur. De plus un bouton d'actualisation de la liste de contact a été ajouté. Dorénavant, la récupération des contacts s'effectue seulement si la liste de contact de l'application Dynamease est vide ou si l'utilisateur appuie sur le bouton d'actualisation.
 
-\subsubsection{Récupération des images de profile}
+\subsubsection{Récupération des images de profil}
 
 Chaque utilisateur Dynamease peut avoir une image de profil. Cette image de profil est affichée sur la liste de contact, de tous les utilisateurs Dynamease ayant reçue une carte de visite de l'utilisateur propriétaire de l'image.
 
-Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profil Dynamease est envoyée. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profile est beaucoup trop rare pour qu'une requête soit envoyée aussi couramment.
+Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profil Dynamease est envoyée. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profil est beaucoup trop rare pour qu'une requête soit envoyée aussi couramment.
 
 La requête de récupération des images s'effectue grâce à une requête Json. Le résultat de la requête se présente sous la forme d'une suite de caractère représentant l'image. Cette récupération est effectuée pour l'affichage des images dans la liste de contact. Il faut donc trouver une solution pour ne pas avoir à effectuer une requête pour l'affichage des images.
 
@@ -323,17 +362,21 @@ Le plus simple est de stocker les images sur l'appareil de l'utilisateur. Nous a
 
 La récupération des images doit au moins être effectué une fois. Pour cela on suivra l'algorithme suivant :
 
-[mettre Diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.5]{img/activity_image.png}
+	\caption{\label{activity_image} {Diagramme d'activité pour la récupération d'image de profil}}
+\end{figure}
 
-Lors de l'affichage de la liste de contact, à chaque contact Dynamease on fait la vérification suivante. On vérifie si l'image de profile est présente dans le répertoire de l'application Dynamease. Si l'image n'est pas présente, on envoie une requête vers le serveur Dynamease, afin de la récupérer. Une fois cette image récupérée, on stocke la suite de caractère récupérée dans un fichier. Le fichier de sorti sera nommé comme l'identifiant Dynamease du contact.
+Lors de l'affichage de la liste de contact, à chaque contact Dynamease on fait la vérification suivante. On vérifie si l'image de profil est présente dans le répertoire de l'application Dynamease. Si l'image n'est pas présente, on envoie une requête vers le serveur Dynamease, afin de la récupérer. Une fois cette image récupérée, on stocke la suite de caractère récupérée dans un fichier. Le fichier de sorti sera nommé comme l'identifiant Dynamease du contact. si le contact ne dispose pas d'image de profil alors ce sera l'image par défaut qui sera écrite dans le fichier de sorti.
 
 Ainsi l'affichage des images se fera par le biais de la récupération des fichiers images présent sur l'appareil téléphonique.
 
 \subsubsection{Amélioration possible}
 
-La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profile. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profiles soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour.
+La récupération des images ne se fait qu'une seule fois. Or il est possible qu'un contact change son image de profil. Aucune mise à jour ne sera effectuée avec la méthode actuelle. Il faut donc penser à une solution pour que les images de profil soient mises à jours. Pour cela on pourrait utiliser le bouton de rafraîchissement de contact déjà utilisé pour mettre la liste des contacts du téléphone à jour.
 
-Il est aussi possible de créer une nouvelle requête permettant de vérifier si une image de profile à récemment était mise à jour. L'application téléphonique enverrais la date à laquelle l'image de profile fût créée. Si la date reçue est antérieur à la date de mise à jour de l'image de profile, celle-ci serait renvoyée. 
+Il est aussi possible de créer une nouvelle requête permettant de vérifier si une image de profil à récemment était mise à jour. L'application téléphonique enverrais la date à laquelle l'image de profil fût créée. Si la date reçue est antérieur à la date de mise à jour de l'image de profil, celle-ci serait renvoyée. 
 
 
 \section{Amélioration continue du services par la mise en place d'outils}

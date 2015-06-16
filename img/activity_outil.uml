@@ -1,0 +1,25 @@
+@startuml
+
+(*) --> "Récupération du numéro de
+	version Dynamease" as version
+
+-right->if "Démarrer tout l'environnement ?" then
+	-->[Oui] "Récupération des données
+	pour les bases de données" as data
+	-right-> "Démarrage du data container"
+	-->===B1===
+	--> "Démarrage de la base
+		de données MySQL"
+	-->===B2===
+	===B1===-->"Démarrage de la base
+		de données Ldap"
+	-->===B2===
+	-->"Démarrage d'Aerogear"
+	-->"Démarrage du serveur Tomcat" as tomcat
+else
+	-right-> tomcat
+endif
+-right->"Déamrrage de Nginx"
+--> (*)
+
+@enduml

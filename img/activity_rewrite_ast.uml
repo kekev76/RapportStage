@@ -1,0 +1,21 @@
+@startuml
+
+(*) --> "Recherche de l'utilisateur
+		avec le numéro de téléphone reçu"
+
+-right->if "L'utilisateur est Privilège ?" then
+	-->[non] (*)
+else
+	-right-> "Récupération du numéro de 
+			téléphone à appeler"
+
+	-right->if "Le numéro existe ?" then
+		-->[non] (*)
+	else
+		-right-> "Retourner le numéro de téléphone 
+			à appeler"
+		--> (*)
+	endif
+endif
+
+@enduml

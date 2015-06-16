@@ -1,0 +1,16 @@
+@startuml
+
+(*) --> "Recherche de l'utilisateur
+		avec son identifiant"
+
+-right->if "L'utilisateur est Privilège ?" then
+	-->[non] "Retouner le numéro entré en paramètre"
+	-->(*)
+else
+	-->"Lier le numéro de téléphone à 
+		appeler avec l'utilisateur"
+	-->"Retourner le numéro de Trunk"
+endif
+
+--> (*)
+@enduml

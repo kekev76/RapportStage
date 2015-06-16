@@ -32,11 +32,21 @@ Le serveur Téléphonique doit donc récupérer les informations suivantes :
 
 Le serveur Dynamease aura pour rôle de communiquer les informations entre les applications téléphoniques et le serveur téléphonique. Plusieurs requêtes doivent donc être créées. La communication entre les différents services est représentée par le diagramme suivant :\\
 
-[mettre diagramme]\\
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.8]{img/sequence_rewirte.png}
+	\caption{\label{sequence_rewirte} Diagramme de séquence de la ré-écriture de numéro}
+\end{figure}
 
 Nous voyons sur ce diagramme que le procédé est initié par les applications téléphoniques, nous allons donc commencer par la présentation du fonctionnement des requêtes utilisées par les applications téléphoniques.
+\newpage
 
-[mettre diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.5]{img/activity_rewrite_ast.png}
+	\caption{\label{activity_rewrite_ast} Diagramme d'activité de la méthode appelée par le serveur Asterisk}
+\end{figure}
+
 
 L'application téléphonique devra envoyée une requête au serveur pour indiquer que l'utilisateur souhaite effectuer une réécriture de numéro. Cette requête devra contenir le numéro à appeler ainsi que l'Id de l'utilisateur voulant passer l'appel. Une réponse est alors renvoyé avec le numéro de téléphone à joindre. L'application téléphonique aura alors pour rôle de lancer un appel vers ce numéro de téléphone. 
 
@@ -45,8 +55,12 @@ Plusieurs choix sont possible en ce qui concerne la réponse renvoyée lorsque l
 Le numéro à appeler sera stocké en mémoire du serveur dans un objet de type dictionnaire, ayant pour clef l'identifiant du client privilège et pour valeur le numéro à appeler. Ainsi nous permettons aux utilisateurs de pouvoir passer par l'historique d'appel de leur téléphone pour contacter le dernier contact appelé depuis leur numéro Dynamease.\\
 
 On a noté dans la partie précédente les différentes informations que devaient détenir le serveur téléphonique. Les différents numéros d'un utilisateurs Dynamease sont stockés sur le serveur. Il est donc aisé de récupérer ces informations, afin de déterminer si un numéro entrant appartient à l'utilisateur. De plus les numéros de Trunk peuvent être considérés comme des constantes. Il est donc préférable que celles-ci soient stockées dans les fichiers de configuration du serveur Dynamease. En revanche cette technique ne marchera que pour le dernier contact appelé grâce à la réécriture de numéro. Pour rappeler des anciens contacts il faudra, soit passer par l'historique d'appel de Dynamease, la liste de contact ou l'option numérotation de Dynamease.
-
-[Diagramme activité]
+\newpage
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{img/activity_rewrite_app.png}
+	\caption{\label{activity_rewrite_app} Diagramme d'activité de la méthode appelée par les applications téléphoniques}
+\end{figure}
 
 La meilleur solution est de créer une requête permettant au serveur téléphonique de vérifier si un numéro correspond à un utilisateur donné et si il détient les droits privilèges. La réponse renvoyée correspondra au numéro que l'utilisateur Privilège souhaite joindre. Si l'appel ne provient pas d'un utilisateur Privilège, la réponse indiquera au serveur téléphonique de mettre fin à l'appel. Cette requête sera effectuée à chaque appel entrant sur le Trunk présent sur le serveur téléphonique.
 
@@ -92,7 +106,11 @@ En passant l'appel depuis la conférence, l'application Dynamease n'aura qu'à a
 
 La procédure utilisé par cette fonction est la suivante :
 
-[mettre diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{img/sequence_click2call.png}
+	\caption{\label{sequence_click2call} Diagramme de séquence de la fonctionnalité du Click2Call}
+\end{figure}
 
 Une personne appuie sur le bouton Click2Call. Ce bouton envoie une requête au serveur Dynamease contenant l'identifiant de l'utilisateur Dynamease à appeler ainsi que le contexte dans lequel s'effectue l'appel (type de site, objet vendu ...). A la réception de la requête, le serveur Dynamease vérifie qu'il existe des conférences disponible, s'il n'en existe pas le serveur en créée une nouvelle et de mande sa création au serveur téléphonique. Ensuite le serveur vérifie si l'utilisateur à joindre est disponible. Si cette vérification s'est effectuée sans problème, l'objet conférence est modifié avec les informations sur les numéros de téléphone pouvant y accéder. Le numéro du Trunk est envoyé à l'appelant. Ensuite une notification de type Click2Call est envoyé à l'utilisateur Dynamease avec le numéro de la conférence et les informations de cet appel.
 
@@ -123,6 +141,12 @@ En ce qui concerne l'application Iphone, il est impossible d'avoir la même exp�
 
 \section{L'appel depuis l'historique}
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.1]{img/historique.png}
+	\caption{\label{historique} {Vue de l'historique d'appel sur l'application Android}}
+\end{figure}
+
 Les applications téléphoniques disposent d'un historique d'appel. Celui-ci nous indique la date et l'heure d'un appel, ainsi que d'éventuels informations sur l'appelant. Par contre il n'est pas possible de rappeler les contacts depuis cet historiques. Il est donc question de pouvoir effectuer ce rappel.
 
 \subsubsection{Étude du cahier des charges}
@@ -145,7 +169,12 @@ Maintenant que ces informations sont récupérées, il suffit simplement d'effec
 
 Après cette mise en place j'ai observé les modifications de la base de données. J'ai remarqué quelques erreurs effectuée sur celle-ci.
 
-[mettre diagramme classe]
+\newpage
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=1]{img/classeCallLogOld.png}
+	\caption{\label{class_callLog_old} Diagramme de classe de la table représentant l'historique d'appel}
+\end{figure}
 
 On vois que cette base de données ne respecte pas le terme de clef unique en effet. Il est possible que la valeur de date soit identique pour deux entrées.
 
@@ -153,6 +182,10 @@ La cardinalité entre ces deux tables, signifie que les informations présentent
 
 Je pense donc que la partie de la base de données représentant l'historique d'appel pourrai être remplacé par la table suivante :
 
-[mettre diagramme]
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=1]{img/classeCallLogNew.png}
+	\caption{\label{class_callLog_new} Proposition d'amélioration du diagramme de classe de la table représentant l'historique d'appel}
+\end{figure}
 
 La première solution fût prise pour éviter les modifications sur une table déjà existante et risquer de perdre des données clients. 

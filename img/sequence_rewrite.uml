@@ -1,0 +1,9 @@
+@startuml
+
+actor CallerDynamease as caller
+actor Called as called
+
+caller -> "Serveur Dynamease" as dyn : RewriteNumber
+
+
+@enuml

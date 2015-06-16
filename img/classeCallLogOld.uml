@@ -1,0 +1,15 @@
+@startuml
+
+CallLog "1" *-right- "1" CallRequest
+
+CallLog : date
+CallLog : informations
+CallLog : subscriberId
+
+CallRequest : Date
+CallRequest : PhoneNumberCaller
+CallRequest : PhoneNumberCalled
+CallRequest : subscriberIdCaller
+CallRequest : subscriberIdCalled
+
+@enduml

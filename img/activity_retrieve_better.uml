@@ -1,0 +1,23 @@
+@startuml
+
+start
+
+:Récupération de l'entrée de la barre de recherche;
+
+if(L'entrée est vide) then (oui)
+	:Mettre tous les contact dans la liste temporaire;
+else
+	:Récupération de tous les mots de l'entrée;
+	:Insérer la liste de résultat dans la liste temporaire;
+endif
+while (Il reste des contacts dans la liste temporaire à vérifier) is (oui)
+	:Récupération d'un contact de cette liste;
+	if (Un des mots est contenu dans le nom ou le prénom du contact) then (oui)
+		:Mettre le contact dans la liste de résultat;
+	endif
+endwhile
+
+:Retourner la liste de résultat;
+
+stop
+@enduml 
