@@ -1,6 +1,6 @@
 \section{Introduction}
 
-La réalisation des applications téléphoniques nécessite différentes technologies et d'outils. Les applications Iphone et Android nécessitant des outils différents, une partie non négligeable de mon travail a été de me former sur ceux-ci.
+La réalisation des applications téléphoniques nécessite différentes technologies et outils. Les applications Iphone et Android nécessitant des outils différents, une partie non négligeable de mon travail a été de me former sur ceux-ci.
 
 Malgré la différence de ces deux systèmes d'exploitation, il existe quelques ressemblances, en particulier sur leur utilisation du pattern MVC (Model View Controler). Le modèle s’occupe de stocker les données, la vue les affiche à l’utilisateur, en créant les différents éléments de navigation et d'interaction. Enfin le contrôleur réalise le lien entre la vue et le modèle. Il récupère les informations de la vue, pour les stocker dans le modèle. Le modèle notifie le contrôleur pour que celui-ci mette à jour la vue.
 
@@ -14,11 +14,11 @@ Pour réaliser des applications Android nous devons utiliser différents outils,
 
 \subsubsection{Eclipse}
 
-Eclipse est un IDE (Integrated Development Environment) permettant principalement le développement Java. Android étant réalisé en Java il est possible d'intégrer des plugins permettant le développement d'applications Android avec cet IDE. De plus il est nécessaire de détenir le SDK d'Android. Un SDK est un kit de développement pour la réalisation d'application du type défini.
+Eclipse est un IDE (Integrated Development Environment) permettant principalement le développement Java. Android étant réalisé en Java il est possible d'intégrer des plugins permettant le développement d'applications Android avec cet IDE. Il est nécessaire de détenir le SDK d'Android pour effectuer ce développement. Un SDK est un kit de développement pour la réalisation d'application du type défini.
 
 \subsubsection{Le Playstore}
 
-Le Playstore est la plateforme officielle de Google qui permet de mettre à disposition des utilisateurs des applications téléphonique. Cette mise en production est relativement rapide, de l'ordre de quelques heures.
+Le Playstore est la plateforme officielle de Google qui permet de mettre à disposition des utilisateurs des applications téléphoniques. Cette mise en production est relativement rapide, de l'ordre de quelques heures.
 
 \subsection{Le langage de programmation}
 
@@ -58,7 +58,7 @@ Xcode est l’IDE permettant de développer les applications Apple (applications
 \subsubsection{Itunes Connect}
 ITunes Connect est un site internet permettant de gérer les applications réalisées auprès d’Apple. Pour une entreprise, une fois enregistrée au programme de développement Apple, ce site permet de définir les membres de l’équipe de développement et leurs rôles au sein de l’équipe. Je possédais les permissions techniques qui permettent de développer des applications et de les publier sur l’Appstore. 
 
-L'Appstore est la plateforme de téléchargement d'applications en ligne d'Apple. ITunes Connect permet aussi de définir l’ensemble des métadonnées qui seront présentées aux utilisateurs lors de leur achat de l’application sur l’AppStore (mots-clés, descriptif, captures d’écrans, prix ..).
+L'Appstore est la plateforme de téléchargement d'applications en ligne d'Apple. ITunes Connect permet également de définir l’ensemble des métadonnées qui seront présentées aux utilisateurs lors de leur achat de l’application sur l’AppStore (mots-clés, descriptif, captures d’écrans, prix ..). C'est ce site qui permet de mettre en production des applications. Cette mise en production est plus longue, de l'ordre de 5 jours. Cette attente est dû au fait que des vérifications sont effectuées sur l'application par des membres de l'entreprise Apple.
 
 Ce site permet également d'avoir un retour sur les utilisateurs de l'application (commentaires, nombre de téléchargements, note obtenue sur l'application ...)
 
@@ -69,7 +69,7 @@ Ce site permet également d'avoir un retour sur les utilisateurs de l'applicatio
 
 La délégation permet, comme son nom l'indique, de déléguer des méthodes vers un autre objet. Elle se fait par l'envoi d'un message qui informe le délégué. Le message est ensuite traité par le délégué. Le délégué pourra répondre à ce message en renvoyant un résultat ou en mettant à jour une vue. Le système de délégation a été utilisé afin de faire transiter des informations entre les différentes vues de l'application développée. La délégation s'effectue par la définition d'un protocole décrivant les messages envoyés entre les objets.
 
-Pour définir une délégation, un objet doit hériter d'un objet \textit{delegate}. Cet héritage pourra nécessiter une redéfinition des méthodes voulues par le développeur. Si certaines méthodes ne sont pas redéfinies, alors une méthode par défaut définie dans l'objet \textit{delegate} sera appelée. On peut comparer ce procédé à une interface Java à la différence que toutes les méthodes n'ont pas à être définies.
+Pour définir une délégation, un objet doit implémenter un objet \textit{delegate}. Cet implémentation pourra nécessiter une redéfinition des méthodes voulues par le développeur. Si certaines méthodes ne sont pas redéfinies, alors une méthode par défaut définie dans l'objet \textit{delegate} sera appelée. On peut comparer ce procédé à une interface Java à la différence que toutes les méthodes n'ont pas à être définies.
 
 \subsubsection{Block}
 

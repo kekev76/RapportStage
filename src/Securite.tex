@@ -1,16 +1,16 @@
 Pour cette partie, je n'avais pas de cahier des charges à proprement parler. J'étais beaucoup plus libre dans mes choix. Il fallait que je m'organise dans le but de faire des tests sur la sécurité des communications de Dynamease. 
 
-Le résultat à obtenir était la liste des éventuelles failles de sécurité et de proposer des moyens pour les résoudre. Dans le but de déceler ces éventuelles failles j'ai suivi les étapes suivantes :
+Le résultat à obtenir était la liste des éventuelles failles de sécurité et une liste de propositions pour leur résolution. Dans le but de déceler ces éventuelles failles j'ai suivi les étapes suivantes :
 
 \begin{enumerate}
 	\item Lecture du code source de l'application;
 	\item Lister les éventuelles failles critiques qui pourraient être présentes;
-	\item Effectuer les manipulations afin de tester les failles;
+	\item Effectuer les manipulations afin de mettre en avant ces failles;
 	\item Détecter les sources de ces failles;
 	\item Déterminer les solutions à ces problèmes.
 \end{enumerate} 
 
-En plus de trouver et résoudre ces différentes failles, je me dois également de mettre en place le protocole Https pour les sites internet de Dynamease. Cette mise en place devra être effectuée par un jeune décrocheur, je serais en charge de jouer le rôle de tuteur, en lui indiquant ce qu'il doit faire, tout en lui apprenant les différentes méthodes pour atteindre au mieux l'objectif.
+En plus de trouver et résoudre ces différentes failles, je me dois également de mettre en place le protocole Https pour les sites internet de Dynamease. Cette mise en place sera effectuée par un jeune décrocheur. Je serais en charge de jouer le rôle de tuteur, en lui indiquant ce qu'il doit faire, tout en lui apprenant les différentes méthodes pour atteindre au mieux l'objectif.
 
 \section{Vérification de sécurité des services Dynamease}
 
@@ -20,17 +20,17 @@ Dans cette partie j'expliquerais, pour toutes les failles de sécurité que j'ai
 
 En utilisant l'outil SoapUI, j'ai pu remarquer que les arguments des requêtes n'étaient pas tous cryptés. De plus ceux qui étaient cryptés, ressemblaient étrangement aux clefs d'activation fournies par Dynamease.
 
-En effet les clefs d'activation étaient cryptés avec le même procédé de cryptage que celui utilisé par les arguments des requêtes. De plus la même clef de cryptage est utilisée pour les deux cryptages. Ceci peut poser quelques problèmes.
+En effet les clefs d'activation étaient cryptés avec le même procédé de cryptage que celui utilisé par les arguments des requêtes. De plus la même clef de cryptage est utilisée pour ces deux cryptages. Ceci peut poser quelques problèmes.
 
-En effet, des outils tels que Wireshark permettent de récupérer les paquets, par lesquels transitent les requêtes, envoyées par l'application téléphonique afin d'obtenir les méthodes et les arguments utilisés par chacune.
+En effet, des outils tels que Wireshark permettent de récupérer les paquets, par lesquels transitent les requêtes, envoyées par l'application téléphonique afin d'obtenir les méthodes et leurs arguments ainsi que leur contenu.
 
 En remplaçant les arguments nécessitant une chaîne cryptée par une clef d'activation quelconque, on se rend compte que pour certaines requêtes les résultats renvoyés sont corrects. Aucune vérification n'est donc effectuée sur les arguments reçus.\\
 
-Pour régler ces problèmes il faut commencer par mettre en place un protocole https. Pour que les requêtes envoyées ne puissent plus être lues par une personne observant les paquets transitant au travers du réseau. De plus le cryptage des données devrait être différent que celui utilisé par l'encodage des clefs d'activation, ou du moins la phrase permettant ce cryptage.
+Pour régler ces problèmes il faut commencer par mettre en place un protocole https. Pour que les requêtes envoyées ne puissent plus être lues par une personne observant les paquets transitant au travers du réseau. De plus le cryptage des données devrait être différent que celui utilisé par l'encodage des clefs d'activation, ou du moins la phrase permettant ce cryptage devrait être différente.
 
 Une vérification devra également être mise en place sur les arguments envoyés.
 
-De plus une nouvelle vérification devrait être mise en place afin de pouvoir vérifier l'identité de l'utilisateur Dynamease envoyant cette requête. Cette vérification pourrait être mise en place à l'aide d'un identifiant encodé unique pour chaque utilisateur. Une vérification devra être mise en place en début de chaque requête pour une meilleure sécurité des requêtes.
+De plus une nouvelle vérification pourrait être mise en place afin de vérifier l'identité de l'utilisateur Dynamease. Cette vérification pourrait être mise en place à l'aide d'un identifiant encodé, unique pour chaque utilisateur. Une vérification devra être mise en place en début de chaque requête, pour une meilleure sécurité.
 
 \subsection{Cookies non sécurisés}
 
@@ -40,16 +40,16 @@ La question qui se posait alors, était quelle est la chose qui déterminait qu'
 
 Après une observation des cookies, il est apparu que les informations contenues dans les cookies étaient écrites en claires. L'information qui nous intéresse est l'identifiant Dynamease. Cet identifiant étant unique c'est grâce à celui-ci que l'utilisateur peut être identifié.
 
-Cette information étant en claire il suffit donc de la modifier avec un autre identifiant afin d'usurper le compte d'un autre utilisateur.
-\\\\
+Cette information étant en claire il suffit donc de la modifier avec un autre identifiant, afin d'usurper le compte d'un autre utilisateur.
+\\
 
-Afin de régler cette faille il suffit d'encoder les informations contenues dans les cookies. De plus d'autres informations devraient être contenues dans les cookies afin d'être certain que l'Id utilisé représente bien l'utilisateur actuel.
+Afin de régler cette faille il suffit d'encoder les informations contenues dans les cookies. De plus d'autres informations devraient être contenues dans les cookies afin d'être certain que l'identifiant utilisé représente bien l'utilisateur actuel. On pourrait reprendre le même procédé que présenté dans la partie précédente.
 
 \subsection{Sauvegarde des données}
 
 Les données sont actuellement stockées sur une seule base de données. En cas de panne du serveur accueillant la base de données, les services Dynamease seraient hors fonction. De plus il n'est pas à exclure que les données stockées sur le serveur puissent être définitivement perdues.
 
-Pour une plus grande sécurité sur la sauvegarde des données, il faudrait mettre en place une procédure pour que les données soient stockées sur deux bases de données se trouvant sur deux serveurs différents. Le plus judicieux serait d'avoir deux bases de données en \textit{master} afin que la copie se fasse en simultanée sur les deux bases de données, et d'avoir une base de données \textit{slave} qui copierait les données des bases de données master à intervalles de temps réguliers, afin d'y effectuer des tests, récupération manuelle de données etc.
+Pour une plus grande sécurité sur la sauvegarde des données, il faudrait mettre en place une procédure pour que les données soient stockées sur deux bases de données se trouvant sur deux serveurs différents. Le plus judicieux serait d'avoir deux bases de données en \textit{master} afin que la copie se fasse en simultanée sur les deux bases de données, et d'avoir une base de données \textit{slave} qui copierait les données des bases de données \textit{master} à intervalles de temps réguliers, afin d'y effectuer des tests, récupération manuelle de données etc.
 
 \subsection{Conclusion}
 
@@ -59,7 +59,7 @@ Pour l'instant mon travail s'est concentré sur le fait de lister les différent
 
 Les communications vers le site web de Dynamease s'effectuaient par le biais du protocole HTTP. Ce protocole n'est pas sécurisé et ne protège pas les données des clients Dynamease. Il a été décidé de mettre en place le protocole HTTPS, qui chiffre les communications avec les clients.
 
-Le protocole HTTPS, fonctionne sur le principe de clef publique clef privée. Une clef publique est envoyée à chacun des clients pour chiffrer les données que celui-ci envoi. Ces données ne peuvent être alors décryptées uniquement par la clef privée qui reste sur le serveur.
+Le protocole HTTPS, fonctionne sur le principe de clef publique, clef privée. Une clef publique est envoyée à chacun des clients pour chiffrer les données envoyées. Ces données ne peuvent être alors décryptées que par la clef privée qui reste sur le serveur.
 
 Cette mise en place sera réalisée par un jeune décrocheur que je devrais superviser. J'aurais pour charge de lui indiquer ce qu'il doit faire, et le mettre sur la voie pour qu'il devienne autonome dans son travail.
 
@@ -83,7 +83,7 @@ Pour réaliser cette mise en place j'ai décidé de faire passer ce jeune décro
 	\item Mise en place d'une clef certifiée Gandi.
 \end{enumerate}
 
-Pour la première étape, je lui fournirais toutes les documentations officielles nécessaires à la réalisation de cette première étape. Et au fur et à mesure de la formation je diminuerais le nombre de documentations fournies pour l'obliger à aller rechercher l'information utile.
+Pour la première étape, je lui fournirais toutes les documentations officielles nécessaires à la réalisation de celle-ci. Et au fur et à mesure de la formation je diminuerais le nombre de documentations fournies pour l'obliger à aller rechercher l'information utile.
 
 Les tests qui seront effectués par le décrocheur se dérouleront sur un serveur à part afin de pouvoir assurer un fonctionnement normal du reste des infrastructures en cas d'erreur.\\\\
 
