@@ -8,7 +8,7 @@ Une notification est un message envoyé à un smartphone. Ce message à la possi
 
 Pour ces deux plateformes, le fonctionnement est quasiment identique. L'appareil doit s'inscrire à la plateforme correspondante. Pour effectuer cette inscription l'appareil doit donner son identifiant unique.
 
-Les messages envoyés, par le biais de la notification, sont de la forme d'un objet Json (bien que pour Android il soit également possible de passer par un objet de type texte). Les notifications sont utilisées, majoritairement, pour envoyer une information à afficher à l'utilisateur. Les notifications Android peuvent demander à l'application de se synchroniser sans affichage de message.
+Les messages envoyés, par le biais de la notification, sont de la forme d'un objet Json (bien que pour Android il soit également possible de passer par un objet de type texte). Les notifications sont utilisées, majoritairement, pour envoyer une information à afficher à l'utilisateur. Les notifications Android peuvent, cependant, demander à l'application de se synchroniser sans affichage de message.
 
 \subsection{Principe d'Aerogear}
 
@@ -44,7 +44,7 @@ Le fonctionnement du serveur Aerogear suit le schéma suivant.
 \begin{enumerate}
 	\item L'administrateur doit commencer par créer une application Push, qui doit contenir au moins un Variant;
 	\item Un appareil téléphonique demande un enregistrement en envoyant toutes les informations nécessaires à Aerogear (identifiant de l'appareil téléphonique, alias, etc). Ces informations sont stockées.
-	\item Une requête est envoyée à Aerogear dans l'objectif d'envoyer une notification vers l'installation correspondant à un alias donné. Aerogear récupère toutes les informations nécessaires. La requête Push est ensuite traduite vers la plateforme correspondant au système d'exploitation correspondant à l'alias. La requête est ensuite envoyée vers la plateforme appropriée.
+	\item Une requête est envoyée à Aerogear dans l'objectif d'envoyer une notification vers l'installation correspondante à un alias donné. Aerogear récupère toutes les informations nécessaires. La requête Push est ensuite traduite vers la plateforme du système d'exploitation correspondant à l'alias. La requête est ensuite envoyée vers la plateforme appropriée.
 	\item La plateforme se charge de l'envoi de la notification vers l'installation correspondant à l'alias.
 	\item L'installation reçoit la notification, et c'est à l'application téléphonique de gérer le traitement de cette notification.
 \end{enumerate}
@@ -55,15 +55,15 @@ Mon premier objectif, au niveau d'Aerogear, était de mettre à jour le serveur 
 
 Le serveur Aerogear se présente sous la forme d'une archive war. Une archive war, est une archive contenant tous les fichiers sources pour faire fonctionner une application serveur Java EE.
 
-Le fonctionnement du service Aerogear nécessite un serveur Jboss et d'une base de données. Aerogear peut, théoriquement, fonctionner avec différentes bases de données relationnelles (H2, Mysql ou PostgreSQL). La base utilisée par Dynamease étant une base de données MySQL j'ai donc privilégié l'installation de la version correspondant à MySQL.
+Le fonctionnement du service Aerogear nécessite un serveur Jboss et d'une base de données. Aerogear peut, théoriquement, fonctionner avec différentes bases de données relationnelles (H2, Mysql ou PostgreSQL). La base utilisée par Dynamease étant une base de données MySQL j'ai donc privilégié l'installation de la version correspondante à MySQL.
 
 Plusieurs problèmes se sont accumulés lors de cette installation. En effet des erreurs étaient présentes durant le lancement du serveur. Après plusieurs recherches, il s'est avéré que le lien donné durant le processus d'installation pointé vers les sources d'une version non stable du projet. 
 
-Après avoir récupéré un projet stable, j'ai dû faire face à une autre difficulté. Le serveur n'arrivait pas à utiliser la base de données MySQL. Après avoir effectué d'autres recherches il a s'est avéré que la version utilisée éprouvée quelques difficultés avec les bases de données MySQL et PostgreSQL, et que seules les bases de données du type H2 pouvait être gérées.
+Après avoir récupéré un projet stable, j'ai dû faire face à une autre difficulté. Le serveur n'arrivait pas à utiliser la base de données MySQL. Après avoir effectué d'autres recherches il s'est avéré que la version utilisée éprouvée quelques difficultés avec les bases de données MySQL et PostgreSQL, et que seules les bases de données du type H2 pouvait être gérées.
 
 Les bases de données H2 fonctionnent sous l'environnement Java. Les données sont stockées sur un fichier unique. Afin d'y accéder de façon graphique, le logiciel officiel de cette base de données sera installé pour faciliter l'accès aux données s'y trouvant. Ainsi l'administrateur système pourra aisément réaliser ses requêtes de la même manière qu'il les aurait effectué sur une base de données MySQL.
 
-Après son installation j'ai eu pour objectif de réaliser une image Docker d'Aerogear. L'explication de cette réalisation sera faite lors de la partie sur Docker.
+Après son installation j'ai eu pour objectif de réaliser une image Docker d'Aerogear. L'explication de cette réalisation sera faite dans la partie sur Docker.
 
 \subsection{Mise à jour des notifications}
 
@@ -71,7 +71,7 @@ Après la mise à jour du serveur Aerogear j'ai également dû réaliser des mis
 
 Pour les applications IOS, une mise à jour était nécessaire du fait que certaines méthodes utilisées pour l'enregistrement vers le serveur des notifications n'étaient pas rétrocompatible. Comme nous devions garder une version de l'application pour les personnes ayant encore une version IOS7 une vérification de la version de l'appareil est effectuée avant tout enregistrement au serveur. Il est probable que l'application Dynamease devienne, dans le futur, inaccessible pour les personnes possédant une version 7 d'IOS. En effet la version 8 permet beaucoup plus de liberté au niveau des notifications. Par exemple la possibilité d'ajouter des boutons d'action aux notifications pourrait être utilisée pour certaines fonctionnalités du service Dynamease.\\
 
-Une autre mise à jour doit être effectuée sur la forme d'envoi des messages dans les notifications. L'ancienne version envoyée les informations sous la forme d'une chaîne de caractères préformatée pour l'affichage final. Ces chaînes de caractères étaient difficiles à traiter du fait que les informations pouvaient être dispersées. La solution la plus évidente à mettre en place était de faire passer des objets Json au travers les notifications. En effet, les objets Json sont très faciles à créer, à déchiffrer et de plus peuvent être écrits sous la forme d'une chaîne de caractères spéciaux.
+Une autre mise à jour doit être effectuée sur la forme d'envoi des messages dans les notifications. L'ancienne version envoyée les informations sous la forme d'une chaîne de caractères préformatée pour l'affichage final. Ces chaînes de caractères étaient difficiles à traiter du fait que les informations pouvaient être dispersées. La solution la plus évidente à mettre en place était de faire passer des objets Json au travers les notifications. En effet, les objets Json sont très faciles à créer, à déchiffrer et de plus peuvent être écrits sous la forme d'une chaîne de caractères spéciale.
 
 Grâce à cette méthode il est plus facile d'effectuer un traitement sur les informations reçues et de déléguer à l'application téléphonique le tri des informations et l'affichage de celles-ci.
 
@@ -79,7 +79,7 @@ Grâce à cette méthode il est plus facile d'effectuer un traitement sur les in
 
 \subsection{Fonctionnement de Docker}
 
-Docker est un logiciel open source qui permet l'automatisation du déploiement d'application sur n'importe quel serveur ou machine Linux. Docker réuni une application et ses dépendances dans un container virtuel qui permet une portabilité plus aisée. En effet, la configuration nécessaire au fonctionnement d'une application sera déjà présente dans ce container. Ce container pourra être utilisé aussi bien sur une machine locale que sur un serveur, sans nécessiter de configuration sur la machine qui fera tourner l'application.
+Docker est un logiciel open source qui permet l'automatisation du déploiement d'applications sur n'importe quel serveur ou machine Linux. Docker réuni une application et ses dépendances dans un container virtuel qui permet une portabilité plus aisée. En effet, la configuration nécessaire au fonctionnement d'une application sera déjà présente dans ce container. Ce container pourra être utilisé aussi bien sur une machine locale que sur un serveur, sans nécessiter de configuration sur la machine qui fera tourner l'application.
 
 Docker propose également un serveur Hub dans le but de partager les différentes applications Docker réalisées par d'autres utilisateurs Docker.
 
@@ -98,7 +98,7 @@ Le container est l’exécution d'une application. Chaque container détient une
 
 Une image Docker est la configuration d'une application au sein de Docker. Cette image peut être stockée sur le Hub de Docker afin que celle-ci soit partagée avec d'autres utilisateurs. Pour réaliser une image Docker, il faut rédiger un Dockerfile. Le Dockerfile représente le plan de fabrication de l'image Docker. Ce fichier doit contenir toutes les dépendances nécessaires au fonctionnement de l'application. Ce fichier peut être représenté comme un script qui est exécuté pour la création d'une image. Il faut réaliser ce script en prenant bien en compte qu'il s'agit de la configuration de l'environnement et non pas du lancement de l'application. Il est tout de fois possible de définir un script qui sera exécuté lors du démarrage du container.
 
-Le Dockerfile doit aussi configurer les ports qui peuvent être ouverts sur le container. Par exemple pour un serveur Tomcat accessible depuis le port 8080, il faudra configurer l'image pour que le port 8080 du container soit accessible. À l'exécution du container, il est possible d'indiquer le port de la machine locale qui sera redirigé vers un des ports du container.
+Le Dockerfile doit aussi configurer les ports qui peuvent être ouverts sur le container. Par exemple, pour un serveur Tomcat accessible depuis le port 8080, il faudra configurer l'image pour que le port 8080 du container soit accessible. À l'exécution du container, il est possible d'indiquer le port de la machine locale qui sera redirigé vers un des ports du container.
 
 Cette image Docker nécessite d'avoir une image Docker de base. Par exemple pour réaliser l'image d'un serveur Jboss, nous avons besoin de Java, nous devrons donc partir d'une image Docker Java.
 
@@ -109,21 +109,21 @@ Un volume est un lien entre un répertoire se trouvant dans le container et un r
 
 Les volumes sont à définir dans le Dockerfile en indiquant le répertorie du container qui contient les volumes. Les liens avec les répertoires en locale ou avec un autre container sont à définir lors de l'exécution du container.
 
-\subsubsection{link}
+\subsubsection{Link}
 
-Le \textit{link} est un lien entre deux containers. Comme nous l'avons vu précédemment, il est possible d'accéder à un port du container depuis un port de la machine locale. Il est également possible d'indiquer un lien entre deux containers docker pour que ceux-ci communiquent comme s'ils étaient sur deux serveurs différents. Le \textit{link} va renseigner dans le fichier host du container qui l'adresse IP de l'autre container à lier.
+Le \textit{link} est un lien entre deux containers. Comme nous l'avons vu précédemment, il est possible d'accéder à un port du container depuis un port de la machine locale. Il est également possible d'indiquer un lien entre deux containers docker pour que ceux-ci communiquent comme s'ils étaient sur deux serveurs différents. Le \textit{link} va renseigner dans le fichier host du container l'adresse IP de l'autre container à lier.
 
 \subsection{Réalisation Docker pour le compte de Dynamease}
 
 \subsubsection{Aerogear}
 
-Comme nous l'avons vu précédemment, Aerogear nécessite d'un serveur JBOSS pour son fonctionnement. Nous allons donc partir d'une image JBOSS pour la réalisation de l'image Aerogear. L'accès à ce serveur se fera obligatoirement par le port 8080, car une vérification au niveau du service Aerogear est réalisée entre le port par lequel les requêtes entrent et le port par lequel l'application écoute.
+Comme nous l'avons vu précédemment, Aerogear nécessite la mise en place d'un serveur JBOSS pour son fonctionnement. Nous allons donc partir d'une image JBOSS pour la réalisation de l'image Aerogear. L'accès à ce serveur se fera obligatoirement par le port 8080, car une vérification au niveau du service Aerogear est réalisée entre le port par lequel les requêtes entrent et le port par lequel l'application écoute.
 
 Un volume sur les fichiers de base de données H2 sera également mis en place afin de pouvoir accéder à cette base de données, pour toutes importations, exportation ou modification de données.
 
 \subsubsection{Nginx}
 
-Nginx est un reverse proxy, qui permet de rediriger les requêtes entrantes sur un serveur vers un autre serveur distant, ou vers un autre port du même serveur.
+Nginx est un \textit{reverse proxy}, qui permet de rediriger les requêtes entrantes sur un serveur vers un autre serveur distant, ou vers un autre port du même serveur.
 
 Pour fonctionner Nginx ne nécessite que d'une distribution Linux. Debian est donc préféré aux autres distributions car c'est celle-ci qui est préféré pour tout serveur.
 
@@ -137,7 +137,7 @@ Un volume sera également créé vers le répertoire où sont stockés les fichi
 
 Ce procédé doit permettre aux développeurs de Dynamease de pouvoir mettre en place de façon rapide et automatisée, un environnement de travail complet permettant l'accès aux différents services de Dynamease. 
 
-Il doit également être possible de pré-remplir les bases de données Dynamease, avec des données, préexistantes, provenant de bases de tests ou bien de la base de production.
+Il doit également être possible de pré-remplir les bases de données Dynamease, avec des données préexistantes, provenant de bases de tests ou bien de la base de production.
 
 L'outil ainsi créé devra pouvoir être utilisé aussi bien sur des serveurs que sur les machines locales des développeurs. 
 
@@ -190,13 +190,11 @@ Pour ce type de donnée, il sera demandé la création d'une variable d'environn
 
 Des fichiers de configuration par défaut seront présents dans l'outil. Si l'utilisateur ne désigne pas de répertoire contenant ces fichiers de configuration, un message sera affiché pour le prévenir que des fichiers de configuration par défaut seront utilisés, mais que cela peut entraîner quelques dysfonctionnements.\\
 
-En ce qui concerne les données des différentes bases de données, celles-ci peuvent être stockées indépendamment de leurs bases de données d'origine. Seul leur intégration sera différente.
-
-Il nous reste donc trois bases de données à remplir avec nos fichiers de données. Leurs techniques d'intégration étant différentes nous allons les étudier pour chaque base de données. 
+En ce qui concerne les données des différentes bases de données, celles-ci peuvent être stockées indépendamment de leurs bases de données d'origine, par le biais de fichiers. 
 
 Deux solutions de stockage peuvent être étudiées, on pourrait utiliser les volumes de chaque container, en intégrant les données. Cette méthode risque d'être assez limitée sachant que chaque utilisateur devra disposer des fichiers de données afin de les intégrer dans son environnement. La seconde solution serait d'utiliser une nouvelle image Docker qui aura pour rôle le stockage de tous les fichiers de données. Cette solution permettrait de pouvoir utiliser n'importe quelle base de données sans récupérer les fichiers de données. C'est cette seconde solution que nous allons développer par la suite.
 
-Cette solution prend en compte que le container de données contient des volumes pour stocker les fichiers de données. Or, comme nous l'avons vu précédemment, les volumes créés des liens symboliques depuis les volumes du container vers les répertoires situés sur la machine faisant tourner le container. Donc le container serait opérationnel uniquement sur la machine l'ayant créé, si ce container se trouve sur un autre système, il se peut que les liens ne pointent sur aucun fichier ou sur de mauvais fichiers.
+Cette solution prend en compte que le container de données contient des volumes pour stocker les fichiers de données. Or, comme nous l'avons vu précédemment, les volumes créent des liens symboliques depuis les volumes du container vers les répertoires situés sur la machine faisant tourner le container. Donc le container serait opérationnel uniquement sur la machine l'ayant créé, si ce container se trouve sur un autre système, il se peut que les liens ne pointent sur aucun fichier ou sur de mauvais fichiers.
 
 On a également vu qu'on pouvait exécuter des commandes lors de la création du container. L'idée est d'utiliser un script de démarrage du container, qui nous servira à déplacer et trier les fichiers de données vers de nouveaux répertoires.
 
@@ -204,11 +202,6 @@ Grâce à cette récupération nous pouvons maintenant faire un traitement pour 
 
 Il est aussi prévu de permettre aux utilisateurs de cet outil de lancer un environnement de travail, vide. C'est-à-dire seulement avec les bases de données initialisées, mais sans données. Pour cela l'image docker de stockage des données sera généré avec les fichiers d'initialisation de chacune des bases de données. Un script de démarrage aura pour rôle de déterminer si des fichiers d'intégration de données sont présents, si c'est le cas, ces fichiers seront déplacés vers le répertoire correspondant à la base de données, sinon ce seront les fichiers d'initialisation qui y seront placés. 
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=0.5]{img/activity_outil.png}
-	\caption{\label{activity_outil} {Résumé du fonctionnement de l'outil}}
-\end{figure}
 \subsubsection{Récupération de la version Dynamease}
 
 Le lancement de l'environnement de travail Dynamease, doit inclure un numéro de version du serveur Dynamease. 
@@ -221,9 +214,16 @@ Le script de démarrage de l'environnement prendra en paramètre un numéro de v
 
 Grâce à cette méthode, il est possible de démarrer rapidement n'importe quelle version de Dynamease, car l'image est forcément déjà créée.
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.5]{img/activity_outil.png}
+	\caption{\label{activity_outil} {Résumé du fonctionnement de l'outil}}
+\end{figure}
+
+
 \section{Amélioration des applications téléphoniques}
 
-Nous allons maintenant aborder les différentes améliorations que nous devions réaliser après la réalisation de plusieurs tests de performance.
+Nous allons maintenant aborder les différentes améliorations que nous devions réaliser.
 
 \subsection{Récupération des contacts Ios}
 
@@ -260,7 +260,7 @@ Afin de régler ce type de problème, un caractère spécial $'\textbackslash'$ 
 \subsection{Recherche et récupération automatique des contacts}
 
 
-\subsubsection{Recherche de contact}
+\subsubsection{Recherche de contacts}
 
 \begin{figure}[!h]
 	\centering
@@ -270,7 +270,7 @@ Afin de régler ce type de problème, un caractère spécial $'\textbackslash'$ 
 
 L'application Téléphonique Android, permet aux utilisateurs d'avoir une liste de contact. Cette liste de contact est triée par défaut dans l'ordre alphabétique par rapport aux noms de famille des contacts. De plus une barre de recherche est disponible pour faire une recherche dans cette liste.
 
-La version précédant ma correction, n'effectuait la recherche uniquement sur le nom, de plus sur de longues listes de contact, la recherche pouvait prendre beaucoup de temps.
+La version, précédant ma correction, effectuait la recherche uniquement sur le nom, de plus sur de longues listes de contact, la recherche pouvait prendre beaucoup de temps.
 
 La première étape pour effectuer une correction est d'observer la technique utilisée pour cette recherche.\\\\
 
@@ -314,11 +314,11 @@ La première résolution de ce problème suit le processus suivant :
 	\caption{\label{activity_retrieve_new} {Diagramme d'activité de l'algorithme utilisé pour la recherche des contacts}}
 \end{figure}
 
-Avant toute recherche la liste de contact est contenue dans le résultat à retourner. Par défaut tous les contacts correspondent à une recherche vide. À chaque ajout de lettre, on recherche dans la liste dernièrement retournée les contacts ayant l'ensemble des lettres de recherche dans leur prénom ou dans leur nom. Si une correspondance est trouvée alors le contact est ajouté dans une liste temporaire. Une fois tous les contacts vérifiés, on remplace la liste de résultat par la liste temporaire, et on renvoie la liste de résultat. Et on continue sur le même principe à chaque ajout de lettre
+Avant toute recherche, la liste de contact est insérée dans le résultat à retourner. Par défaut tous les contacts correspondent à une recherche vide. À chaque ajout de lettre, on recherche dans la liste dernièrement retournée les contacts ayant l'ensemble des lettres de recherche dans leur prénom ou dans leur nom. Si une correspondance est trouvée alors le contact est ajouté dans une liste temporaire. Une fois tous les contacts vérifiés, on remplace la liste de résultat par la liste temporaire, et on renvoie la liste de résultat. Et on continue sur le même principe à chaque ajout de lettre
 
 \newpage
 
-Le problème de cette solution c'est que l'ordre des mots de recherche est important faire une recherche $"\textit{nom prénom}"$ ne sera pas interprété de la même façon que la recherche $"\textit{prénom nom}"$.
+Le problème de cette solution c'est que l'ordre des mots de recherche est important. Faire une recherche $"\textit{nom prénom}"$ ne sera pas interprété de la même façon que la recherche $"\textit{prénom nom}"$.
 
 \begin{figure}[!h]
 	\centering
@@ -342,7 +342,7 @@ La récupération des contacts ne semblait s'effectuer qu'une seule fois, lors d
 
 Après une inspection du code, j'ai pu remarquer que, l'activité de la liste de contact se chargeait de la récupération des contacts à chacun de ses lancements. Or cette récupération avait une mauvaise condition pour la récupération des contacts.
 
-La liste de contact est triée par ordre alphabétique dans la base de données de Dynamease, c'est également le cas pour la liste de contact du téléphone. L'activité vérifie que le nombre de contacts dans la liste de contact du téléphone est égal au nombre de contacts de la liste de contact de l'application Dynamease. Si ce n'est pas le cas une vérification est effectuée. Le problème se situe sur la suite du procédé. Le \textit{cursor} permettant la récupération est programmé pour récupérer les contacts en partant de l'index correspondant au nombre de contacts dans la liste de contact Dynamease moins un. Or les contacts stockés dans la base de données du téléphone ne sont pas triés par ordre chronologique mais par ordre alphabétique. Donc si un contact, après le premier démarrage, est ajouté au début de la liste de contact du téléphone, alors il ne sera jamais récupéré par l'application, et le programme fera une récupération de contact à chaque démarrage de l'activité.
+La liste de contact est triée par ordre alphabétique dans la base de données de Dynamease, c'est également le cas pour la liste de contact du téléphone. L'activité vérifie que le nombre de contacts dans la liste de contact du téléphone est égal au nombre de contacts de la liste de contact de l'application Dynamease. Si ce n'est pas le cas une récupération est effectuée. Le problème se situe sur la suite du procédé. Le \textit{cursor}, permettant la récupération, est programmé pour récupérer les contacts en partant de l'index correspondant au nombre de contacts dans la liste de contact Dynamease moins un. Or les contacts stockés dans la base de données du téléphone ne sont pas triés par ordre chronologique mais par ordre alphabétique. Donc si un contact, après le premier démarrage, est ajouté au début de la liste de contact du téléphone, alors il ne sera jamais récupéré par l'application, et le programme fera une récupération de contact à chaque démarrage de l'activité.
 
 La recherche est maintenant effectuée sur l'ensemble de la liste de contact du téléphone et une vérification sur l'existence des contacts est également effectuée, afin de ne pas avoir de doublon.\\
 
@@ -354,7 +354,7 @@ Pour améliorer cette récupération une condition est rajoutée pour détermine
 
 Chaque utilisateur Dynamease peut avoir une image de profil. Cette image de profil est affichée sur la liste de contact, de tous les utilisateurs Dynamease ayant reçu une carte de visite de l'utilisateur propriétaire de l'image.
 
-Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profil Dynamease est envoyée. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profil est beaucoup trop rare pour qu'une requête soit envoyée aussi couramment.
+Il est apparu également qu'à chaque affichage de la liste de contact, dans l'application Android, une requête pour récupérer les images de profil Dynamease était envoyée. Ces requêtes n'ont pas forcément lieu d'être effectuées à chaque affichage. En effet, le changement d'image de profil est beaucoup trop rare pour qu'une requête soit envoyée aussi couramment.
 
 La requête de récupération des images s'effectue grâce à une requête Json. Le résultat de la requête se présente sous la forme d'une suite de caractères représentant l'image. Cette récupération est effectuée pour l'affichage des images dans la liste de contact. Il faut donc trouver une solution pour ne pas avoir à effectuer une requête pour l'affichage des images.
 
@@ -365,7 +365,7 @@ La récupération des images doit au moins être effectuée une fois. Pour cela 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.5]{img/activity_image.png}
-	\caption{\label{activity_image} {Diagramme d'activité pour la récupération d'image de profil}}
+	\caption{\label{activity_image} {Diagramme d'activité pour la récupération d'images de profil}}
 \end{figure}
 
 Lors de l'affichage de la liste de contact, à chaque contact Dynamease on fait la vérification suivante. On vérifie si l'image de profil est présente dans le répertoire de l'application Dynamease. Si l'image n'est pas présente, on envoie une requête vers le serveur Dynamease, afin de la récupérer. Une fois cette image récupérée, on stocke la suite de caractères récupérée dans un fichier. Le fichier de sortie sera nommé comme l'identifiant Dynamease du contact. si le contact ne dispose pas d'image de profil alors ce sera l'image par défaut qui sera écrite dans le fichier de sortie.

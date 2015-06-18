@@ -6,7 +6,7 @@ Le but de cette fonctionnalité est de permettre à l'utilisateur Privilège, pa
 
 \subsubsection{Étude du cahier des charges}
 
-Le fonctionnement global de cette fonctionnalité est une redirection. L'utilisateur Privilège appelant un numéro, par l'application Dynamease, appellera en réalité un Trunk Dynamease. Un circuit est un circuit permettant le transport de plusieurs communications téléphonique. Une fois la communication créée sur le Trunk un appel est effectué depuis le numéro Dynamease vers la personne appelée par l'utilisateur.
+Le fonctionnement global de cette fonctionnalité est une redirection. L'utilisateur Privilège appelant un numéro, par l'application Dynamease, appellera en réalité un Trunk Dynamease. Un Trunk est un circuit permettant le transport de plusieurs communications téléphonique. Une fois la communication créée sur le Trunk un appel est effectué depuis le numéro Dynamease vers la personne appelée par l'utilisateur.
 
 Pour réaliser ce procédé on aura besoin du serveur téléphonique pour pouvoir rediriger les appels de l'utilisateur. Cette partie ne sera pas de mon ressort mais il sera effectué une explication de son fonctionnement. Cette explication est nécessaire à la compréhension du travail effectué par la suite.
 
@@ -16,7 +16,7 @@ Les applications téléphoniques auront pour rôle de vérifier les droits de l'
 
 \subsubsection{Fonctionnement du serveur téléphonique}
 
-Le serveur téléphonique aura pour rôle de lier deux communications. Lors de l'appel de l'utilisation de la réécriture par l'utilisateur, celui-ci est redirigé vers un numéro de Trunks. Une fois la communication établie avec le Trunks, une nouvelle communication est établie. Un appel, depuis le numéro Dynamease de l'utilisateur vers l'appelant, est émis. Une fois cet appel effectué, les deux communications sont alors liées. Ainsi l'utilisateur est en communication avec son correspondant, en passant par son numéro Dynamease.
+Le serveur téléphonique aura pour rôle de lier deux communications. Lors de l'appel de l'utilisation de la réécriture par l'utilisateur, celui-ci est redirigé vers un numéro de Trunks. Une fois la communication établie avec le Trunks, un appel, depuis le numéro Dynamease de l'utilisateur vers l'appelant, est émis. Une fois cet appel effectué, les deux communications sont alors liées. Ainsi l'utilisateur est en communication avec son correspondant, en passant par son numéro Dynamease.
 
 Lors d'un appel entrant vers le Trunk, une requête doit être envoyée vers le serveur Dynamease afin de déterminer si le numéro entrant appartient à un client Privilège et également pour récupérer le numéro Dynamease de ce client.
 
@@ -40,27 +40,28 @@ Le serveur Dynamease aura pour rôle de communiquer les informations entre les a
 
 Nous voyons sur ce diagramme que le procédé est initié par les applications téléphoniques, nous allons donc commencer par la présentation du fonctionnement des requêtes utilisées par les applications téléphoniques.
 \newpage
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{img/activity_rewrite_app.png}
+	\caption{\label{activity_rewrite_app} Diagramme d'activité de la méthode appelée par les applications téléphoniques}
+\end{figure}
 
+
+
+L'application téléphonique devra envoyer une requête au serveur pour indiquer que l'utilisateur souhaite effectuer une réécriture de numéro. Cette requête devra contenir le numéro à appeler ainsi que l'identifiant de l'utilisateur voulant passer l'appel. Une réponse est alors renvoyée avec le numéro de téléphone à joindre. L'application téléphonique aura alors pour rôle de lancer un appel vers ce numéro de téléphone.
+
+Plusieurs choix sont possibles en ce qui concerne la réponse renvoyée lorsque la requête est envoyé de la part d'un utilisateur non privilège. Soit nous renvoyons une requête indiquant à l'utilisateur qu'il ne détient pas des droits nécessaires pour effectuer ce genre d'appel. Soit nous renvoyons le numéro de téléphone passé en paramètre de la requête. C'est cette dernière qui est choisie, car elle permet à l'appel d'être effectué.
+
+Le numéro à appeler sera stocké en mémoire du serveur dans un objet de type dictionnaire, ayant pour clef l'identifiant du client privilège et pour valeur le numéro à appeler. Ainsi nous permettons aux utilisateurs de pouvoir passer par l'historique d'appel de leur téléphone pour contacter le dernier contact appelé depuis leur numéro Dynamease. En revanche cette technique ne marchera que pour le dernier contact appelé grâce à la réécriture de numéro. Pour rappeler des anciens contacts il faudra, soit passer par l'historique d'appel de Dynamease, la liste de contact ou l'option numérotation de Dynamease.\\
+
+On a noté dans la partie précédente les différentes informations que devait détenir le serveur téléphonique. Les différents numéros d'un utilisateur Dynamease sont stockés sur le serveur. Il est donc aisé de récupérer ces informations, afin de déterminer si un numéro entrant appartient à l'utilisateur. De plus les numéros de Trunk peuvent être considérés comme des constantes. Il est donc préférable que celles-ci soient stockées dans les fichiers de configuration du serveur Dynamease. 
+\newpage
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.5]{img/activity_rewrite_ast.png}
 	\caption{\label{activity_rewrite_ast} Diagramme d'activité de la méthode appelée par le serveur Asterisk}
 \end{figure}
 
-
-L'application téléphonique devra envoyer une requête au serveur pour indiquer que l'utilisateur souhaite effectuer une réécriture de numéro. Cette requête devra contenir le numéro à appeler ainsi que l'Id de l'utilisateur voulant passer l'appel. Une réponse est alors renvoyée avec le numéro de téléphone à joindre. L'application téléphonique aura alors pour rôle de lancer un appel vers ce numéro de téléphone.
-
-Plusieurs choix sont possibles en ce qui concerne la réponse renvoyée lorsque la requête est envoyé de la part d'un utilisateur non privilège. Soit nous renvoyons une requête indiquant à l'utilisateur qu'il ne détient pas des droits nécessaires pour effectuer ce genre d'appel. Soit nous renvoyons les numéros de téléphone passés en paramètre de la requête. C'est cette dernière qui est choisie, car elle permet quand même à l'appel d'être effectué.
-
-Le numéro à appeler sera stocké en mémoire du serveur dans un objet de type dictionnaire, ayant pour clef l'identifiant du client privilège et pour valeur le numéro à appeler. Ainsi nous permettons aux utilisateurs de pouvoir passer par l'historique d'appel de leur téléphone pour contacter le dernier contact appelé depuis leur numéro Dynamease.\\
-
-On a noté dans la partie précédente les différentes informations que devait détenir le serveur téléphonique. Les différents numéros d'un utilisateur Dynamease sont stockés sur le serveur. Il est donc aisé de récupérer ces informations, afin de déterminer si un numéro entrant appartient à l'utilisateur. De plus les numéros de Trunk peuvent être considérés comme des constantes. Il est donc préférable que celles-ci soient stockées dans les fichiers de configuration du serveur Dynamease. En revanche cette technique ne marchera que pour le dernier contact appelé grâce à la réécriture de numéro. Pour rappeler des anciens contacts il faudra, soit passer par l'historique d'appel de Dynamease, la liste de contact ou l'option numérotation de Dynamease.
-\newpage
-\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=0.7]{img/activity_rewrite_app.png}
-	\caption{\label{activity_rewrite_app} Diagramme d'activité de la méthode appelée par les applications téléphoniques}
-\end{figure}
 
 La meilleure solution est de créer une requête permettant au serveur téléphonique de vérifier si un numéro correspond à un utilisateur donné et s'il détient les droits privilèges. La réponse renvoyée correspondra au numéro que l'utilisateur Privilège souhaite joindre. Si l'appel ne provient pas d'un utilisateur Privilège, la réponse indiquera au serveur téléphonique de mettre fin à l'appel. Cette requête sera effectuée à chaque appel entrant sur le Trunk présent sur le serveur téléphonique.
 
@@ -86,7 +87,7 @@ Les applications téléphoniques devront également être changées dans le but 
 
 \subsubsection{Fonctionnement du serveur téléphonique}
 
-Le serveur téléphonique aura pour charge, la liaison entre les deux interlocuteurs grâce à des conférences. Ces conférences ne seront accessibles que par l'appelant et l'appelé, une requête est donc créée pour récupérer les conférences liées aux numéros de téléphone renseignés. Les conférences sont désignées par un identifiant unique, leur nom.
+Le serveur téléphonique aura pour charge, la liaison entre les deux interlocuteurs grâce à des conférences. Une conférence ne sera accessible que par l'appelant et l'appelé, une requête est donc créée pour récupérer la conférences liée aux numéros de téléphone renseignés. Les conférences sont désignées par un identifiant unique, leur nom.
 
 Pour accéder à une conférence, il faut faire intervenir un numéro de Trunk. C'est ce numéro qui sera affiché sur les appareils téléphoniques des deux interlocuteurs, car leur appel se fera vers le numéro de Trunk. Ainsi aucun des deux interlocuteurs n'aura le numéro de téléphone de l'autre interlocuteur.
 
@@ -112,7 +113,7 @@ La procédure utilisée par cette fonction est la suivante :
 	\caption{\label{sequence_click2call} Diagramme de séquence de la fonctionnalité du Click2Call}
 \end{figure}
 
-Une personne appuie sur le bouton Click2Call. Ce bouton envoie une requête au serveur Dynamease contenant l'identifiant de l'utilisateur Dynamease à appeler ainsi que le contexte dans lequel s'effectue l'appel (type de site, objet vendu ...). À la réception de la requête, le serveur Dynamease vérifie qu'il existe des conférences disponibles, s'il n'en existe pas le serveur en crée une nouvelle et demande sa création au serveur téléphonique. Ensuite le serveur vérifie si l'utilisateur à joindre est disponible. Si cette vérification s'est effectuée sans problème, l'objet conférence est modifié avec les informations sur les numéros de téléphone pouvant y accéder. Le numéro du Trunk est envoyé à l'appelant. Ensuite une notification du type Click2Call est envoyée à l'utilisateur Dynamease avec le numéro de la conférence et les informations de cet appel.
+Une personne appuie sur le bouton Click2Call. Ce bouton envoie une requête au serveur Dynamease contenant l'identifiant de l'utilisateur Dynamease à appeler ainsi que le contexte dans lequel s'effectue l'appel (type de site, objet vendu ...). À la réception de la requête, le serveur Dynamease vérifie qu'il existe des conférences disponibles, s'il n'en existe pas le serveur en crée une nouvelle et demande sa création au serveur téléphonique. Ensuite le serveur vérifie si l'utilisateur à joindre est disponible. Si cette vérification s'est effectuée sans problème, l'objet conférence est modifié avec les informations sur les numéros de téléphone pouvant y accéder. Le numéro du Trunk est envoyé à l'appelant. Ensuite une notification du type Click2Call est envoyée à l'utilisateur Dynamease avec le numéro du Trunk et les informations de cet appel.
 
 La conférence démarre dès que les deux protagonistes entrent dans la conférence. Elle se termine quand un des deux protagonistes coupe la communication. À la fin de cette conférence une requête est envoyée au serveur Dynamease pour l'informer que la conférence peut être réattribuée.\\
 
@@ -126,12 +127,12 @@ Dans cette notification il doit être présent les informations sur l'appelant. 
 
 La gestion des notifications étant différentes selon le système d'exploitation il est important de bien différencier les deux types de notification. Nous allons commencer par les applications Android.
 
-Les notifications d'appel, sont affichées par le biais du système Toast. Un toast est une fenêtre s'affichant obligatoirement au premier plan. La fenêtre Toast est donc affichée au premier plan même lors d'un appel, ce qui permet aux utilisateurs de lire les informations même si la fenêtre d'appel est affichée. Cette fenêtre est affichée pendant une courte durée, mais il est possible de laisser cette fenêtre affichée plus longtemps en utilisant le principe de \textit{timer} pour demander l'affichage du Toast à intervalles de temps réguliers. Les informations sont donc affichées pendant un laps de temps suffisamment long pour que l'utilisateur puisse lire toutes les informations récupérées sur l'appelant.
+Les notifications d'appel, sont affichées par le biais du système Toast. Un Toast est une fenêtre s'affichant obligatoirement au premier plan. La fenêtre Toast est donc affichée au premier plan même lors d'un appel, ce qui permet aux utilisateurs de lire les informations même si la fenêtre d'appel est affichée. Cette fenêtre est affichée pendant une courte durée, mais il est possible de laisser cette fenêtre affichée plus longtemps en utilisant le principe de \textit{timer} pour demander l'affichage du Toast à intervalles de temps réguliers. Les informations sont donc affichées pendant un laps de temps suffisamment long pour que l'utilisateur puisse lire toutes les informations récupérées sur l'appelant.
 
 Lors de la réception de cette notification, l'utilisateur doit décider s'il veut répondre à l'appel. Ce qui signifie que la notification doit permettre la gestion d'actions de la part de l'utilisateur. Android ne permet pas la gestion des actions avec les Toasts. Cette notification doit simuler un appel. Un appel sur Android est représenté par une vue en plein écran. On peut reprendre ce principe en créant une activité. Cette activité affichera les informations de l'appelant, ainsi que deux boutons pour laisser le choix à l'utilisateur d'accepter ou de refuser l'appel.
 
 Il est également possible de récupérer certaines informations de l'utilisateur comme la sonnerie utilisée par défaut des appels. On peut donc faire retentir cette sonnerie afin que l'utilisateur ait la sensation d'un appel. La fenêtre suivante est affichée sur le portable
-
+\newpage
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.7]{img/click2call.png}
@@ -139,7 +140,7 @@ Il est également possible de récupérer certaines informations de l'utilisateu
 \end{figure}
 
 
-En appuyant sur le bouton répondre, la fenêtre se ferme, et un appel est émis vers le numéro de conférence. Ainsi l'expérience utilisateur n'est pas altérée, car la sensation d'appel reste la même.\\
+En appuyant sur le bouton "decrocher", la fenêtre se ferme, et un appel est émis vers le numéro de conférence. Ainsi l'expérience utilisateur n'est pas altérée, car la sensation d'appel reste la même.\\
 
 En ce qui concerne l'application Iphone, il est impossible d'avoir la même expérience utilisateur que pour la partie Android. Il n'est pas possible d'afficher des notifications spéciales si l'application n'est pas au premier plan. La notification Click2Call doit donc être affichée comme une notification Iphone normale. Comme pour l'application Android, il faut laisser le choix à l'utilisateur de répondre ou non à l'appel. Pour cela une fonctionnalité récente de IOS, disponible depuis la version 8, permet d'ajouter des boutons d'actions aux notifications. En ce qui concerne la notification sonore, il est possible d'avoir le même principe que les applications Android.
 
@@ -173,7 +174,6 @@ Maintenant que ces informations sont récupérées, il suffit simplement d'effec
 \subsubsection{Amélioration de la base de données}
 
 Après cette mise en place j'ai observé les modifications de la base de données. J'ai remarqué quelques erreurs effectuées sur celle-ci.
-
 \newpage
 \begin{figure}[!h]
 	\centering
@@ -183,7 +183,7 @@ Après cette mise en place j'ai observé les modifications de la base de donnée
 
 On voit que cette base de données ne respecte pas le terme de clef unique en effet. Il est possible que la valeur de date soit identique pour deux entrées.
 
-La cardinalité entre ces deux tables, signifie que les informations présentent sur $"call_request"$ pourraient être présente sur la table $"call_log"$
+La cardinalité entre ces deux tables, signifie que les informations présentent sur $"call\_request"$ pourraient être présente sur la table $"call\_log"$
 
 Je pense donc que la partie de la base de données représentant l'historique d'appel pourrai être remplacé par la table suivante :
 

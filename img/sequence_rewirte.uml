@@ -1,9 +1,9 @@
 @startuml
 
-actor CallerDynamease as caller
+actor AppelantDynamease as caller
 participant ServeurDynamease as dyn
 participant Asterisk as ast
-actor Called as called
+actor Appelé as called
 
 caller -> dyn : RewriteNumber
 activate dyn
@@ -17,8 +17,8 @@ ast -> dyn : Retrieve_phone_to_call
 dyn --> ast : phone_number_to_call
 ast -> called : Call
 
-...When the communication is ending...
-ast --> dyn : communication ending
+...Quand la communication prend fin...
+ast --> dyn : communication_ending
 deactivate ast
 
 

@@ -19,7 +19,7 @@
 else
 	-right-> tomcat
 endif
--right->"Déamrrage de Nginx"
+-right->"Démarrage de Nginx"
 --> (*)
 
 @enduml
