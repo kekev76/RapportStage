@@ -1,0 +1,111 @@
+\documentclass[9pt,xcolor=table]{beamer}
+% Option pour impression : handout (ex : 9pt,handout)
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{eurosym}
+\usepackage{pifont}
+%\usepackage{multimedia}
+\usepackage{url}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage{changepage}
+
+\usepackage{beamerthemeGentoo}
+
+\lstset{
+  basicstyle=\small,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morestring=[s]{?>}{<?},
+  stringstyle=\color{black},
+  identifierstyle=\color{blue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type},% list your attributes here
+  literate={\$}{{\textcolor{red}{\$}}}1
+	   {\{}{{\textcolor{red}{\{}}}1
+	   {\}}{{\textcolor{red}{\}}}}1,
+}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    %\hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\definecolor{vertFleche}{rgb}{0.20,0.43,0.09}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\YES}[0]{	
+	\textcolor{vertFleche}{\LARGE \cmark{}}
+}
+\newcommand{\MAYBE}[0]{	
+	\textcolor{orange}{\LARGE \cmark{}}
+}
+\newcommand{\NO}[0]{	
+	\textcolor{red}{\LARGE \xmark{}}
+}
+
+\newdimen\dimparbox
+\setlength\dimparbox{\paperwidth}
+\addtolength\dimparbox{-4.cm} % Taille à faire varier pour arranger la barre de navigation
+
+% * * * * * * * * * * * * * PARAMETRES POUR PDF * * * * * * * * * * * * * * * *
+\hypersetup{% Modifiez la valeur des champs suivants
+	pdfauthor   = {Moreau Kévin},%
+	pdftitle    = {Picdyn_L_SP-cRevue4},%
+	pdfsubject  = {Revue 4},%
+	pdfkeywords = {revue picdyn pic insa rouen 2014, Dynamease},%
+	pdfcreator  = {PDFLaTeX},%
+	pdfproducer = {PDFLaTeX},%
+	%pdfpagemode = {FullScreen}%                           % ouvre le pdf directement en plein écran
+}
+
+\title{Stage Ingénieur Dynamease}
+\subtitle{Applications téléphoniques}
+\date{09/01/2015}
+
+\setcounter{tocdepth}{1}
+\begin{document}
+
+	\begin{frame}
+		\titlepage
+		\begin{center}
+			\includegraphics[height=16mm]{images/logo-dynamease}
+		\end{center}
+		\vspace{7mm}
+		\includegraphics[height=5mm]{logos/logo-INSA}
+		\hspace{2mm}
+		\includegraphics[height=5mm]{logos/logo-ASI}
+	\end{frame}
+
+
+	\begin{frame}{Sommaire}
+		\frametitle{Sommaire}
+		 \small \tableofcontents
+	\end{frame}
+    
+    
+	 \input{sources/introduction}
+	 \input{sources/Performance}
+	 \input{sources/Amelioration}
+	 \input{sources/Securite}
+	 \input{sources/Conclusion}
+
+\end{document}
