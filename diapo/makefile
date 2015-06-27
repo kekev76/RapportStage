@@ -15,7 +15,7 @@ compress :
 	mv $(NOM_FICHIER)-temp.pdf $(NOM_FICHIER).pdf
 
 lesimages:
-	cd images; make all
+	cd images
 
 clean:	
 	cd images; make clean	
