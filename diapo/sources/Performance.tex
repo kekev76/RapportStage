@@ -41,20 +41,21 @@
 \begin{frame}
 	\frametitle{Mise en place de l'outil (2/5) : Docker}
 
-    \begin{block}{Fonctionnement}
+    \begin{block}{Présentation}
 	 \begin{itemize}
-	  \item Gestion de la vente des licences client :
-      \item Gestion de la comptabilité associée
-	  \item Liaison avec le fournisseur de numéros téléphoniques.
+	  \item Logiciel OpenSource;
+      \item Automatisation du déploiement d’applications;
+	  \item Utilise le Kernel de la machine sous-jacente.
 	 \end{itemize}
 	\end{block}
 
 	\begin{block}{Termes importants}
-	 \begin{itemize}
-	  \item Gestion de la vente des licences client :
-      \item Gestion de la comptabilité associée
-	  \item Liaison avec le fournisseur de numéros téléphoniques.
-	 \end{itemize}
+	 \begin{description}
+	  \item [Image] Configuration d’une application au sein d'un environnement Docker
+	  \item [Container] L'exécution d'une image Docker
+	  \item [Volume] Répertoire partagé entre le container et la machine sous-jacente
+	  \item [Link] Un lien entre deux containers
+	 \end{description}
 	\end{block}
 
 \end{frame}
@@ -62,9 +63,20 @@
 \begin{frame}
 	\frametitle{Mise en place de l'outil (3/5) : Les données}
 
-    \begin{block}{Cahier des charges}
-		Mettre schéma pyramide
+    \begin{block}{Les types de données}
+		\begin{itemize}
+			\item Données de configuration du serveur;
+			\item Données de stockage d'informations .
+		\end{itemize}
 	\end{block}
+
+	\begin{block}{Solution pour l'intégration de ces données}
+		\begin{enumerate}
+			\item Utiliser les volumes;
+			\item Utiliser un container de données .
+		\end{enumerate}
+	\end{block}
+
 
 \end{frame}
 

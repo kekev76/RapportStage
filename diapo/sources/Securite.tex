@@ -7,64 +7,67 @@
 
 	\begin{block}{L'entreprise Dynamease}
 	 \begin{itemize}
-      \item Recherche et résolution de failles de sécurité ;
-	  \item Mise en place d'un certificat de sécurité ;
-	  \item Formation d'un jeune décrocheur.
+      \item Découvrir des failles de sécurité;
+      \item Proposer des solutions à ces failles;
+      \item Mettre en place un certificat de sécurité.
 	 \end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Mise en place d'un crtificat HTTPS (1/3) : Étude du cahier des charges}
+	\frametitle{Mise en place d'un certificat HTTPS (1/3) : Étude du cahier des charges}
 
 	\begin{block}{Cahier des charges}
 	 \begin{itemize}
-      \item Start-up ;
-	  \item Service de mise en communication contextualisée.
+      \item Transférer les requêtes HTTP vers du HTTPS;
+      \item Prendre un certificat Gandi;
+      \item Utiliser Nginx;
+      \item Encadrer un jeune décrocheur Dynamease.
 	 \end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Mise en place d'un crtificat HTTPS (2/3) : Présentation du projet de décrocheur à développeur}
+	\frametitle{Mise en place d'un certificat HTTPS (2/3) : Présentation du projet de décrocheur à développeur}
 
-	\begin{block}{Cahier des charges}
-	 \begin{itemize}
-      \item Start-up ;
-	  \item Service de mise en communication contextualisée.
-	 \end{itemize}
+	\begin{block}{Les objectifs}
+	 Proposer une formation, dans une entreprise, à des jeunes ayant quitter le parcours scolaire.
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Mise en place d'un crtificat HTTPS (3/3) : Mise en place de la formation}
+	\frametitle{Mise en place d'un certificat HTTPS (3/3) : Mise en place de la formation}
 
 	\begin{block}{Cahier des charges}
-	 \begin{itemize}
-      \item Start-up ;
-	  \item Service de mise en communication contextualisée.
-	 \end{itemize}
+	 \begin{enumerate}
+      \item Mise en place d'une configuration standard Nginx ;
+	  \item Ajout d'une clef non certifiée;
+	  \item Ajout d'une clef certifiée Gandi. 
+	 \end{enumerate}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Recherche des failles (1/2) : Requête non sécurisée}
+	\frametitle{Recherche des failles (1/2) : Méthode suivie}
 
-	\begin{block}{Cahier des charges}
-	 \begin{itemize}
-      \item Start-up ;
-	  \item Service de mise en communication contextualisée.
-	 \end{itemize}
+	\begin{block}{Les étapes suivies}
+		\begin{itemize}
+			\item Lecture du code source de l’application ;
+			\item Lister les éventuelles failles critiques qui pourraient être présentes ;
+			\item Effectuer les manipulations afin de mettre en avant ces failles ;
+			\item Déterminer les solutions à ces problèmes.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Recherche des failles (2/2) : Cookies non sécurisée}
+	\frametitle{Recherche des failles (2/2) : Les failles trouvée}
 
-	\begin{block}{Cahier des charges}
+	\begin{block}{Liste des failles}
 	 \begin{itemize}
-      \item Start-up ;
-	  \item Service de mise en communication contextualisée.
+      \item Requête non vérifiée ;
+	  \item Cookies non cryptés ;
+	  \item Manque de sauvegarde de données .
 	 \end{itemize}
 	\end{block}
 \end{frame}
