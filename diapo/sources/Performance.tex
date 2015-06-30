@@ -1,4 +1,4 @@
-\section{Performance}
+\section{Amélioration des performances}
 \author{Kévin Moreau}
 
 
@@ -8,15 +8,16 @@
 	\begin{block}{Les tâches à effectuer}
 	 \begin{itemize}
       \item Amélioration de la plateforme Aerogear ;
-	  \item Amélioration des applications Téléphoniques;
-	  \item Création d'un outil de mise en place d'un environnement Dynamease complet;
-	  \item Mise en place des outils de mesure de performance.
+	  \item Création d'un outil de lancement de l'environnement complet de Dynamease;
+	  \item Mise en place des outils de mesure de performance;
+	  \item Amélioration des applications Téléphoniques.
 	 \end{itemize}
 	\end{block}
 
 	\begin{block}{Amélioration des Applications téléphoniques}
 		\begin{itemize}
 			\item Récupération rapide des contacts téléphoniques;
+			\item Recherche rapide et pertinente sur la liste de contact;
 			\item Récupération des images de profil des contacts Dynamease.
 		\end{itemize}
 	\end{block}
@@ -30,9 +31,8 @@
     \begin{block}{Cahier des charges}
 	 \begin{itemize}
 	  \item Permettre le démarrage d'un environnement Dynamease;
-	  \item Utiliser des bases de données déjà remplies;
-	  \item Être utilisé facilement par les employés et consultants Dynamease;
-	  \item Utiliser des images Docker
+	  \item Utiliser des bases de données pré-remplies;
+	  \item Être utilisé facilement par les employés et consultants de Dynamease;
 	 \end{itemize}
 	\end{block}
 
@@ -99,6 +99,57 @@
 	  \begin{figure}
         \includegraphics[scale=0.30]{images/activity_outil.png}
 	   \caption{Diagramme d'activité du démarrage des services de Dynamease}
+	  \end{figure}
+	\end{center}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Amélioration de la recherche dans la liste de contact (1/3) : Explication}
+
+    \begin{columns}[t]
+  \begin{column}{5cm}
+	  \begin{block}{Les étapes à suivre}
+	    \begin{itemize}
+	    	\item Étudier le code déjà existant;
+	    	\item Détecter les anomalies et les sources d'amélioration;
+	    	\item Recherche de solutions;
+	    	\item Mise en place de la solution la plus pertinente.
+	    \end{itemize}
+	  \end{block} 
+  \end{column}
+  
+  \begin{column}{5cm} 
+  	\begin{center}
+	  \begin{figure}
+	   \caption{Liste de contact avec une recherche}
+        \includegraphics[scale=0.08]{images/recherche.png}
+	  \end{figure}
+	\end{center} 
+  \end{column}
+ \end{columns} 
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Amélioration de la recherche dans la liste de contact (1/3) : Ancienne version}
+
+    \begin{center}
+	  \begin{figure}
+        \includegraphics[scale=0.30]{images/activity_retrieve_old.png}
+	   \caption{Diagramme d'activité de l'ancienne recherche}
+	  \end{figure}
+	\end{center}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Amélioration de la recherche dans la liste de contact (1/3) : Nouvelle version}
+
+    \begin{center}
+	  \begin{figure}
+        \includegraphics[scale=0.25]{images/activity_retrieve_better.png}
+	   \caption{Diagramme d'activité de la nouvelle recherche}
 	  \end{figure}
 	\end{center}
 
